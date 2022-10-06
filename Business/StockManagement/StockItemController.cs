@@ -6,7 +6,11 @@ namespace FutureFridges.Business.StockManagement
     {
         private readonly IStockItemRepository __StockItemRepository;
 
-        public StockItemController(IStockItemRepository stockItemRepository)
+        public StockItemController()
+            : this(new StockItemRepository())
+        { }
+
+        internal StockItemController(IStockItemRepository stockItemRepository)
         {
             __StockItemRepository = stockItemRepository;
         }
