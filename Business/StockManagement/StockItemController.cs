@@ -15,11 +15,14 @@ namespace FutureFridges.Business.StockManagement
             __StockItemRepository = stockItemRepository;
         }
 
-        public StockItem GetStockItem(int stockItemID)
+        public StockItem GetStockItem(Guid stockItem_UID)
         {
-            StockItem _StockItem = __StockItemRepository.GetStockItem(stockItemID);
+            return __StockItemRepository.GetStockItem(stockItem_UID);
+        }
 
-            return _StockItem;
+        public IEnumerable<StockItem> GetAll()
+        {
+            return __StockItemRepository.GetAll();
         }
     }
 }
