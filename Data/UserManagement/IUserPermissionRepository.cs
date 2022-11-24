@@ -4,6 +4,6 @@ namespace FutureFridges.Data.UserManagement
 {
     public interface IUserPermissionRepository
     {
-        UserPermissions GetUserPermissions(Guid User_UID);
+        UserPermissions GetUserPermissions(Guid user_UID);
     }
 }

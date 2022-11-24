@@ -12,11 +12,11 @@ namespace FutureFridges.Pages
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        private readonly ILogger<ErrorModel> _logger;
+        private readonly ILogger<ErrorModel> __Logger;
 
         public ErrorModel(ILogger<ErrorModel> logger)
         {
-            _logger = logger;
+            __Logger = logger;
         }
 
         public void OnGet()

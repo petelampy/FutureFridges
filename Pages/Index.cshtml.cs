@@ -5,19 +5,19 @@ namespace FutureFridges.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<IndexModel> __Logger;
 
         public IndexModel(ILogger<IndexModel> logger)
         {
-            _logger = logger;
+            __Logger = logger;
         }
 
         public void OnGet()
         {
-            int _ExampleStockItemID = 1;
+            Guid _ExampleStockItemGuid = Guid.Empty;
 
             StockItemController _StockItemController = new StockItemController();
-            _StockItemController.GetStockItem(_ExampleStockItemID);
+            _StockItemController.GetStockItem(_ExampleStockItemGuid);
         }
     }
 }
