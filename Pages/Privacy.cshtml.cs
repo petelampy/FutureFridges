@@ -5,11 +5,11 @@ namespace FutureFridges.Pages
 {
     public class PrivacyModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
+        private readonly ILogger<PrivacyModel> __Logger;
 
         public PrivacyModel(ILogger<PrivacyModel> logger)
         {
-            _logger = logger;
+            __Logger = logger;
         }
 
         public void OnGet()

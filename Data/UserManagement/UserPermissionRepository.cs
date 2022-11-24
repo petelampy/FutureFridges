@@ -11,11 +11,11 @@ namespace FutureFridges.Data.UserManagement
         public UserPermissionRepository()
         { }
 
-        public UserPermissions GetUserPermissions(Guid User_UID)
+        public UserPermissions GetUserPermissions(Guid user_UID)
         {
             //TODO: GET USER PERMISSIONS FROM DATABASE, CONVERT TO LOCAL USER PERMISSIONS CLASS AND RETURN
             //CURRENTLY RETURNING A SAMPLE USER PERMISSIONS OBJECT
-            
+
             return new UserPermissions()
             {
                 AddStock = true,
