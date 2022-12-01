@@ -4,6 +4,7 @@ namespace FutureFridges.Business.StockManagement
 {
     public class Product
     {
+        public int Id { get; set; }
         public StockCategory Category { get; set; }
         public string? Name { get; set; }
         public Guid Product_UID { get; set; }
