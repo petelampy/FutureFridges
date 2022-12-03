@@ -4,6 +4,7 @@ namespace FutureFridges.Data.UserManagement
 {
     public interface IUserRepository
     {
-        User GetUser(Guid user_UID);
+        FridgeUser GetUser(Guid user_UID);
+        List<FridgeUser> GetAll ();
     }
 }

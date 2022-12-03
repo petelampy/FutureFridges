@@ -1,40 +1,37 @@
 ﻿using FutureFridges.Business.Enums;
+using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using FutureFridges.Data.StockManagement;
+using System.Linq;
 
 namespace FutureFridges.Data.UserManagement
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IUserPermissionRepository __UserPermissionRepository;
         private readonly FridgeDBContext __DbContext;
         private readonly IDbContextInitialiser __DbContextInitialiser;
 
 
         public UserRepository() :
-            this(new UserPermissionRepository(), new DbContextInitialiser())
+            this(new DbContextInitialiser())
         {}
 
-        internal UserRepository(IUserPermissionRepository userPermissionRepository, IDbContextInitialiser dbContextInitialiser)
+        internal UserRepository(IDbContextInitialiser dbContextInitialiser)
         {
-            __UserPermissionRepository = userPermissionRepository;
             __DbContextInitialiser = dbContextInitialiser;
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 
-        public User GetUser(Guid user_UID)
+        public FridgeUser GetUser(Guid user_UID)
         {
-            //TODO: GET USER FROM DATABASE, CONVERT TO LOCAL USER CLASS AND RETURN, CURRENTLY RETURNING A SAMPLE USER OBJECT
+            return __DbContext.Users
+                .Where(user => new Guid(user.Id) == user_UID)
+                .SingleOrDefault(new FridgeUser());
+        }
 
-            return new User()
-            {
-                User_UID = user_UID,
-                Forename = "EXAMPLE",
-                Surname = "EXAMPLE",
-                Email = "example@example.com",
-                UserType = UserType.Chef,
-                Permissions = __UserPermissionRepository.GetUserPermissions(user_UID)
-            };
+        public List<FridgeUser> GetAll()
+        {
+            return __DbContext.Users.ToList();
         }
     }
 }
