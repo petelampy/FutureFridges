@@ -1,8 +1,4 @@
-﻿using FutureFridges.Business.Enums;
-using FutureFridges.Business.StockManagement;
-using FutureFridges.Business.UserManagement;
-using FutureFridges.Data.StockManagement;
-using System.Linq;
+﻿using FutureFridges.Business.UserManagement;
 
 namespace FutureFridges.Data.UserManagement
 {
@@ -12,26 +8,26 @@ namespace FutureFridges.Data.UserManagement
         private readonly IDbContextInitialiser __DbContextInitialiser;
 
 
-        public UserRepository() :
+        public UserRepository () :
             this(new DbContextInitialiser())
-        {}
+        { }
 
-        internal UserRepository(IDbContextInitialiser dbContextInitialiser)
+        internal UserRepository (IDbContextInitialiser dbContextInitialiser)
         {
             __DbContextInitialiser = dbContextInitialiser;
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 
-        public FridgeUser GetUser(Guid user_UID)
+        public List<FridgeUser> GetAll ()
+        {
+            return __DbContext.Users.ToList();
+        }
+
+        public FridgeUser GetUser (Guid user_UID)
         {
             return __DbContext.Users
                 .Where(user => new Guid(user.Id) == user_UID)
                 .SingleOrDefault(new FridgeUser());
-        }
-
-        public List<FridgeUser> GetAll()
-        {
-            return __DbContext.Users.ToList();
         }
     }
 }

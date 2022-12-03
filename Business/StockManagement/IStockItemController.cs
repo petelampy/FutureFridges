@@ -2,6 +2,6 @@
 {
     public interface IStockItemController
     {
-        StockItem GetStockItem(Guid stockItem_UID);
+        StockItem GetStockItem (Guid stockItem_UID);
     }
 }

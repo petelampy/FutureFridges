@@ -1,7 +1,4 @@
-﻿using FutureFridges.Business.Enums;
-using FutureFridges.Business.StockManagement;
-using FutureFridges.Business.UserManagement;
-using Microsoft.EntityFrameworkCore;
+﻿using FutureFridges.Business.UserManagement;
 
 namespace FutureFridges.Data.UserManagement
 {
@@ -20,16 +17,16 @@ namespace FutureFridges.Data.UserManagement
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 
+        public IEnumerable<UserPermissions> GetAll ()
+        {
+            return __DbContext.UserPermissions.ToList();
+        }
+
         public UserPermissions GetUserPermissions (Guid user_UID)
         {
             return __DbContext.UserPermissions
                .Where(permissions => permissions.User_UID == user_UID)
                .SingleOrDefault(new UserPermissions());
-        }
-
-        public IEnumerable<UserPermissions> GetAll ()
-        {
-            return __DbContext.UserPermissions.ToList();
         }
     }
 }

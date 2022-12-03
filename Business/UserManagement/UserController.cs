@@ -1,6 +1,4 @@
-﻿using FutureFridges.Business.StockManagement;
-using FutureFridges.Data.StockManagement;
-using FutureFridges.Data.UserManagement;
+﻿using FutureFridges.Data.UserManagement;
 
 namespace FutureFridges.Business.UserManagement
 {
@@ -17,14 +15,14 @@ namespace FutureFridges.Business.UserManagement
             __UserRepository = userRepository;
         }
 
-        public FridgeUser GetUser (Guid user_UID)
-        {
-            return __UserRepository.GetUser(user_UID);
-        }
-
         public List<FridgeUser> GetAll ()
         {
             return __UserRepository.GetAll();
+        }
+
+        public FridgeUser GetUser (Guid user_UID)
+        {
+            return __UserRepository.GetUser(user_UID);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using FutureFridges.Business.StockManagement;
-using FutureFridges.Data.StockManagement;
-using FutureFridges.Data.UserManagement;
+﻿using FutureFridges.Data.UserManagement;
 
 namespace FutureFridges.Business.UserManagement
 {
@@ -17,14 +15,14 @@ namespace FutureFridges.Business.UserManagement
             __UserPermissionRepository = userPermissionRepository;
         }
 
-        public UserPermissions GetPermissions (Guid user_UID)
-        {
-            return __UserPermissionRepository.GetUserPermissions(user_UID);
-        }
-
         public IEnumerable<UserPermissions> GetAll ()
         {
             return __UserPermissionRepository.GetAll();
+        }
+
+        public UserPermissions GetPermissions (Guid user_UID)
+        {
+            return __UserPermissionRepository.GetUserPermissions(user_UID);
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using FutureFridges.Data.StockManagement;
-using FutureFridges.Data;
-using System.Runtime.CompilerServices;
 
 namespace FutureFridges.Business.StockManagement
 {
@@ -17,17 +15,17 @@ namespace FutureFridges.Business.StockManagement
             __ProductRepository = productRepository;
         }
 
-        public Product GetProduct (Guid product_UID)
-        {
-            return __ProductRepository.GetProduct(product_UID);
-        }
-
         public List<Product> GetAll ()
         {
             return __ProductRepository.GetAll();
         }
 
-        public void UpdateProduct(Product updatedProduct)
+        public Product GetProduct (Guid product_UID)
+        {
+            return __ProductRepository.GetProduct(product_UID);
+        }
+
+        public void UpdateProduct (Product updatedProduct)
         {
             __ProductRepository.UpdateProduct(updatedProduct);
         }

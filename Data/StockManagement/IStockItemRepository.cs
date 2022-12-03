@@ -4,7 +4,7 @@ namespace FutureFridges.Data.StockManagement
 {
     public interface IStockItemRepository
     {
-        IEnumerable<StockItem> GetAll();
-        StockItem GetStockItem(Guid stockItem_UID);
+        IEnumerable<StockItem> GetAll ();
+        StockItem GetStockItem (Guid stockItem_UID);
     }
 }

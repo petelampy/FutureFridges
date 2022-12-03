@@ -1,5 +1,4 @@
-﻿using FutureFridges.Data;
-using FutureFridges.Data.StockManagement;
+﻿using FutureFridges.Data.StockManagement;
 
 namespace FutureFridges.Business.StockManagement
 {
@@ -7,23 +6,23 @@ namespace FutureFridges.Business.StockManagement
     {
         private readonly IStockItemRepository __StockItemRepository;
 
-        public StockItemController()
+        public StockItemController ()
             : this(new StockItemRepository())
         { }
 
-        internal StockItemController(IStockItemRepository stockItemRepository)
+        internal StockItemController (IStockItemRepository stockItemRepository)
         {
             __StockItemRepository = stockItemRepository;
         }
 
-        public StockItem GetStockItem(Guid stockItem_UID)
-        {
-            return __StockItemRepository.GetStockItem(stockItem_UID);
-        }
-
-        public IEnumerable<StockItem> GetAll()
+        public IEnumerable<StockItem> GetAll ()
         {
             return __StockItemRepository.GetAll();
+        }
+
+        public StockItem GetStockItem (Guid stockItem_UID)
+        {
+            return __StockItemRepository.GetStockItem(stockItem_UID);
         }
     }
 }

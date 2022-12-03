@@ -1,7 +1,4 @@
 ﻿using FutureFridges.Business.StockManagement;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System.Linq;
 
 namespace FutureFridges.Data.StockManagement
 {
@@ -20,17 +17,17 @@ namespace FutureFridges.Data.StockManagement
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 
+        public List<Product> GetAll ()
+        {
+            return __DbContext.Products.ToList();
+        }
+
         public Product GetProduct (Guid product_UID)
         {
             return __DbContext.Products
                 .AsEnumerable()
                 .Where(product => product.Product_UID == product_UID)
                 .SingleOrDefault(new Product());
-        }
-
-        public List<Product> GetAll ()
-        {
-            return __DbContext.Products.ToList();
         }
 
         public void UpdateProduct (Product updatedProduct)
