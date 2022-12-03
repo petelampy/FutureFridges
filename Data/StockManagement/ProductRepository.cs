@@ -28,9 +28,22 @@ namespace FutureFridges.Data.StockManagement
                 .SingleOrDefault(new Product());
         }
 
-        public IEnumerable<Product> GetAll ()
+        public List<Product> GetAll ()
         {
             return __DbContext.Products.ToList();
+        }
+
+        public void UpdateProduct (Product updatedProduct)
+        {
+            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO UPDATE?
+
+            Product _CurrentProduct = GetProduct(updatedProduct.Product_UID);
+
+            //EXTRACT THIS TO SOMEWHERE ELSE FOR NEATENING/REUSABILITY?
+            __DbContext.Entry(_CurrentProduct).CurrentValues
+                .SetValues(updatedProduct);
+
+            __DbContext.SaveChanges();
         }
     }
 }

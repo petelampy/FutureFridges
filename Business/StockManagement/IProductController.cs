@@ -2,7 +2,7 @@
 {
     public interface IProductController
     {
-        IEnumerable<Product> GetAll ();
+        List<Product> GetAll ();
         Product GetProduct (Guid product_UID);
     }
 }

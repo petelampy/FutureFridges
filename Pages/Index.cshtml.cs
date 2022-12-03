@@ -15,10 +15,6 @@ namespace FutureFridges.Pages
 
         public void OnGet()
         {
-            Guid _ExampleProductGuid = new Guid("c0c1847b-1007-4e1e-820e-86976226c158");
-
-            ProductController _ProductController = new ProductController();
-            Product _TestProduct = _ProductController.GetProduct(_ExampleProductGuid);
         }
     }
 }

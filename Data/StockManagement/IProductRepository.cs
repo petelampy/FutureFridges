@@ -4,7 +4,8 @@ namespace FutureFridges.Data.StockManagement
 {
     public interface IProductRepository
     {
-        IEnumerable<Product> GetAll ();
+        List<Product> GetAll ();
         Product GetProduct (Guid product_UID);
+        void UpdateProduct(Product updatedProduct);
     }
 }
