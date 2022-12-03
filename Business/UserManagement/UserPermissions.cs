@@ -2,6 +2,8 @@
 {
     public class UserPermissions
     {
+        public int Id { get; set; }
+        public Guid User_UID { get; set; }
         public bool AddStock { get; set; }
         public bool ManageHealthAndSafetyReport { get; set; }
         public bool ManageUser { get; set; }

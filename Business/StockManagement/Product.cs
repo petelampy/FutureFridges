@@ -8,5 +8,6 @@ namespace FutureFridges.Business.StockManagement
         public StockCategory Category { get; set; }
         public string? Name { get; set; }
         public Guid Product_UID { get; set; }
+        //MAYBE RENAME THE UIDS TO JUST BE "UID"??
     }
 }

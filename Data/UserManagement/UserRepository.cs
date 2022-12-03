@@ -9,8 +9,8 @@ namespace FutureFridges.Data.UserManagement
         private readonly IUserPermissionRepository __UserPermissionRepository;
         //DATABASE CONNECTION VARIABLES GO UP HERE
 
-        public UserRepository() :
-            this(new UserPermissionRepository())
+        public UserRepository(FridgeDBContext dbContext) :
+            this(new UserPermissionRepository(dbContext))
         {}
 
         internal UserRepository(IUserPermissionRepository userPermissionRepository)
@@ -18,18 +18,18 @@ namespace FutureFridges.Data.UserManagement
             __UserPermissionRepository = userPermissionRepository;
         }
 
-        public User GetUser(Guid User_UID)
+        public User GetUser(Guid user_UID)
         {
             //TODO: GET USER FROM DATABASE, CONVERT TO LOCAL USER CLASS AND RETURN, CURRENTLY RETURNING A SAMPLE USER OBJECT
 
             return new User()
             {
-                User_UID = User_UID,
+                User_UID = user_UID,
                 Forename = "EXAMPLE",
                 Surname = "EXAMPLE",
                 Email = "example@example.com",
                 UserType = UserType.Chef,
-                Permissions = __UserPermissionRepository.GetUserPermissions(User_UID)
+                Permissions = __UserPermissionRepository.GetUserPermissions(user_UID)
             };
         }
     }

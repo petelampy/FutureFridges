@@ -1,29 +1,31 @@
 ﻿using FutureFridges.Business.Enums;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
+using Microsoft.EntityFrameworkCore;
 
 namespace FutureFridges.Data.UserManagement
 {
     public class UserPermissionRepository : IUserPermissionRepository
     {
-        //DATABASE CONNECTION VARIABLES GO UP HERE
+        private readonly FridgeDBContext __DbContext;
+        private readonly DbContextInitialiser __DbContextInitialiser;
 
-        public UserPermissionRepository()
-        { }
-
-        public UserPermissions GetUserPermissions(Guid user_UID)
+        public UserPermissionRepository ()
         {
-            //TODO: GET USER PERMISSIONS FROM DATABASE, CONVERT TO LOCAL USER PERMISSIONS CLASS AND RETURN
-            //CURRENTLY RETURNING A SAMPLE USER PERMISSIONS OBJECT
+            __DbContextInitialiser = new DbContextInitialiser();
+            __DbContext = __DbContextInitialiser.CreateNewDbContext();
+        }
 
-            return new UserPermissions()
-            {
-                AddStock = true,
-                RemoveStock = true,
-                ViewStock = true,
-                ManageHealthAndSafetyReport = false,
-                ManageUser = false
-            };
+        public UserPermissions GetUserPermissions (Guid user_UID)
+        {
+            return __DbContext.UserPermissions
+               .Where(permissions => permissions.User_UID == user_UID)
+               .SingleOrDefault(new UserPermissions());
+        }
+
+        public IEnumerable<UserPermissions> GetAll ()
+        {
+            return __DbContext.UserPermissions.ToList();
         }
     }
 }

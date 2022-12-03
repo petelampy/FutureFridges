@@ -4,6 +4,7 @@ using FutureFridges.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FutureFridges.Migrations
 {
     [DbContext(typeof(FridgeDBContext))]
-    partial class FridgeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221203155652_FridgeDB3")]
+    partial class FridgeDB3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,15 +45,6 @@ namespace FutureFridges.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Category = 2,
-                            Name = "CHEESE",
-                            ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158")
-                        });
                 });
 
             modelBuilder.Entity("FutureFridges.Business.StockManagement.StockItem", b =>
@@ -147,17 +141,17 @@ namespace FutureFridges.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "56fada2a-2b97-43d7-99a2-c19179a28c57",
+                            Id = "873d6c80-2c60-4ad6-97bd-a79e576d76c3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c563b560-13af-4324-ad70-7193a0868201",
+                            ConcurrencyStamp = "a6895cf5-38ec-47ab-ad5d-0bd1c9c2029e",
                             Email = "admin@fridges.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FRIDGES.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFCHo4r72AaNrV672kQ2ZYJE68fJezOg04Bi+qRrEe1WijLOiBYNP4yYi9kuE2EX/A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELBSTw0PNb4nl/d/IOinWwB+b+8ilpVHpjNU7zNTqCd+ArDCSnUGW50R/UrH6cd0YQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7a697472-98cd-4e22-915e-92a25d372543",
+                            SecurityStamp = "3397867f-7fb0-474b-bae9-78093a1f1745",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             UserType = 0
@@ -193,18 +187,6 @@ namespace FutureFridges.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserPermissions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = -1,
-                            AddStock = true,
-                            ManageHealthAndSafetyReport = true,
-                            ManageUser = false,
-                            RemoveStock = true,
-                            UserUID = new Guid("56fada2a-2b97-43d7-99a2-c19179a28c57"),
-                            ViewStock = true
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -1,23 +1,31 @@
 ﻿using FutureFridges.Business.StockManagement;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 namespace FutureFridges.Data.StockManagement
 {
     public class ProductRepository : IProductRepository
     {
-        //DATABASE CONNECTION VARIABLES GO UP HERE
+        private readonly FridgeDBContext __DbContext;
+        private readonly DbContextInitialiser __DbContextInitialiser;
+
+        public ProductRepository() {
+            __DbContextInitialiser = new DbContextInitialiser();
+            __DbContext = __DbContextInitialiser.CreateNewDbContext();
+        }
 
         public Product GetProduct (Guid product_UID)
         {
-            //GET STOCK ITEM FROM DATABASE, CONVERT TO LOCAL STOCK ITEM CLASS AND RETURN
-
-            return new Product(); //TEMPORARY RETURN
+            return __DbContext.Products
+                .AsEnumerable()
+                .Where(product => product.Product_UID == product_UID)
+                .SingleOrDefault(new Product());
         }
 
         public IEnumerable<Product> GetAll ()
         {
-            //FETCH EVERYTHING FROM THE TABLE AND RETURN
-
-            return new List<Product>();
+            return __DbContext.Products.ToList();
         }
     }
 }

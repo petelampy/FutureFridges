@@ -1,4 +1,5 @@
-﻿using FutureFridges.Data.StockManagement;
+﻿using FutureFridges.Data;
+using FutureFridges.Data.StockManagement;
 
 namespace FutureFridges.Business.StockManagement
 {

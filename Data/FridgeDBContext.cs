@@ -4,6 +4,8 @@ using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
 
 namespace FutureFridges.Data
 {
@@ -14,27 +16,15 @@ namespace FutureFridges.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<StockItem> StockItems { get; set; }
+        public DbSet<UserPermissions> UserPermissions { get; set; }
 
         protected override void OnModelCreating (ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            PasswordHasher<FridgeUser> _PasswordHasher = new PasswordHasher<FridgeUser>();
-            
-            var _User = new FridgeUser
-            {
-                Id = "873d6c80-2c60-4ad6-97bd-a79e576d76c3",
-                UserName = "Admin",
-                NormalizedUserName = "Admin".ToUpper(),
-                Email = "admin@fridges.com",
-                NormalizedEmail = "admin@fridges.com".ToUpper(),
-                EmailConfirmed = true,
-                UserType = UserType.Administrator
-            };
-
-            _User.PasswordHash = _PasswordHasher.HashPassword(_User, "Admin");
-
-            builder.Entity<FridgeUser>().HasData(_User);
+            builder.Entity<FridgeUser>().HasData(SampleDataGenerator.GenerateUser());
+            builder.Entity<UserPermissions>().HasData(SampleDataGenerator.GenerateUserPermissions());
+            builder.Entity<Product>().HasData(SampleDataGenerator.GenerateProduct());
         }
 
     }
