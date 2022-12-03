@@ -3,7 +3,7 @@ using FutureFridges.Data;
 
 namespace FutureFridges.Business.StockManagement
 {
-    public class ProductController
+    public class ProductController : IProductController
     {
         private readonly IProductRepository __ProductRepository;
 

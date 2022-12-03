@@ -8,11 +8,15 @@ namespace FutureFridges.Data.UserManagement
     public class UserPermissionRepository : IUserPermissionRepository
     {
         private readonly FridgeDBContext __DbContext;
-        private readonly DbContextInitialiser __DbContextInitialiser;
+        private readonly IDbContextInitialiser __DbContextInitialiser;
 
-        public UserPermissionRepository ()
+        public UserPermissionRepository () :
+            this(new DbContextInitialiser())
+        { }
+
+        internal UserPermissionRepository (IDbContextInitialiser dbContextInitialiser)
         {
-            __DbContextInitialiser = new DbContextInitialiser();
+            __DbContextInitialiser = dbContextInitialiser;
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 

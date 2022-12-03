@@ -1,4 +1,5 @@
 ﻿using FutureFridges.Business.StockManagement;
+using FutureFridges.Data.UserManagement;
 using Microsoft.EntityFrameworkCore;
 using static System.Formats.Asn1.AsnWriter;
 
@@ -7,11 +8,15 @@ namespace FutureFridges.Data.StockManagement
     public class StockItemRepository : IStockItemRepository
     {
         private readonly FridgeDBContext __DbContext;
-        private readonly DbContextInitialiser __DbContextInitialiser;
+        private readonly IDbContextInitialiser __DbContextInitialiser;
 
-        public StockItemRepository()
+        public StockItemRepository () :
+            this(new DbContextInitialiser())
+        { }
+
+        internal StockItemRepository(IDbContextInitialiser dbContextInitialiser)
         {
-            __DbContextInitialiser = new DbContextInitialiser();
+            __DbContextInitialiser = dbContextInitialiser;
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 

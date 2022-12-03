@@ -7,15 +7,19 @@ namespace FutureFridges.Data.UserManagement
     public class UserRepository : IUserRepository
     {
         private readonly IUserPermissionRepository __UserPermissionRepository;
-        //DATABASE CONNECTION VARIABLES GO UP HERE
+        private readonly FridgeDBContext __DbContext;
+        private readonly IDbContextInitialiser __DbContextInitialiser;
 
-        public UserRepository(FridgeDBContext dbContext) :
-            this(new UserPermissionRepository(dbContext))
+
+        public UserRepository() :
+            this(new UserPermissionRepository(), new DbContextInitialiser())
         {}
 
-        internal UserRepository(IUserPermissionRepository userPermissionRepository)
+        internal UserRepository(IUserPermissionRepository userPermissionRepository, IDbContextInitialiser dbContextInitialiser)
         {
             __UserPermissionRepository = userPermissionRepository;
+            __DbContextInitialiser = dbContextInitialiser;
+            __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 
         public User GetUser(Guid user_UID)

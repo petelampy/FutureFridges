@@ -4,7 +4,7 @@ using FutureFridges.Data.UserManagement;
 
 namespace FutureFridges.Business.UserManagement
 {
-    public class UserPermissionController
+    public class UserPermissionController : IUserPermissionController
     {
         private readonly IUserPermissionRepository __UserPermissionRepository;
 
@@ -22,7 +22,7 @@ namespace FutureFridges.Business.UserManagement
             return __UserPermissionRepository.GetUserPermissions(user_UID);
         }
 
-        public IEnumerable<UserPermissions> GetAll()
+        public IEnumerable<UserPermissions> GetAll ()
         {
             return __UserPermissionRepository.GetAll();
         }

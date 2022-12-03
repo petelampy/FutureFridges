@@ -8,10 +8,15 @@ namespace FutureFridges.Data.StockManagement
     public class ProductRepository : IProductRepository
     {
         private readonly FridgeDBContext __DbContext;
-        private readonly DbContextInitialiser __DbContextInitialiser;
+        private readonly IDbContextInitialiser __DbContextInitialiser;
 
-        public ProductRepository() {
-            __DbContextInitialiser = new DbContextInitialiser();
+        public ProductRepository () :
+            this(new DbContextInitialiser())
+        { }
+
+        internal ProductRepository (IDbContextInitialiser dbContextInitialiser)
+        {
+            __DbContextInitialiser = dbContextInitialiser;
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 
