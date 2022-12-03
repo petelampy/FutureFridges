@@ -29,5 +29,10 @@ namespace FutureFridges.Business.StockManagement
         {
             __ProductRepository.UpdateProduct(updatedProduct);
         }
+
+        public void CreateProduct (Product newProduct)
+        {
+            __ProductRepository.CreateProduct(newProduct);
+        }
     }
 }

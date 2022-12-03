@@ -1,6 +1,6 @@
 ﻿@page
 @using FutureFridges.Business.Enums;
-@model FutureFridges.Pages.ProductManagement.EditProductModel
+@model FutureFridges.Pages.ProductManagement.CreateEditProductModel
 @{
 }
 
@@ -21,6 +21,13 @@
     </div>
     <input type="hidden" asp-for="@Model.Product.Product_UID" />
     <input type="hidden" asp-for="@Model.Product.Id" />
-    <input type="submit" value="Update Product">
-    @*REPLACE THE SUBMIT WITH A SAVE ICON GLYPH TO MAKE IT LOOK BETTER*@
+    @if (@Model.UID != Guid.Empty)
+    {
+        <input type="submit" value="Update Product">
+    }
+    else {
+        <input type="submit" value="Create Product">
+    }
+    
+    @*REPLACE THE SUBMIT/CREATE WITH A SAVE ICON GLYPH TO MAKE IT LOOK BETTER*@
 </form>

@@ -42,5 +42,14 @@ namespace FutureFridges.Data.StockManagement
 
             __DbContext.SaveChanges();
         }
+
+        public void CreateProduct(Product newProduct)
+        {
+            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
+            newProduct.Product_UID = Guid.NewGuid();
+
+            __DbContext.Products.Add(newProduct);
+            __DbContext.SaveChanges();
+        }
     }
 }
