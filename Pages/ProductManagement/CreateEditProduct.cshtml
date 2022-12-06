@@ -14,7 +14,7 @@
     <div>
         <label asp-for="@Model.Product.Category"></label>
         <div class="col-sm-10">
-            <select asp-for="@Model.Product.Category" asp-items="Html.GetEnumSelectList<StockCategory>()">
+            <select asp-for="@Model.Product.Category" asp-items="Html.GetEnumSelectList<ProductCategory>()">
                 <option selected="selected" value="">Please select</option>
             </select>
         </div>
