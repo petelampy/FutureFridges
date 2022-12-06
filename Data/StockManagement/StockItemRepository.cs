@@ -4,20 +4,29 @@ namespace FutureFridges.Data.StockManagement
 {
     public class StockItemRepository : IStockItemRepository
     {
-        //DATABASE CONNECTION VARIABLES GO UP HERE
+        private readonly FridgeDBContext __DbContext;
+        private readonly IDbContextInitialiser __DbContextInitialiser;
 
-        public StockItem GetStockItem(Guid stockitem_UID)
+        public StockItemRepository () :
+            this(new DbContextInitialiser())
+        { }
+
+        internal StockItemRepository (IDbContextInitialiser dbContextInitialiser)
         {
-            //GET STOCK ITEM FROM DATABASE, CONVERT TO LOCAL STOCK ITEM CLASS AND RETURN
-
-            return new StockItem(); //TEMPORARY RETURN
+            __DbContextInitialiser = dbContextInitialiser;
+            __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 
-        public IEnumerable<StockItem> GetAll()
+        public IEnumerable<StockItem> GetAll ()
         {
-            //FETCH EVERYTHING FROM THE TABLE AND RETURN
+            return __DbContext.StockItems.ToList();
+        }
 
-            return new List<StockItem>();
+        public StockItem GetStockItem (Guid stockitem_UID)
+        {
+            return __DbContext.StockItems
+                .Where(stockItem => stockItem.Item_UID == stockitem_UID)
+                .SingleOrDefault(new StockItem());
         }
     }
 }

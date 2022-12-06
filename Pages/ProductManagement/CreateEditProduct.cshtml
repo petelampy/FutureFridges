@@ -1,0 +1,33 @@
+﻿@page
+@using FutureFridges.Business.Enums;
+@model FutureFridges.Pages.ProductManagement.CreateEditProductModel
+@{
+}
+
+<form method="post" novalidate>
+    <div>
+        <label asp-for="@Model.Product.Name"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="@Model.Product.Name">
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.Product.Category"></label>
+        <div class="col-sm-10">
+            <select asp-for="@Model.Product.Category" asp-items="Html.GetEnumSelectList<StockCategory>()">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
+    </div>
+    <input type="hidden" asp-for="@Model.Product.Product_UID" />
+    <input type="hidden" asp-for="@Model.Product.Id" />
+    @if (@Model.UID != Guid.Empty)
+    {
+        <input type="submit" value="Update Product">
+    }
+    else {
+        <input type="submit" value="Create Product">
+    }
+    
+    @*REPLACE THE SUBMIT/CREATE WITH A SAVE ICON GLYPH TO MAKE IT LOOK BETTER*@
+</form>

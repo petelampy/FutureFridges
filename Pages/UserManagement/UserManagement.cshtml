@@ -1,0 +1,39 @@
+﻿@page
+@using FutureFridges.Business.UserManagement;
+@model FutureFridges.Pages.UserManagement.UserManagementModel
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<h1 class="text-center">User Management</h1>
+<h2 class="text-center">Create, Edit and Delete User Accounts</h2>
+<hr>
+<h3 class="text-center">ADD FILTERS/SEARCH BOXES FOR NAME, ETC HERE</h3>
+<div class="row justify-content-center">
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Account Type
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (FridgeUser user in @Model.Users)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@user.UserType</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

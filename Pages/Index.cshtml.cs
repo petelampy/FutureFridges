@@ -1,4 +1,5 @@
 ﻿using FutureFridges.Business.StockManagement;
+using FutureFridges.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FutureFridges.Pages
@@ -14,10 +15,6 @@ namespace FutureFridges.Pages
 
         public void OnGet()
         {
-            Guid _ExampleStockItemGuid = Guid.Empty;
-
-            StockItemController _StockItemController = new StockItemController();
-            _StockItemController.GetStockItem(_ExampleStockItemGuid);
         }
     }
 }

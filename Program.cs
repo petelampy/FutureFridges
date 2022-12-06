@@ -1,25 +1,30 @@
-var builder = WebApplication.CreateBuilder(args);
+using FutureFridges.Data;
+using Microsoft.EntityFrameworkCore;
+
+var _Builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+_Builder.Services.AddRazorPages();
 
-var app = builder.Build();
+_Builder.Services.AddDbContext<FridgeDBContext>(options => options.UseSqlServer(_Builder.Configuration.GetConnectionString("Default")));
+
+var _App = _Builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (!_App.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    _App.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    _App.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+_App.UseHttpsRedirection();
+_App.UseStaticFiles();
 
-app.UseRouting();
+_App.UseRouting();
 
-app.UseAuthorization();
+_App.UseAuthorization();
 
-app.MapRazorPages();
+_App.MapRazorPages();
 
-app.Run();
+_App.Run();
