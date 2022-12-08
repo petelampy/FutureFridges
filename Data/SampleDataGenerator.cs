@@ -17,7 +17,7 @@ namespace FutureFridges.Data
             {
                 Id = 1,
                 Product_UID = __SampleProductUID,
-                Category = StockCategory.Dairy,
+                Category = ProductCategory.Dairy,
                 Name = "CHEESE"
             };
         }
