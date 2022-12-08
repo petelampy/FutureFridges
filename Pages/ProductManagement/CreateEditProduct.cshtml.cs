@@ -6,18 +6,12 @@ namespace FutureFridges.Pages.ProductManagement
 {
     public class CreateEditProductModel : PageModel
     {
-        [BindProperty(SupportsGet = true)]
-        public Guid UID { get; set; }
-
-        [BindProperty]
-        public Product Product { get; set; }
-
-        public void OnGet()
+        public void OnGet ()
         {
             //MAYBE ADD AN ON GET FLAG TO DETERMINE IF IT'S A CREATE/EDIT RATHER THAN RELYING ON THE UID.
             //THIS WOULD ALSO ALLOW FOR A "VIEW" MODE WHERE ALL SAVE BUTTONS AND FIELDS ARE DISABLED JUST FOR VIEWING A PRODUCT
 
-            if(UID != Guid.Empty)
+            if (UID != Guid.Empty)
             {
                 ProductController _ProductController = new ProductController();
                 Product = _ProductController.GetProduct(UID);
@@ -33,7 +27,7 @@ namespace FutureFridges.Pages.ProductManagement
             //MAKE THE PRODUCTCONTROLLER WORK AS A CLASS VARIABLE SO IT CAN BE USED WITHOUT REDECLARING?
             ProductController _ProductController = new ProductController();
 
-            if(UID != Guid.Empty)
+            if (UID != Guid.Empty)
             {
                 _ProductController.UpdateProduct(Product);
             }
@@ -44,5 +38,11 @@ namespace FutureFridges.Pages.ProductManagement
 
             return RedirectToPage("ProductManagement");
         }
+
+        [BindProperty]
+        public Product Product { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public Guid UID { get; set; }
     }
 }

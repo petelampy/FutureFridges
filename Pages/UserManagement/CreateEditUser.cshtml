@@ -1,0 +1,40 @@
+﻿@page
+@using FutureFridges.Business.Enums;
+@model FutureFridges.Pages.UserManagement.CreateEditUserModel
+@{
+}
+
+<form method="post" novalidate>
+    <div>
+        <label asp-for="@Model.User.UserName"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="@Model.User.UserName">
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.User.Email"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="@Model.User.Email">
+        </div>
+    </div>
+    <div>
+        <label asp-for="@Model.User.UserType"></label>
+        <div class="col-sm-10">
+            <select asp-for="@Model.User.UserType" asp-items="Html.GetEnumSelectList<UserType>()">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
+    </div>
+    <input type="hidden" asp-for="@Model.User.Id" />
+
+    @if (@Model.Id != null && new Guid(@Model.Id) != Guid.Empty)
+    {
+            <input type="submit" value="Update User">
+    }
+    else
+    {
+            <input type="submit" value="Create User">
+    }
+
+    @*REPLACE THE SUBMIT/CREATE WITH A SAVE ICON GLYPH TO MAKE IT LOOK BETTER*@
+</form>

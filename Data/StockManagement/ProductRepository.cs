@@ -17,6 +17,15 @@ namespace FutureFridges.Data.StockManagement
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 
+        public void CreateProduct (Product newProduct)
+        {
+            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
+            newProduct.Product_UID = Guid.NewGuid();
+
+            __DbContext.Products.Add(newProduct);
+            __DbContext.SaveChanges();
+        }
+
         public List<Product> GetAll ()
         {
             return __DbContext.Products.ToList();
@@ -36,19 +45,9 @@ namespace FutureFridges.Data.StockManagement
 
             Product _CurrentProduct = GetProduct(updatedProduct.Product_UID);
 
-            //EXTRACT THIS TO SOMEWHERE ELSE FOR NEATENING/REUSABILITY?
-            __DbContext.Entry(_CurrentProduct).CurrentValues
-                .SetValues(updatedProduct);
+            _CurrentProduct.Name = updatedProduct.Name;
+            _CurrentProduct.Category = updatedProduct.Category;
 
-            __DbContext.SaveChanges();
-        }
-
-        public void CreateProduct(Product newProduct)
-        {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
-            newProduct.Product_UID = Guid.NewGuid();
-
-            __DbContext.Products.Add(newProduct);
             __DbContext.SaveChanges();
         }
     }

@@ -1,4 +1,6 @@
 ﻿using FutureFridges.Business.UserManagement;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FutureFridges.Data.UserManagement
 {
@@ -23,11 +25,34 @@ namespace FutureFridges.Data.UserManagement
             return __DbContext.Users.ToList();
         }
 
-        public FridgeUser GetUser (Guid user_UID)
+        public FridgeUser GetUser (string user_UID)
         {
             return __DbContext.Users
-                .Where(user => new Guid(user.Id) == user_UID)
+                .AsEnumerable()
+                .Where(user => user.Id == user_UID)
                 .SingleOrDefault(new FridgeUser());
+        }
+
+        public void UpdateUser (FridgeUser updatedUser)
+        {
+            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO UPDATE?
+
+            FridgeUser _CurrentUser = GetUser(updatedUser.Id);
+            _CurrentUser.UserName = updatedUser.UserName;
+            _CurrentUser.NormalizedUserName = updatedUser.UserName.ToUpper();
+            _CurrentUser.Email = updatedUser.Email;
+            _CurrentUser.NormalizedEmail = updatedUser.Email.ToUpper();
+            _CurrentUser.UserType = updatedUser.UserType;
+
+            __DbContext.SaveChanges();
+        }
+
+        public void CreateUser(FridgeUser newUser)
+        {
+            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
+
+            __DbContext.Users.Add(newUser);
+            __DbContext.SaveChanges();
         }
     }
 }

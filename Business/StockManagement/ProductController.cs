@@ -15,6 +15,11 @@ namespace FutureFridges.Business.StockManagement
             __ProductRepository = productRepository;
         }
 
+        public void CreateProduct (Product newProduct)
+        {
+            __ProductRepository.CreateProduct(newProduct);
+        }
+
         public List<Product> GetAll ()
         {
             return __ProductRepository.GetAll();
@@ -28,11 +33,6 @@ namespace FutureFridges.Business.StockManagement
         public void UpdateProduct (Product updatedProduct)
         {
             __ProductRepository.UpdateProduct(updatedProduct);
-        }
-
-        public void CreateProduct (Product newProduct)
-        {
-            __ProductRepository.CreateProduct(newProduct);
         }
     }
 }

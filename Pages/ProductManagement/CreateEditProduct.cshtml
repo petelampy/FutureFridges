@@ -20,7 +20,6 @@
         </div>
     </div>
     <input type="hidden" asp-for="@Model.Product.Product_UID" />
-    <input type="hidden" asp-for="@Model.Product.Id" />
     @if (@Model.UID != Guid.Empty)
     {
         <input type="submit" value="Update Product">
