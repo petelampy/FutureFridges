@@ -51,6 +51,10 @@ namespace FutureFridges.Data.UserManagement
         {
             //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
 
+            newUser.NormalizedUserName = newUser.UserName.ToUpper();
+            newUser.NormalizedEmail = newUser.Email.ToUpper();
+            newUser.SecurityStamp = Guid.NewGuid().ToString();
+
             __DbContext.Users.Add(newUser);
             __DbContext.SaveChanges();
         }
