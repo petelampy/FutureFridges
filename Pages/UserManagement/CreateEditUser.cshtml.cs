@@ -2,51 +2,71 @@ using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
 namespace FutureFridges.Pages.UserManagement
 {
     [Authorize]
     public class CreateEditUserModel : PageModel
     {
-        public void OnGet ()
+        private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError";
+
+        private readonly UserController __UserController;
+        private readonly UserPermissionController __UserPermissionController;
+
+        public CreateEditUserModel ()
         {
-            //MAYBE ADD AN ON GET FLAG TO DETERMINE IF IT'S A CREATE/EDIT RATHER THAN RELYING ON THE UID.
-            //THIS WOULD ALSO ALLOW FOR A "VIEW" MODE WHERE ALL SAVE BUTTONS AND FIELDS ARE DISABLED JUST FOR VIEWING A PRODUCT
+            __UserPermissionController = new UserPermissionController();
+            __UserController = new UserController();
+        }
 
+        //MAYBE ADD AN ON GET FLAG TO DETERMINE IF IT'S A CREATE/EDIT RATHER THAN RELYING ON THE UID.
+        //THIS WOULD ALSO ALLOW FOR A "VIEW" MODE WHERE ALL SAVE BUTTONS AND FIELDS ARE DISABLED JUST FOR VIEWING A PRODUCT
+        public IActionResult OnGet ()
+        {
+            string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            UserPermissions _CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
 
-            //CONVERT THE ID FIELD IN THE USERS DATABASE TO A GUID TO STOP CONVERT BEING NEEDED? BLAME ASP.NET
-            if (Id != null && new Guid(Id) != Guid.Empty)
+            if (_CurrentUserPermissions.ManageUser)
             {
-                UserController _UserController = new UserController();
-                User = _UserController.GetUser(Id);
+                //CONVERT THE ID FIELD IN THE USERS DATABASE TO A GUID TO STOP CONVERT BEING NEEDED? BLAME ASP.NET
+                if (Id != null && new Guid(Id) != Guid.Empty)
+                {
+                    ManagedUser = __UserController.GetUser(Id);
+                }
+                else
+                {
+                    ManagedUser = new FridgeUser();
+                }
+
+                return Page();
+
             }
             else
             {
-                User = new FridgeUser();
+                return RedirectToPage(ACCESS_ERROR_PAGE_PATH);
             }
         }
 
         public IActionResult OnPost ()
         {
-            //MAKE THE USERCONTROLLER WORK AS A CLASS VARIABLE SO IT CAN BE USED WITHOUT REDECLARING?
-            UserController _UserController = new UserController();
-
             if (Id != null && new Guid(Id) != Guid.Empty)
             {
-                _UserController.UpdateUser(User);
+                __UserController.UpdateUser(ManagedUser);
             }
             else
             {
-                _UserController.CreateUser(User);
+                __UserController.CreateUser(ManagedUser);
             }
 
             return RedirectToPage("UserManagement");
         }
 
+
         [BindProperty(SupportsGet = true)]
         public string Id { get; set; }
 
         [BindProperty]
-        public FridgeUser User { get; set; }
+        public FridgeUser ManagedUser { get; set; }
     }
 }
