@@ -1,9 +1,11 @@
 using FutureFridges.Business.StockManagement;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FutureFridges.Pages.ProductManagement
 {
+    [Authorize]
     public class CreateEditProductModel : PageModel
     {
         public void OnGet ()

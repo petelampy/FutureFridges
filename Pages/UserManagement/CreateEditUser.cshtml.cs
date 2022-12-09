@@ -1,9 +1,11 @@
 using FutureFridges.Business.UserManagement;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FutureFridges.Pages.UserManagement
 {
+    [Authorize]
     public class CreateEditUserModel : PageModel
     {
         public void OnGet ()
