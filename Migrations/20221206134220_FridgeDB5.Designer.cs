@@ -4,6 +4,7 @@ using FutureFridges.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FutureFridges.Migrations
 {
     [DbContext(typeof(FridgeDBContext))]
-    partial class FridgeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221206134220_FridgeDB5")]
+    partial class FridgeDB5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,15 +152,15 @@ namespace FutureFridges.Migrations
                         {
                             Id = "56fada2a-2b97-43d7-99a2-c19179a28c57",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f298b29b-622b-40a3-b5c0-544927ee7262",
+                            ConcurrencyStamp = "16972f77-6ecf-4135-bc15-14361832d74f",
                             Email = "admin@fridges.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FRIDGES.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAEeP3SuVbK10fsAAHwQuob67SCCW1DbrJYdhqz6tk3QSc8kyjsexBgicW+sc+gRPw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELuEHZfG82F2dl63L3GR8VFbt9FyiOwhhKcVtI1L52+9+/Cxzk9XPp1z/x5ALUdqBQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e0d8b329-f6f0-44f8-af08-b373ecb29d3d",
+                            SecurityStamp = "69e510ec-fa37-46eb-bbc7-b53a3512f80d",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             UserType = 0
@@ -176,9 +179,6 @@ namespace FutureFridges.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("ManageHealthAndSafetyReport")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("ManageProduct")
                         .HasColumnType("bit");
 
                     b.Property<bool>("ManageUser")
@@ -203,8 +203,7 @@ namespace FutureFridges.Migrations
                             Id = -1,
                             AddStock = true,
                             ManageHealthAndSafetyReport = true,
-                            ManageProduct = false,
-                            ManageUser = true,
+                            ManageUser = false,
                             RemoveStock = true,
                             UserUID = new Guid("56fada2a-2b97-43d7-99a2-c19179a28c57"),
                             ViewStock = true

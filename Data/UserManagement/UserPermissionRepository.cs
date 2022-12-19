@@ -25,6 +25,7 @@ namespace FutureFridges.Data.UserManagement
         public UserPermissions GetUserPermissions (Guid user_UID)
         {
             return __DbContext.UserPermissions
+               .AsEnumerable()
                .Where(permissions => permissions.User_UID == user_UID)
                .SingleOrDefault(new UserPermissions());
         }

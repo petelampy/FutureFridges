@@ -1,4 +1,6 @@
+using FutureFridges.Business.UserManagement;
 using FutureFridges.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var _Builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,11 @@ var _Builder = WebApplication.CreateBuilder(args);
 _Builder.Services.AddRazorPages();
 
 _Builder.Services.AddDbContext<FridgeDBContext>(options => options.UseSqlServer(_Builder.Configuration.GetConnectionString("Default")));
+
+_Builder.Services
+    .AddIdentity<FridgeUser, IdentityRole>()
+    .AddEntityFrameworkStores<FridgeDBContext>()
+    .AddDefaultTokenProviders();
 
 var _App = _Builder.Build();
 
@@ -23,6 +30,7 @@ _App.UseStaticFiles();
 
 _App.UseRouting();
 
+_App.UseAuthentication();
 _App.UseAuthorization();
 
 _App.MapRazorPages();

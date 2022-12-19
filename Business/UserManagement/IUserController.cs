@@ -3,6 +3,6 @@
     public interface IUserController
     {
         List<FridgeUser> GetAll ();
-        FridgeUser GetUser (Guid user_UID);
+        FridgeUser GetUser (string user_UID);
     }
 }

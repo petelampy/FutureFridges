@@ -17,7 +17,7 @@ namespace FutureFridges.Data
             {
                 Id = 1,
                 Product_UID = __SampleProductUID,
-                Category = StockCategory.Dairy,
+                Category = ProductCategory.Dairy,
                 Name = "CHEESE"
             };
         }
@@ -51,7 +51,9 @@ namespace FutureFridges.Data
                 AddStock = true,
                 ManageHealthAndSafetyReport = true,
                 RemoveStock = true,
-                ViewStock = true
+                ViewStock = true,
+                ManageProduct = false,
+                ManageUser = true
             };
         }
     }

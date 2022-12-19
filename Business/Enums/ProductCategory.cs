@@ -1,7 +1,6 @@
 ﻿namespace FutureFridges.Business.Enums
 {
-    //rename this to product category??
-    public enum StockCategory
+    public enum ProductCategory
     {
         Uncategorised = 0,
         Meat = 1,
