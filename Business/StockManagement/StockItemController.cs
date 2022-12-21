@@ -15,7 +15,7 @@ namespace FutureFridges.Business.StockManagement
             __StockItemRepository = stockItemRepository;
         }
 
-        public IEnumerable<StockItem> GetAll ()
+        public List<StockItem> GetAll ()
         {
             return __StockItemRepository.GetAll();
         }
@@ -23,6 +23,11 @@ namespace FutureFridges.Business.StockManagement
         public StockItem GetStockItem (Guid stockItem_UID)
         {
             return __StockItemRepository.GetStockItem(stockItem_UID);
+        }
+
+        public StockItem GetStockItemByProduct (Guid product_UID)
+        {
+            return __StockItemRepository.GetStockItemByProduct(product_UID);
         }
     }
 }

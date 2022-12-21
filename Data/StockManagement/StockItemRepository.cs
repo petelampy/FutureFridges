@@ -17,7 +17,7 @@ namespace FutureFridges.Data.StockManagement
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
         }
 
-        public IEnumerable<StockItem> GetAll ()
+        public List<StockItem> GetAll ()
         {
             return __DbContext.StockItems.ToList();
         }
@@ -26,6 +26,13 @@ namespace FutureFridges.Data.StockManagement
         {
             return __DbContext.StockItems
                 .Where(stockItem => stockItem.Item_UID == stockitem_UID)
+                .SingleOrDefault(new StockItem());
+        }
+
+        public StockItem GetStockItemByProduct (Guid product_UID)
+        {
+            return __DbContext.StockItems
+                .Where(stockItem => stockItem.Product_UID ==product_UID)
                 .SingleOrDefault(new StockItem());
         }
     }
