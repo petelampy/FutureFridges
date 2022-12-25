@@ -17,6 +17,7 @@ namespace FutureFridges.Data
             builder.Entity<FridgeUser>().HasData(SampleDataGenerator.GenerateUser());
             builder.Entity<UserPermissions>().HasData(SampleDataGenerator.GenerateUserPermissions());
             builder.Entity<Product>().HasData(SampleDataGenerator.GenerateProduct());
+            builder.Entity<StockItem>().HasData(SampleDataGenerator.GenerateStockItem());
         }
 
         public DbSet<Product> Products { get; set; }

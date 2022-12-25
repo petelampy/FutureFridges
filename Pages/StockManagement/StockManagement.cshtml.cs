@@ -1,4 +1,5 @@
 using FutureFridges.Business.StockManagement;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FutureFridges.Pages.StockManagement
@@ -30,5 +31,6 @@ namespace FutureFridges.Pages.StockManagement
         public List<Product> Products { get; set; }
         public Product? SelectedProduct { get; set; } = new Product();
         public List<StockItem> StockItems { get; set; }
+        public string ProductImagePath { get; set; } = "../Images/Products/";
     }
 }

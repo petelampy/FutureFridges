@@ -5,67 +5,84 @@
     ViewData["Title"] = "Stock";
 }
 
-<h2>Manage Stock</h2>
-<table class="text-center">
-    <thead>
-        <tr>
-            <th>
-                Product Name
-            </th>
-            <th>
-                Product Category
-            </th>
-            <th>
-                Quantity
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Product product in Model.Products)
-        {
-            int _Quantity = Model.StockItems.Where(stockItem => stockItem.Product_UID == product.Product_UID).Count();
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h2>Manage Stock</h2>
+            <hr>
+            <table class="text-center" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Product Category
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Product product in Model.Products)
+                    {
+                        int _Quantity = Model.StockItems.Where(stockItem => stockItem.Product_UID == product.Product_UID).Count();
 
-            @if (_Quantity > 0) {
-                <form id="selectProduct" asp-page-handler="selectProduct" asp-route-uid="@product.Product_UID" method="post">
-                <tr onclick="document.getElementById('selectProduct').submit();">
-                    <td>@product.Name</td>
-                    <td>@product.Category</td>
-                    <td>@_Quantity</td>
-                    <input type="hidden" name="productUID" value="@product.Product_UID" />
-                </tr>
-                </form>
-            }
-        }
-    </tbody>
-</table>
-
-@if (Model.SelectedProduct != new Product())
-{
-    <hr>
-    <h2>Selected Product Line</h2>
-    <table class="text-center">
-        <thead>
-            <tr>
-                <th>
-                    Stock Item ID
-                </th>
-                <th>
-                    Product
-                </th>
-                <th>
-                    Expiry Date
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (StockItem stockItem in Model.StockItems.Where(stockItem => stockItem.Product_UID == Model.SelectedProduct.Product_UID))
+                        @if (_Quantity > 0)
+                        {
+                            <form id="selectProduct" asp-page-handler="selectProduct" asp-route-uid="@product.Product_UID" method="post">
+                            <tr onclick="document.getElementById('selectProduct').submit();">
+                                <td>@product.Name</td>
+                                <td>@product.Category</td>
+                                <td>@_Quantity</td>
+                                <input type="hidden" name="productUID" value="@product.Product_UID" />
+                            </tr>
+                            </form>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm">
+            @if (Model.SelectedProduct.Product_UID != Guid.Empty)
             {
-                <tr>
-                    <td>@stockItem.Id</td>
-                    <td>@Model.SelectedProduct.Name</td>
-                    <td>@stockItem.ExpiryDate</td>
-                </tr>
+                <h2>Selected Product Line - @Model.SelectedProduct.Name</h2>
+                <hr>
+                @*ALL THIS INLINE CSS NEEDS PUTTING IN IT'S OWN FILE*@
+                <img src="@($"{Model.ProductImagePath}{Model.SelectedProduct.ImageName}")" style="width:300px; height: auto; display: block; margin-left: auto; margin-right: auto;">
+                <br>
+                <table class="text-center" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                Stock Item ID
+                            </th>
+                            <th>
+                                Product
+                            </th>
+                            <th>
+                                Expiry Date
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (StockItem stockItem in Model.StockItems.Where(stockItem => stockItem.Product_UID == Model.SelectedProduct.Product_UID))
+                        {
+                            <tr>
+                                <td>@stockItem.Id</td>
+                                <td>@Model.SelectedProduct.Name</td>
+                                <td>@stockItem.ExpiryDate</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
-        </tbody>
-    </table>
-}
+        </div>
+    </div>
+</div>
+
+
+
+
+

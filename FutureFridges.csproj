@@ -24,6 +24,7 @@
     <Folder Include="Business\OrderManagement\" />
     <Folder Include="Unit Tests\UserManagement\" />
     <Folder Include="Unit Tests\StockManagement\" />
+    <Folder Include="wwwroot\Images\Products\" />
   </ItemGroup>
   
 </Project>

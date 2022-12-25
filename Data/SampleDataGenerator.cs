@@ -18,7 +18,19 @@ namespace FutureFridges.Data
                 Id = 1,
                 Product_UID = __SampleProductUID,
                 Category = ProductCategory.Dairy,
-                Name = "CHEESE"
+                Name = "CHEESE",
+                ImageName = "cheese.jpeg"
+            };
+        }
+
+        public static StockItem GenerateStockItem ()
+        {
+            return new StockItem
+            {
+                Id = 1,
+                Product_UID = __SampleProductUID,
+                ExpiryDate = DateTime.Now,
+                Item_UID = new Guid()
             };
         }
 
