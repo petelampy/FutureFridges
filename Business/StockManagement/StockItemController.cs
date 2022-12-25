@@ -29,5 +29,10 @@ namespace FutureFridges.Business.StockManagement
         {
             return __StockItemRepository.GetStockItemByProduct(product_UID);
         }
+
+        public void DeleteStockItem (Guid stockItem_UID)
+        {
+            __StockItemRepository.DeleteStockItem(stockItem_UID);
+        }
     }
 }

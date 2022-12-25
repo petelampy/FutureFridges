@@ -73,6 +73,7 @@
                                 <td>@stockItem.Id</td>
                                 <td>@Model.SelectedProduct.Name</td>
                                 <td>@stockItem.ExpiryDate</td>
+                                <td><a class="btn btn-danger" role="button" asp-page-handler="takeProduct" asp-route-uid="@stockItem.Item_UID">Take Item</a></td>
                             </tr>
                         }
                     </tbody>
