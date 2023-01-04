@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FutureFridges.Pages
 {
-    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> __Logger;

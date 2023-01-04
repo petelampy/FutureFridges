@@ -1,0 +1,33 @@
+﻿@page
+@using FutureFridges.Business.OrderManagement;
+@model FutureFridges.Pages.Deliveries.ReviewDeliveryModel
+@{
+}
+
+<div class="col-sm">
+    <h2>Review Delivery</h2>
+    <h3>Order: @Model.Order.PinCode</h3>
+    <h3>Items: @Model.Order.NumberOfItems</h3>
+    <hr>
+    <table class="text-center" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (OrderItem orderItem in Model.Order.OrderItems)
+            {
+                <tr>
+                    <td>@orderItem.ProductName</td>
+                    <td>@orderItem.Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
