@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FutureFridges", "FutureFridges.csproj", "{0EC23A01-FE9D-4F46-83B0-339D9EF777C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomatedTests", "AutomatedTests\AutomatedTests.csproj", "{58C2DCAF-52AF-4434-95C5-F50087932218}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0EC23A01-FE9D-4F46-83B0-339D9EF777C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EC23A01-FE9D-4F46-83B0-339D9EF777C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EC23A01-FE9D-4F46-83B0-339D9EF777C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58C2DCAF-52AF-4434-95C5-F50087932218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58C2DCAF-52AF-4434-95C5-F50087932218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58C2DCAF-52AF-4434-95C5-F50087932218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58C2DCAF-52AF-4434-95C5-F50087932218}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
