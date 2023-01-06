@@ -1,4 +1,5 @@
 ﻿using FutureFridges.Business.OrderManagement;
+using System.Linq;
 
 namespace FutureFridges.Data.OrderManagement
 {
@@ -39,12 +40,14 @@ namespace FutureFridges.Data.OrderManagement
             __DbContext.SaveChanges();
         }
 
-        public void DeleteOrderItem(OrderItem orderItem)
+        public void DeleteOrderItem(Guid uid)
         {
-            __DbContext.OrderItems.Remove(orderItem);
+            OrderItem _OrderItem = GetOrderItem(uid);
+
+            __DbContext.OrderItems.Remove(_OrderItem);
             __DbContext.SaveChanges();
 
-            UpdateItemCount(orderItem.Order_UID);
+            UpdateItemCount(_OrderItem.Order_UID);
         }
 
         public List<Order> GetAll ()
@@ -76,12 +79,21 @@ namespace FutureFridges.Data.OrderManagement
             return _Order;
         }
 
-        public List<OrderItem> GetOrderItems (Guid order_UID)
+        public List<OrderItem> GetOrderItems (Guid order_UID) //REFACTOR THIS NAME TO GetOrderItemsByOrder
         {
             return __DbContext
                 .OrderItems
                 .Where(orderItem => orderItem.Order_UID == order_UID)
                 .ToList();
+        }
+
+        public OrderItem GetOrderItem (Guid uid)
+        {
+            return __DbContext
+                .OrderItems
+                .AsEnumerable()
+                .Where(orderItem => orderItem.UID == uid)
+                .SingleOrDefault(new OrderItem());
         }
 
         public bool IsValidOrderPinCode (int pinCode)

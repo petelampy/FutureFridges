@@ -7,10 +7,11 @@ namespace FutureFridges.Data.OrderManagement
         void CreateOrder (Order newOrder);
         void CreateOrderItem (OrderItem orderItem);
         void DeleteOrder (Order order);
-        void DeleteOrderItem (OrderItem orderItem);
+        void DeleteOrderItem (Guid uid);
         List<Order> GetAll ();
         Order GetOrder (Guid uid);
         Order GetOrderByPinCode (int pinCode);
+        OrderItem GetOrderItem (Guid uid);
         List<OrderItem> GetOrderItems (Guid order_UID);
         bool IsValidOrderPinCode (int pinCode);
         void UpdateOrderItem (OrderItem orderItem);

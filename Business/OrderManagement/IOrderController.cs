@@ -5,7 +5,7 @@
         void CreateOrder (Order order);
         void CreateOrderItem (OrderItem orderItem);
         void DeleteOrder (Order order);
-        void DeleteOrderItem (OrderItem orderItem);
+        void DeleteOrderItem (Guid uid);
         List<Order> GetAll ();
         Order GetOrder (Guid uid);
         Order GetOrderByPinCode (int pinCode);

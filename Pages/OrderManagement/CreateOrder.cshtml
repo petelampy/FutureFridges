@@ -34,6 +34,7 @@
                 <tr>
                     <td>@orderItem.ProductName</td>
                     <td>@orderItem.Quantity</td>
+                    <td><a class="btn" asp-page="CreateOrder" asp-route-item_uid="@orderItem.UID" asp-route-order_uid="@orderItem.Order_UID" asp-page-handler="removeItem">DELETE ITEM</a></td>
                 </tr>
             }
         </tbody>
