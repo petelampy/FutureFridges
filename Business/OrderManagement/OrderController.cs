@@ -1,5 +1,9 @@
 ﻿using FutureFridges.Data.OrderManagement;
 using FutureFridges.Data.StockManagement;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 
 namespace FutureFridges.Business.OrderManagement
 {
@@ -42,6 +46,15 @@ namespace FutureFridges.Business.OrderManagement
             return _Order;
         }
 
+        public List<OrderItem> GetOrderItems (Guid order_uid)
+        {
+            List<OrderItem> _OrderItems = __OrderRepository.GetOrderItems(order_uid);
+
+            _OrderItems = GetItemProductNames(_OrderItems);
+
+            return _OrderItems;
+        }
+
         public Order GetOrderByPinCode (int pinCode)
         {
             Order _Order = __OrderRepository.GetOrderByPinCode(pinCode);
@@ -56,10 +69,51 @@ namespace FutureFridges.Business.OrderManagement
             return __OrderRepository.IsValidOrderPinCode(pinCode);
         }
 
-        //CREATE PIN CODE
+        private int CreatePinCode()
+        {
+            List<int> _ValidPinCodes = Enumerable.Range(1000, 9999).ToList();
 
-        //CREATE ORDER
+            List<int> _UsedPinCodes = __OrderRepository
+                .GetAll()
+                .Select(order => order.PinCode)
+                .ToList();
 
-        //CREATE ORDER ITEMS
+            List<int> _AvailablePinCodes = _ValidPinCodes.Except(_UsedPinCodes).ToList();
+
+            Random _Random = new Random();
+            int _SelectedPinIndex = _Random.Next(_AvailablePinCodes.Count());
+
+            return _AvailablePinCodes[_SelectedPinIndex];
+        }
+
+        public void CreateOrder(Order order)
+        {
+            order.UID = Guid.NewGuid();
+            order.PinCode = CreatePinCode();
+            order.NumberOfItems = order.OrderItems.Select(orderItem => orderItem.Quantity).Sum();
+
+            __OrderRepository.CreateOrder(order);
+        }
+
+        public void CreateOrderItem(OrderItem orderItem)
+        {
+            orderItem.UID = Guid.NewGuid();
+
+            __OrderRepository.CreateOrderItem(orderItem);
+        }
+
+        public void DeleteOrder (Order order)
+        {
+            __OrderRepository.DeleteOrder(order);
+        }
+
+        public void DeleteOrderItem(OrderItem orderItem) { 
+            __OrderRepository.DeleteOrderItem(orderItem);
+        }
+
+        public void UpdateOrderItem(OrderItem orderItem)
+        {
+            __OrderRepository.UpdateOrderItem(orderItem);
+        }
     }
 }
