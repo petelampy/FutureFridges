@@ -102,9 +102,9 @@ namespace FutureFridges.Business.OrderManagement
             __OrderRepository.CreateOrderItem(orderItem);
         }
 
-        public void DeleteOrder (Order order)
+        public void DeleteOrder (Guid uid)
         {
-            __OrderRepository.DeleteOrder(order);
+            __OrderRepository.DeleteOrder(uid);
         }
 
         public void DeleteOrderItem(Guid uid) { 

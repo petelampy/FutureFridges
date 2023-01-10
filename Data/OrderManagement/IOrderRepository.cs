@@ -6,7 +6,7 @@ namespace FutureFridges.Data.OrderManagement
     {
         void CreateOrder (Order newOrder);
         void CreateOrderItem (OrderItem orderItem);
-        void DeleteOrder (Order order);
+        void DeleteOrder (Guid uid);
         void DeleteOrderItem (Guid uid);
         List<Order> GetAll ();
         Order GetOrder (Guid uid);

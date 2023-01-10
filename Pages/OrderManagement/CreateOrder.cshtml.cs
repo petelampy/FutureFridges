@@ -102,6 +102,18 @@ namespace FutureFridges.Pages.OrderManagement
             return RedirectToPage("CreateOrder", new { UID = order_uid });
         }
 
+        public IActionResult OnGetCreateOrder (Guid uid)
+        {
+           return RedirectToPage("../Index");
+        }
+
+        public IActionResult OnGetCancelOrder (Guid uid)
+        {
+            __OrderController.DeleteOrder(uid);
+
+            return RedirectToPage("../Index");
+        }
+
         [BindProperty(SupportsGet = true)]
         public Order Order { get; set; }
         [BindProperty(SupportsGet = true)]

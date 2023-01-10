@@ -36,9 +36,12 @@ namespace FutureFridges.Data.OrderManagement
             UpdateItemCount(orderItem.Order_UID);
         }
 
-        public void DeleteOrder (Order order)
+        public void DeleteOrder (Guid uid)
         {
-            __DbContext.Orders.Remove(order);
+            Order _Order = GetOrder(uid);
+
+            __DbContext.Orders.Remove(_Order);
+            __DbContext.OrderItems.RemoveRange(_Order.OrderItems);
             __DbContext.SaveChanges();
         }
 

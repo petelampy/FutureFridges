@@ -38,5 +38,7 @@
                 </tr>
             }
         </tbody>
+        <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="createOrder">Create</a>
+        <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="cancelOrder">Cancel</a>
     </table>
 </div>

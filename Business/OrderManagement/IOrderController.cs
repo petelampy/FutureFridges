@@ -4,7 +4,7 @@
     {
         void CreateOrder (Order order);
         void CreateOrderItem (OrderItem orderItem);
-        void DeleteOrder (Order order);
+        void DeleteOrder (Guid uid);
         void DeleteOrderItem (Guid uid);
         List<Order> GetAll ();
         Order GetOrder (Guid uid);
