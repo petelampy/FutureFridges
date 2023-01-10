@@ -41,10 +41,11 @@ namespace FutureFridges.Data
             return new Product
             {
                 Id = 1,
-                Product_UID = __SampleProductUID,
+                UID = __SampleProductUID,
                 Category = ProductCategory.Dairy,
                 Name = "CHEESE",
-                ImageName = "cheese.jpeg"
+                ImageName = "cheese.jpeg",
+                DaysShelfLife = 5
             };
         }
 

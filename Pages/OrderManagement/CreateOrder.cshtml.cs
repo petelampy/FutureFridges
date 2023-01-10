@@ -43,7 +43,7 @@ namespace FutureFridges.Pages.OrderManagement
                 new SelectListItem
                 {
                     Text = product.Name,
-                    Value = product.Product_UID.ToString()
+                    Value = product.UID.ToString()
                 }).ToList();
         }
 

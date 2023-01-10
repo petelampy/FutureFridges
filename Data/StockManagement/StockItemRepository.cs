@@ -48,5 +48,21 @@ namespace FutureFridges.Data.StockManagement
             __DbContext.Remove(_CurrentStockItem);
             __DbContext.SaveChanges();
         }
+
+        public void CreateStockItem (StockItem stockItem)
+        {
+            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
+
+            __DbContext.StockItems.Add(stockItem);
+            __DbContext.SaveChanges();
+        }
+
+        public void CreateStockItem (List<StockItem> stockItems)
+        {
+            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
+
+            __DbContext.StockItems.AddRange(stockItems);
+            __DbContext.SaveChanges();
+        }
     }
 }

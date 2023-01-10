@@ -34,5 +34,26 @@ namespace FutureFridges.Business.StockManagement
         {
             __StockItemRepository.DeleteStockItem(stockItem_UID);
         }
+
+        public void CreateStockItem (StockItem stockItem)
+        {
+            //ADD LINE TO SET EXPIRY DATE BASED ON "SHELF LIFE" PROPERTY FROM PRODUCT
+
+            stockItem.Item_UID = Guid.NewGuid();
+
+            __StockItemRepository.CreateStockItem(stockItem);
+        }
+
+        public void CreateStockItem (List<StockItem> stockItems)
+        {
+            foreach (StockItem _StockItem in stockItems)
+            {
+                //ADD LINE TO SET EXPIRY DATE BASED ON "SHELF LIFE" PROPERTY FROM PRODUCT
+
+                _StockItem.Item_UID = Guid.NewGuid();
+            }
+
+            __StockItemRepository.CreateStockItem(stockItems);
+        }
     }
 }

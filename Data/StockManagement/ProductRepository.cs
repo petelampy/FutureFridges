@@ -20,7 +20,7 @@ namespace FutureFridges.Data.StockManagement
         public void CreateProduct (Product newProduct)
         {
             //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
-            newProduct.Product_UID = Guid.NewGuid();
+            newProduct.UID = Guid.NewGuid();
 
             __DbContext.Products.Add(newProduct);
             __DbContext.SaveChanges();
@@ -35,7 +35,7 @@ namespace FutureFridges.Data.StockManagement
         {
             return __DbContext.Products
                 .AsEnumerable()
-                .Where(product => product.Product_UID == product_UID)
+                .Where(product => product.UID == product_UID)
                 .SingleOrDefault(new Product());
         }
 
@@ -43,7 +43,7 @@ namespace FutureFridges.Data.StockManagement
         {
             //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO UPDATE?
 
-            Product _CurrentProduct = GetProduct(updatedProduct.Product_UID);
+            Product _CurrentProduct = GetProduct(updatedProduct.UID);
 
             _CurrentProduct.Name = updatedProduct.Name;
             _CurrentProduct.Category = updatedProduct.Category;
