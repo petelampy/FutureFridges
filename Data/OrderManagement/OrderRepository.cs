@@ -1,5 +1,4 @@
 ﻿using FutureFridges.Business.OrderManagement;
-using System.Linq;
 
 namespace FutureFridges.Data.OrderManagement
 {
@@ -45,7 +44,7 @@ namespace FutureFridges.Data.OrderManagement
             __DbContext.SaveChanges();
         }
 
-        public void DeleteOrderItem(Guid uid)
+        public void DeleteOrderItem (Guid uid)
         {
             OrderItem _OrderItem = GetOrderItem(uid);
 
@@ -84,14 +83,6 @@ namespace FutureFridges.Data.OrderManagement
             return _Order;
         }
 
-        public List<OrderItem> GetOrderItems (Guid order_UID) //REFACTOR THIS NAME TO GetOrderItemsByOrder
-        {
-            return __DbContext
-                .OrderItems
-                .Where(orderItem => orderItem.Order_UID == order_UID)
-                .ToList();
-        }
-
         public OrderItem GetOrderItem (Guid uid)
         {
             return __DbContext
@@ -99,6 +90,14 @@ namespace FutureFridges.Data.OrderManagement
                 .AsEnumerable()
                 .Where(orderItem => orderItem.UID == uid)
                 .SingleOrDefault(new OrderItem());
+        }
+
+        public List<OrderItem> GetOrderItems (Guid order_UID) //REFACTOR THIS NAME TO GetOrderItemsByOrder
+        {
+            return __DbContext
+                .OrderItems
+                .Where(orderItem => orderItem.Order_UID == order_UID)
+                .ToList();
         }
 
         public bool IsValidOrderPinCode (int pinCode)
@@ -111,7 +110,7 @@ namespace FutureFridges.Data.OrderManagement
             return _Order.UID != Guid.Empty;
         }
 
-        public void UpdateItemCount(Guid orderUID)
+        public void UpdateItemCount (Guid orderUID)
         {
             Order _Order = GetOrder(orderUID);
 

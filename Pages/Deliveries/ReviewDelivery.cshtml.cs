@@ -8,8 +8,8 @@ namespace FutureFridges.Pages.Deliveries
     public class ReviewDeliveryModel : PageModel
     {
         private readonly IOrderController __OrderController;
-        private readonly IStockItemController __StockItemController;
         private readonly IProductController __ProductController;
+        private readonly IStockItemController __StockItemController;
 
         public ReviewDeliveryModel ()
         {

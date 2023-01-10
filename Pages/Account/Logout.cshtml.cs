@@ -11,7 +11,7 @@ namespace FutureFridges.Pages.Account
 
         private readonly SignInManager<FridgeUser> __SignInManager;
 
-        public LogoutModel(SignInManager<FridgeUser> signInManager)
+        public LogoutModel (SignInManager<FridgeUser> signInManager)
         {
             __SignInManager = signInManager;
         }

@@ -1,10 +1,8 @@
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
-using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Options;
 
 namespace FutureFridges.Pages.OrderManagement
 {
@@ -19,7 +17,19 @@ namespace FutureFridges.Pages.OrderManagement
             __ProductController = new ProductController();
         }
 
-        public void OnGet()
+        private void CreateProductSelector ()
+        {
+            List<Product> _Products = __ProductController.GetAll();
+
+            ProductSelection = _Products.Select(product =>
+                new SelectListItem
+                {
+                    Text = product.Name,
+                    Value = product.UID.ToString()
+                }).ToList();
+        }
+
+        public void OnGet ()
         {
             CreateProductSelector();
 
@@ -35,41 +45,26 @@ namespace FutureFridges.Pages.OrderManagement
             }
         }
 
-        private void CreateProductSelector()
+        public IActionResult OnGetCancelOrder (Guid uid)
         {
-            List<Product> _Products = __ProductController.GetAll();
+            __OrderController.DeleteOrder(uid);
 
-            ProductSelection = _Products.Select(product => 
-                new SelectListItem
-                {
-                    Text = product.Name,
-                    Value = product.UID.ToString()
-                }).ToList();
+            return RedirectToPage("../Index");
         }
 
-        private void UpdateOrder()
+        public IActionResult OnGetCreateOrder (Guid uid)
         {
-            if (Order.UID == Guid.Empty)
-            {
-                __OrderController.CreateOrder(Order);
-            }
-
-            foreach (OrderItem _OrderItem in Order.OrderItems)
-            {
-                if (_OrderItem.UID == Guid.Empty)
-                {
-                    _OrderItem.Order_UID = Order.UID;
-                    __OrderController.CreateOrderItem(_OrderItem);
-                }
-                else
-                {
-                    __OrderController.UpdateOrderItem(_OrderItem);
-                }
-
-            }
+            return RedirectToPage("../Index");
         }
 
-        public IActionResult OnPostAddItem()
+        public IActionResult OnGetRemoveItem (Guid item_uid, Guid order_uid)
+        {
+            __OrderController.DeleteOrderItem(item_uid);
+
+            return RedirectToPage("CreateOrder", new { UID = order_uid });
+        }
+
+        public IActionResult OnPostAddItem ()
         {
             Order.OrderItems = __OrderController.GetOrderItems(Order.UID);
             Guid _SelectedProduct_UID = new Guid(SelectedProduct);
@@ -95,31 +90,37 @@ namespace FutureFridges.Pages.OrderManagement
             return RedirectToPage("CreateOrder", new { UID = Order.UID });
         }
 
-        public IActionResult OnGetRemoveItem (Guid item_uid, Guid order_uid)
+        private void UpdateOrder ()
         {
-            __OrderController.DeleteOrderItem(item_uid);
+            if (Order.UID == Guid.Empty)
+            {
+                __OrderController.CreateOrder(Order);
+            }
 
-            return RedirectToPage("CreateOrder", new { UID = order_uid });
-        }
+            foreach (OrderItem _OrderItem in Order.OrderItems)
+            {
+                if (_OrderItem.UID == Guid.Empty)
+                {
+                    _OrderItem.Order_UID = Order.UID;
+                    __OrderController.CreateOrderItem(_OrderItem);
+                }
+                else
+                {
+                    __OrderController.UpdateOrderItem(_OrderItem);
+                }
 
-        public IActionResult OnGetCreateOrder (Guid uid)
-        {
-           return RedirectToPage("../Index");
-        }
-
-        public IActionResult OnGetCancelOrder (Guid uid)
-        {
-            __OrderController.DeleteOrder(uid);
-
-            return RedirectToPage("../Index");
+            }
         }
 
         [BindProperty(SupportsGet = true)]
         public Order Order { get; set; }
-        [BindProperty(SupportsGet = true)]
-        public Guid UID { get; set; }
+
         public List<SelectListItem> ProductSelection { get; set; }
+
         [BindProperty(SupportsGet = true)]
         public string SelectedProduct { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public Guid UID { get; set; }
     }
 }

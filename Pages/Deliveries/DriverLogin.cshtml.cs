@@ -14,14 +14,14 @@ namespace FutureFridges.Pages.Deliveries
             __OrderController = new OrderController();
         }
 
-        public void OnGet()
+        public void OnGet ()
         {
         }
 
         public IActionResult OnPost ()
         {
 
-            if(!__OrderController.IsValidOrderPinCode(PinCode))
+            if (!__OrderController.IsValidOrderPinCode(PinCode))
             {
                 ModelState.AddModelError("error", "Invalid Pin Code");
                 return Page();
