@@ -1,4 +1,5 @@
-﻿using FutureFridges.Data.UserManagement;
+﻿using FutureFridges.Business.Enums;
+using FutureFridges.Data.UserManagement;
 
 namespace FutureFridges.Business.UserManagement
 {
@@ -23,6 +24,37 @@ namespace FutureFridges.Business.UserManagement
         public UserPermissions GetPermissions (Guid user_UID)
         {
             return __UserPermissionRepository.GetUserPermissions(user_UID);
+        }
+
+        public void CreatePermissions(Guid user_UID, UserType userType)
+        {
+            UserPermissions _UserPermissions = new UserPermissions();
+            _UserPermissions.User_UID = user_UID;
+
+            switch (userType)
+            {
+                case UserType.Chef:
+                    _UserPermissions.ViewStock = true;
+                    _UserPermissions.RemoveStock = true;
+                    break;
+                case UserType.HeadChef:
+                    _UserPermissions.ViewStock = true;
+                    _UserPermissions.RemoveStock = true;
+                    _UserPermissions.AddStock = true;
+                    _UserPermissions.ManageProduct = true;
+                    _UserPermissions.ManageHealthAndSafetyReport = true;
+                    break;
+                case UserType.Administrator:
+                    _UserPermissions.ViewStock = true;
+                    _UserPermissions.RemoveStock = true;
+                    _UserPermissions.AddStock = true;
+                    _UserPermissions.ManageProduct = true;
+                    _UserPermissions.ManageHealthAndSafetyReport = true;
+                    _UserPermissions.ManageUser = true;
+                    break;
+            }
+
+            __UserPermissionRepository.CreatePermissions(_UserPermissions);
         }
     }
 }

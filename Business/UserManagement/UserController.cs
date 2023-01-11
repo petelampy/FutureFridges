@@ -15,22 +15,25 @@ namespace FutureFridges.Business.UserManagement
         private readonly IEmailManager __EmailManager;
         private readonly IPasswordHasher<FridgeUser> __PasswordHasher;
         private readonly IUserRepository __UserRepository;
+        private readonly IUserPermissionController __UserPermissionController;
 
         public UserController ()
-            : this(new UserRepository(), new PasswordHasher<FridgeUser>(), new EmailManager())
+            : this(new UserRepository(), new PasswordHasher<FridgeUser>(), new EmailManager(), new UserPermissionController())
         { }
 
-        internal UserController (IUserRepository userRepository, IPasswordHasher<FridgeUser> passwordHasher, IEmailManager emailManager)
+        internal UserController (IUserRepository userRepository, IPasswordHasher<FridgeUser> passwordHasher, IEmailManager emailManager, IUserPermissionController userPermissionController)
         {
             __UserRepository = userRepository;
             __PasswordHasher = passwordHasher;
             __EmailManager = emailManager;
+            __UserPermissionController = userPermissionController;
         }
 
         public void CreateUser (FridgeUser newUser)
         {
             int _TemporaryPassword = new Random().Next(100000, 999999);
 
+            newUser.Id = Guid.NewGuid().ToString();
             newUser.PasswordHash = __PasswordHasher.HashPassword(newUser, _TemporaryPassword.ToString());
             newUser.NormalizedUserName = newUser.UserName.ToUpper();
             newUser.NormalizedEmail = newUser.Email.ToUpper();
@@ -46,6 +49,7 @@ namespace FutureFridges.Business.UserManagement
             __EmailManager.SendEmail(_Email);
 
             __UserRepository.CreateUser(newUser);
+            __UserPermissionController.CreatePermissions(new Guid(newUser.Id), newUser.UserType);
         }
 
         public List<FridgeUser> GetAll ()

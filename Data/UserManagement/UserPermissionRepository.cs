@@ -29,5 +29,11 @@ namespace FutureFridges.Data.UserManagement
                .Where(permissions => permissions.User_UID == user_UID)
                .SingleOrDefault(new UserPermissions());
         }
+
+        public void CreatePermissions(UserPermissions userPermissions)
+        {
+            __DbContext.UserPermissions.Add(userPermissions);
+            __DbContext.SaveChanges();
+        }
     }
 }
