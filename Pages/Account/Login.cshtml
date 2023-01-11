@@ -2,36 +2,38 @@
 @model FutureFridges.Pages.Account.LoginModel
 @{
 }
-<form method="post" novalidate class="">
-    <div class="row">
-        <div class="text-center col-lg-4 m-auto">
-            <img class="img-thumbnail" src="/Images/CatLogo.png" alt="cat logo">
+<form method="post" novalidate class="row mt-5">
+    <div class="col-lg-5 m-auto bg-light rounded-3 border p-5 shadow-lg">
+        <div class="row mb-4">
+            <div class="text-center col-lg-12 m-auto">
+                <img class="img-thumbnail" src="/Images/CatLogo.png" alt="cat logo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group form-floating">
+                <input class="form-control" asp-for="@Model.Username">
+                <label class="ps-4" asp-for="@Model.Username"></label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="form-group form-floating">
+                <input class="form-control" asp-for="@Model.Password">
+                <label class="ps-4" asp-for="@Model.Password"></label>
+            </div>
+        </div>
+        <div class="row checkbox mb-2">
+            <div class="form-group col-11 m-auto">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.RememberMe"> Remember me
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="form-group m-auto">
+                @Html.ValidationSummary()
+                <input class="w-100 btn btn-lg btn-primary" type="submit" value="Login">
+            </div> 
         </div>
     </div>
-    <div class="row">
-        <div class="form-group col-lg-4 m-auto form-floating">
-            <input class="form-control" asp-for="@Model.Username">
-            <label class="ps-4" asp-for="@Model.Username"></label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-lg-4 m-auto form-floating">
-            <input class="form-control" asp-for="@Model.Password">
-            <label class="ps-4" asp-for="@Model.Password"></label>
-        </div>
-    </div>
-    <div class="row checkbox mb-3">
-        <div class="form-group col-lg-4 m-auto">
-            <input type="checkbox" class="form-check-input" asp-for="@Model.RememberMe"> Remember me
-        </div>
-    </div>
-    <div class="row">
-        
-        <div class="form-group col-lg-4 m-auto">
-            @Html.ValidationSummary()
-            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Login">
-        </div>
-        
-    </div>
+    
     
 </form>
