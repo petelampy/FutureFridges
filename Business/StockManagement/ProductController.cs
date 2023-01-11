@@ -17,6 +17,8 @@ namespace FutureFridges.Business.StockManagement
 
         public void CreateProduct (Product newProduct)
         {
+            newProduct.UID = Guid.NewGuid();
+
             __ProductRepository.CreateProduct(newProduct);
         }
 

@@ -32,7 +32,9 @@ namespace FutureFridges.Business.UserManagement
             int _TemporaryPassword = new Random().Next(100000, 999999);
 
             newUser.PasswordHash = __PasswordHasher.HashPassword(newUser, _TemporaryPassword.ToString());
-
+            newUser.NormalizedUserName = newUser.UserName.ToUpper();
+            newUser.NormalizedEmail = newUser.Email.ToUpper();
+            newUser.SecurityStamp = Guid.NewGuid().ToString();
 
             EmailData _Email = new EmailData()
             {
