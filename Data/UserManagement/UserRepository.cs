@@ -1,6 +1,4 @@
 ﻿using FutureFridges.Business.UserManagement;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace FutureFridges.Data.UserManagement
 {
@@ -18,6 +16,18 @@ namespace FutureFridges.Data.UserManagement
         {
             __DbContextInitialiser = dbContextInitialiser;
             __DbContext = __DbContextInitialiser.CreateNewDbContext();
+        }
+
+        public void CreateUser (FridgeUser newUser)
+        {
+            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
+
+            newUser.NormalizedUserName = newUser.UserName.ToUpper();
+            newUser.NormalizedEmail = newUser.Email.ToUpper();
+            newUser.SecurityStamp = Guid.NewGuid().ToString();
+
+            __DbContext.Users.Add(newUser);
+            __DbContext.SaveChanges();
         }
 
         public List<FridgeUser> GetAll ()
@@ -44,18 +54,6 @@ namespace FutureFridges.Data.UserManagement
             _CurrentUser.NormalizedEmail = updatedUser.Email.ToUpper();
             _CurrentUser.UserType = updatedUser.UserType;
 
-            __DbContext.SaveChanges();
-        }
-
-        public void CreateUser(FridgeUser newUser)
-        {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
-
-            newUser.NormalizedUserName = newUser.UserName.ToUpper();
-            newUser.NormalizedEmail = newUser.Email.ToUpper();
-            newUser.SecurityStamp = Guid.NewGuid().ToString();
-
-            __DbContext.Users.Add(newUser);
             __DbContext.SaveChanges();
         }
     }

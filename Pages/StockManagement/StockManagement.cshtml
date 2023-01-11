@@ -1,0 +1,92 @@
+﻿@page
+@using FutureFridges.Business.StockManagement;
+@model FutureFridges.Pages.StockManagement.StockManagementModel
+@{
+    ViewData["Title"] = "Stock";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h2>Manage Stock</h2>
+            <hr>
+            <table class="text-center" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Product Category
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Product product in Model.Products)
+                    {
+                        int _Quantity = Model.StockItems.Where(stockItem => stockItem.Product_UID == product.UID).Count();
+
+                        @if (_Quantity > 0)
+                        {
+                            <form id="@product.Id" asp-page-handler="selectProduct" asp-route-uid="@product.UID" method="post">
+                            <tr onclick="document.getElementById('@product.Id').submit();">
+                                <td>@product.Name</td>
+                                <td>@product.Category</td>
+                                <td>@_Quantity</td>
+                                <input type="hidden" name="productUID" value="@product.UID" />
+                            </tr>
+                            </form>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm">
+            @if (Model.SelectedProduct.UID != Guid.Empty)
+            {
+                <h2>Selected Product Line - @Model.SelectedProduct.Name</h2>
+                <hr>
+                @*ALL THIS INLINE CSS NEEDS PUTTING IN IT'S OWN FILE*@
+                <img src="@($"{Model.ProductImagePath}{Model.SelectedProduct.ImageName}")" style="width:300px; height: auto; display: block; margin-left: auto; margin-right: auto;">
+                <br>
+                <table class="text-center" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                Stock Item ID
+                            </th>
+                            <th>
+                                Product
+                            </th>
+                            <th>
+                                Expiry Date
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (StockItem stockItem in Model.StockItems.Where(stockItem => stockItem.Product_UID == Model.SelectedProduct.UID))
+                        {
+                            <tr>
+                                <td>@stockItem.Id</td>
+                                <td>@Model.SelectedProduct.Name</td>
+                                <td>@stockItem.ExpiryDate</td>
+                                @if (Model.CurrentUserPermissions.RemoveStock)
+                                {
+                                    <td><a class="btn btn-danger" role="button" asp-page-handler="takeProduct" asp-route-uid="@stockItem.Item_UID">Take Item</a></td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,21 +1,17 @@
-﻿using FutureFridges.Business.StockManagement;
-using FutureFridges.Data;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FutureFridges.Pages
 {
-    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> __Logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel (ILogger<IndexModel> logger)
         {
             __Logger = logger;
         }
 
-        public void OnGet()
+        public void OnGet ()
         {
         }
     }

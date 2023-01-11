@@ -25,9 +25,9 @@ namespace FutureFridges.Business.StockManagement
             return __ProductRepository.GetAll();
         }
 
-        public Product GetProduct (Guid product_UID)
+        public Product GetProduct (Guid uid)
         {
-            return __ProductRepository.GetProduct(product_UID);
+            return __ProductRepository.GetProduct(uid);
         }
 
         public void UpdateProduct (Product updatedProduct)

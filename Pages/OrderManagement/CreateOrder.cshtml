@@ -1,0 +1,44 @@
+﻿@page
+@using FutureFridges.Business.OrderManagement;
+@model FutureFridges.Pages.OrderManagement.CreateOrderModel
+@{
+}
+
+<div class="col-sm">
+    <h2>Create New Order</h2>
+    <h3>Items: @Model.Order.NumberOfItems</h3>
+    <hr>
+    
+    <form asp-page-handler="addItem" method="post">
+        <select asp-for="@Model.SelectedProduct" asp-items="@Model.ProductSelection"></select>
+        <button class="btn btn-default">Add</button>
+        <input type="hidden" asp-for="@Model.Order.NumberOfItems">
+        <input type="hidden" asp-for="@Model.Order.Id">
+        <input type="hidden" asp-for="@Model.Order.UID">
+        <input type="hidden" asp-for="@Model.Order.OrderItems">
+    </form>
+    <table class="text-center" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (OrderItem orderItem in Model.Order.OrderItems)
+            {
+                <tr>
+                    <td>@orderItem.ProductName</td>
+                    <td>@orderItem.Quantity</td>
+                    <td><a class="btn" asp-page="CreateOrder" asp-route-item_uid="@orderItem.UID" asp-route-order_uid="@orderItem.Order_UID" asp-page-handler="removeItem">DELETE ITEM</a></td>
+                </tr>
+            }
+        </tbody>
+        <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="createOrder">Create</a>
+        <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="cancelOrder">Cancel</a>
+    </table>
+</div>

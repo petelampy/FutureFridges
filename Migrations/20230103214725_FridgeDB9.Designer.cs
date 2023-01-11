@@ -4,6 +4,7 @@ using FutureFridges.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FutureFridges.Migrations
 {
     [DbContext(typeof(FridgeDBContext))]
-    partial class FridgeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230103214725_FridgeDB9")]
+    partial class FridgeDB9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +44,7 @@ namespace FutureFridges.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
 
                     b.HasData(
                         new
@@ -75,7 +78,7 @@ namespace FutureFridges.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItem");
 
                     b.HasData(
                         new
@@ -84,7 +87,7 @@ namespace FutureFridges.Migrations
                             OrderUID = new Guid("215fde49-288d-41e8-a768-583b01f2ee9d"),
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158"),
                             Quantity = 3,
-                            UID = new Guid("dd93e858-4e4a-46b5-af78-5b74ea20bfc6")
+                            UID = new Guid("74bf178c-3eff-45b5-aa59-fc818eba137a")
                         });
                 });
 
@@ -99,16 +102,13 @@ namespace FutureFridges.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
-                    b.Property<int>("DaysShelfLife")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UID")
+                    b.Property<Guid>("Product_UID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -120,10 +120,9 @@ namespace FutureFridges.Migrations
                         {
                             Id = 1,
                             Category = 2,
-                            DaysShelfLife = 5,
                             ImageName = "cheese.jpeg",
                             Name = "CHEESE",
-                            UID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158")
+                            ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158")
                         });
                 });
 
@@ -152,7 +151,7 @@ namespace FutureFridges.Migrations
                         new
                         {
                             Id = 1,
-                            ExpiryDate = new DateTime(2023, 1, 10, 18, 6, 14, 314, DateTimeKind.Local).AddTicks(7103),
+                            ExpiryDate = new DateTime(2023, 1, 3, 21, 47, 25, 508, DateTimeKind.Local).AddTicks(244),
                             ItemUID = new Guid("00000000-0000-0000-0000-000000000000"),
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158")
                         });
@@ -230,15 +229,15 @@ namespace FutureFridges.Migrations
                         {
                             Id = "56fada2a-2b97-43d7-99a2-c19179a28c57",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5a6dbef8-907c-43d0-a567-9fa9ec6b7a73",
+                            ConcurrencyStamp = "f6ee64b1-f09d-46be-bdab-c87a63571273",
                             Email = "admin@fridges.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FRIDGES.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHoML0RxsN+IL0cZECCICIzgWvkMDgFOmOGA0uQ0G/JlE8y5iHubryd7EKu2A59CwQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJQRlgX/diq+fVVnEj3cxMEJUOuR5OaADp27ohNvbhBYmlhMEEo/whvXAdiwNIp1dg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7e53287c-eda4-411a-9b66-78ef1a0e94ac",
+                            SecurityStamp = "57542b2c-082c-46ab-a767-71a491ed5824",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             UserType = 0
