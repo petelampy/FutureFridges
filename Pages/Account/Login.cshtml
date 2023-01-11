@@ -3,25 +3,37 @@
 @{
 }
 
-<form method="post" novalidate>
-    <div>
-        <label asp-for="@Model.Username"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="@Model.Username">
+<form method="post" novalidate class="">
+    <div class="row">
+        <div class="form-group col-lg-4 m-auto">
+            <label asp-for="@Model.Username"></label>
+            <div class="">
+                <input class="form-control" asp-for="@Model.Username">
+            </div>
         </div>
     </div>
-    <div>
-        <label asp-for="@Model.Password"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="@Model.Password">
+    <div class="row">
+        <div class="form-group col-lg-4 m-auto">
+            <label asp-for="@Model.Password"></label>
+            <div class="">
+                <input class="form-control" asp-for="@Model.Password">
+            </div>
         </div>
     </div>
-    <div>
-        <label asp-for="@Model.RememberMe"></label>
-        <div class="col-sm-10">
-            <input type="checkbox" class="form-check-input" asp-for="@Model.RememberMe">
+    <div class="row">
+        <div class="form-group col-lg-4 m-auto">
+            <label asp-for="@Model.RememberMe"></label>
+            <div class="">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.RememberMe">
+            </div>
         </div>
     </div>
-    @Html.ValidationSummary()
-    <input type="submit" value="Login">
+    <div class="row">
+        @Html.ValidationSummary()
+        <div class="form-group col-lg-4 m-auto">
+            <input type="submit" value="Login">
+        </div>
+        
+    </div>
+    
 </form>
