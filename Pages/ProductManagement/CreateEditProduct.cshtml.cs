@@ -24,13 +24,18 @@ namespace FutureFridges.Pages.ProductManagement
             __Environment = environment;
         }
 
-        private async void CreateProductImageFile (IFormFile file)
+        private void CreateProductImageFile (IFormFile file)
         {
-            string _FilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, file.FileName);
+            string _FileType = file.FileName.Split(".")[1];
+            string _ProductFileName = Product.Name + "." + _FileType;
+
+            string _FilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, _ProductFileName);
             using (FileStream _FileStream = new FileStream(_FilePath, FileMode.Create))
             {
-                await file.CopyToAsync(_FileStream);
+                file.CopyTo(_FileStream);
             }
+
+            Product.ImageName = _ProductFileName;
         }
 
         public IActionResult OnGet ()
@@ -66,9 +71,12 @@ namespace FutureFridges.Pages.ProductManagement
         {
             if (UID != Guid.Empty)
             {
+                if (Product.ImageName != null)
+                {
+                    RenameImageFile(Product.ImageName, Product.Name);
+                }
                 if (FileUpload != null)
                 {
-                    Product.ImageName = FileUpload.FileName;
                     CreateProductImageFile(FileUpload);
                 }
 
@@ -78,7 +86,6 @@ namespace FutureFridges.Pages.ProductManagement
             {
                 if (FileUpload != null)
                 {
-                    Product.ImageName = FileUpload.FileName;
                     CreateProductImageFile(FileUpload);
                 }
 
@@ -86,6 +93,17 @@ namespace FutureFridges.Pages.ProductManagement
             }
 
             return RedirectToPage("ProductManagement");
+        }
+
+        private void RenameImageFile (string oldFilePath, string newProductName)
+        {
+            string _FilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, oldFilePath);
+            string _FileType = oldFilePath.Split(".")[1];
+            string _NewProductFileName = newProductName + "." + _FileType;
+            string _NewFilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, _NewProductFileName);
+
+            System.IO.File.Move(_FilePath, _NewFilePath);
+            Product.ImageName = _NewProductFileName;
         }
 
         [BindProperty]
