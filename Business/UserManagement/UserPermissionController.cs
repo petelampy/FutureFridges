@@ -56,5 +56,10 @@ namespace FutureFridges.Business.UserManagement
 
             __UserPermissionRepository.CreatePermissions(_UserPermissions);
         }
+
+        public void UpdatePermissions(UserPermissions updatedUserPermissions)
+        {
+            __UserPermissionRepository.UpdatePermissions(updatedUserPermissions);
+        }
     }
 }

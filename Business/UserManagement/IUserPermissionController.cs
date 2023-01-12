@@ -7,5 +7,6 @@ namespace FutureFridges.Business.UserManagement
         void CreatePermissions (Guid user_UID, UserType userType);
         IEnumerable<UserPermissions> GetAll ();
         UserPermissions GetPermissions (Guid user_UID);
+        void UpdatePermissions (UserPermissions updatedUserPermissions);
     }
 }

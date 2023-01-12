@@ -35,5 +35,20 @@ namespace FutureFridges.Data.UserManagement
             __DbContext.UserPermissions.Add(userPermissions);
             __DbContext.SaveChanges();
         }
+
+        public void UpdatePermissions(UserPermissions updatedUserPermissions)
+        {
+            UserPermissions _UserPermissions = GetUserPermissions(updatedUserPermissions.User_UID);
+
+            _UserPermissions.ManageUser = updatedUserPermissions.ManageUser;
+            _UserPermissions.ManageProduct = updatedUserPermissions.ManageProduct;
+            _UserPermissions.ManageHealthAndSafetyReport = updatedUserPermissions.ManageHealthAndSafetyReport;
+            _UserPermissions.AddStock = updatedUserPermissions.AddStock;
+            _UserPermissions.RemoveStock = updatedUserPermissions.RemoveStock;
+            _UserPermissions.ViewStock = updatedUserPermissions.ViewStock;
+
+            __DbContext.UserPermissions.Update(_UserPermissions);
+            __DbContext.SaveChanges();
+        }
     }
 }
