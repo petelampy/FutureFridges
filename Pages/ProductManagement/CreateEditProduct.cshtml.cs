@@ -11,14 +11,26 @@ namespace FutureFridges.Pages.ProductManagement
     public class CreateEditProductModel : PageModel
     {
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError"; //MOVE PAGE PATHS INTO A GLOBAL RESX FILE??
+        private const string PRODUCT_IMAGES_PATH = "wwwroot/Images/Products";
 
+        private readonly IWebHostEnvironment __Environment;
         private readonly ProductController __ProductController;
         private readonly UserPermissionController __UserPermissionController;
 
-        public CreateEditProductModel ()
+        public CreateEditProductModel (IWebHostEnvironment environment)
         {
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
+            __Environment = environment;
+        }
+
+        private async void CreateProductImageFile (IFormFile file)
+        {
+            string _FilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, file.FileName);
+            using (FileStream _FileStream = new FileStream(_FilePath, FileMode.Create))
+            {
+                await file.CopyToAsync(_FileStream);
+            }
         }
 
         public IActionResult OnGet ()
@@ -54,15 +66,30 @@ namespace FutureFridges.Pages.ProductManagement
         {
             if (UID != Guid.Empty)
             {
+                if (FileUpload != null)
+                {
+                    Product.ImageName = FileUpload.FileName;
+                    CreateProductImageFile(FileUpload);
+                }
+
                 __ProductController.UpdateProduct(Product);
             }
             else
             {
+                if (FileUpload != null)
+                {
+                    Product.ImageName = FileUpload.FileName;
+                    CreateProductImageFile(FileUpload);
+                }
+
                 __ProductController.CreateProduct(Product);
             }
 
             return RedirectToPage("ProductManagement");
         }
+
+        [BindProperty]
+        public IFormFile FileUpload { get; set; }
 
         [BindProperty]
         public Product Product { get; set; }

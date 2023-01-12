@@ -4,11 +4,11 @@
 @{
 }
 
-<form method="post" novalidate>
+<form method="post" enctype="multipart/form-data" novalidate>
     <div>
         <label asp-for="@Model.Product.Name"></label>
         <div class="col-sm-10">
-            <input class="form-control" asp-for="@Model.Product.Name">
+            <input class="form-control" asp-for="@Model.Product.Name" />
         </div>
     </div>
     <div>
@@ -19,7 +19,15 @@
             </select>
         </div>
     </div>
+    <div>
+        <label asp-for="@Model.Product.DaysShelfLife"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="@Model.Product.DaysShelfLife" />
+        </div>
+    </div>
     <input type="hidden" asp-for="@Model.Product.UID" />
+    <input type="hidden" asp-for="@Model.Product.ImageName" />
+    <input type="file" asp-for="FileUpload" />
     @if (@Model.UID != Guid.Empty)
     {
         <input type="submit" value="Update Product">
