@@ -33,6 +33,7 @@ namespace FutureFridges.Pages.UserManagement
                 if (Id != null && new Guid(Id) != Guid.Empty)
                 {
                     ManagedUser = __UserController.GetUser(Id);
+                    ManagedUserPermissions = __UserPermissionController.GetPermissions(new Guid(Id));
                 }
                 else
                 {
@@ -53,6 +54,7 @@ namespace FutureFridges.Pages.UserManagement
             if (Id != null && new Guid(Id) != Guid.Empty)
             {
                 __UserController.UpdateUser(ManagedUser);
+                __UserPermissionController.UpdatePermissions(ManagedUserPermissions);
             }
             else
             {
@@ -68,5 +70,8 @@ namespace FutureFridges.Pages.UserManagement
 
         [BindProperty]
         public FridgeUser ManagedUser { get; set; }
+
+        [BindProperty]
+        public UserPermissions ManagedUserPermissions { get; set; }
     }
 }
