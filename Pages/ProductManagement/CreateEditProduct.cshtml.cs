@@ -67,8 +67,26 @@ namespace FutureFridges.Pages.ProductManagement
 
         }
 
+        private void ValidateModel()
+        {
+            List<string?> _NamesInUse = __ProductController.GetAll().Select(product => product.Name).ToList();
+            Product _CurrentProduct = __ProductController.GetProduct(Product.UID);
+            _CurrentProduct.Name = _CurrentProduct.Name == null ? string.Empty : _CurrentProduct.Name;
+
+            if (_NamesInUse.Contains(Product.Name) && _CurrentProduct.Name != Product.Name)
+            {
+                ModelState.AddModelError("", "Product Name in use!");
+            }
+        }
+
         public IActionResult OnPost ()
         {
+            ValidateModel();
+            if(ModelState.ErrorCount > 0)
+            {
+                return Page();
+            }
+
             if (UID != Guid.Empty)
             {
                 if (Product.ImageName != null)
@@ -107,7 +125,7 @@ namespace FutureFridges.Pages.ProductManagement
         }
 
         [BindProperty]
-        public IFormFile FileUpload { get; set; }
+        public IFormFile? FileUpload { get; set; }
 
         [BindProperty]
         public Product Product { get; set; }
