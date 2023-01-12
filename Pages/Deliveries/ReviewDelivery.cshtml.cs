@@ -47,6 +47,8 @@ namespace FutureFridges.Pages.Deliveries
 
             __StockItemController.CreateStockItem(_StockItems);
 
+            __OrderController.DeleteOrder(uid);
+
             return RedirectToPage("../Index");
         }
 
