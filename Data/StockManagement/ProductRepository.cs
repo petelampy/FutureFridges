@@ -46,6 +46,8 @@ namespace FutureFridges.Data.StockManagement
 
             _CurrentProduct.Name = updatedProduct.Name;
             _CurrentProduct.Category = updatedProduct.Category;
+            _CurrentProduct.ImageName = updatedProduct.ImageName;
+            _CurrentProduct.DaysShelfLife = updatedProduct.DaysShelfLife;
 
             __DbContext.SaveChanges();
         }

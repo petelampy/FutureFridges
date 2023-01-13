@@ -11,14 +11,31 @@ namespace FutureFridges.Pages.ProductManagement
     public class CreateEditProductModel : PageModel
     {
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError"; //MOVE PAGE PATHS INTO A GLOBAL RESX FILE??
+        private const string PRODUCT_IMAGES_PATH = "wwwroot/Images/Products";
 
+        private readonly IWebHostEnvironment __Environment;
         private readonly ProductController __ProductController;
         private readonly UserPermissionController __UserPermissionController;
 
-        public CreateEditProductModel ()
+        public CreateEditProductModel (IWebHostEnvironment environment)
         {
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
+            __Environment = environment;
+        }
+
+        private void CreateProductImageFile (IFormFile file)
+        {
+            string _FileType = file.FileName.Split(".")[1];
+            string _ProductFileName = Product.Name + "." + _FileType;
+
+            string _FilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, _ProductFileName);
+            using (FileStream _FileStream = new FileStream(_FilePath, FileMode.Create))
+            {
+                file.CopyTo(_FileStream);
+            }
+
+            Product.ImageName = _ProductFileName;
         }
 
         public IActionResult OnGet ()
@@ -50,19 +67,65 @@ namespace FutureFridges.Pages.ProductManagement
 
         }
 
+        private void ValidateModel()
+        {
+            List<string?> _NamesInUse = __ProductController.GetAll().Select(product => product.Name).ToList();
+            Product _CurrentProduct = __ProductController.GetProduct(Product.UID);
+            _CurrentProduct.Name = _CurrentProduct.Name == null ? string.Empty : _CurrentProduct.Name;
+
+            if (_NamesInUse.Contains(Product.Name) && _CurrentProduct.Name != Product.Name)
+            {
+                ModelState.AddModelError("", "Product Name in use!");
+            }
+        }
+
         public IActionResult OnPost ()
         {
+            ValidateModel();
+            if(ModelState.ErrorCount > 0)
+            {
+                return Page();
+            }
+
             if (UID != Guid.Empty)
             {
+                if (Product.ImageName != null)
+                {
+                    RenameImageFile(Product.ImageName, Product.Name);
+                }
+                if (FileUpload != null)
+                {
+                    CreateProductImageFile(FileUpload);
+                }
+
                 __ProductController.UpdateProduct(Product);
             }
             else
             {
+                if (FileUpload != null)
+                {
+                    CreateProductImageFile(FileUpload);
+                }
+
                 __ProductController.CreateProduct(Product);
             }
 
             return RedirectToPage("ProductManagement");
         }
+
+        private void RenameImageFile (string oldFilePath, string newProductName)
+        {
+            string _FilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, oldFilePath);
+            string _FileType = oldFilePath.Split(".")[1];
+            string _NewProductFileName = newProductName + "." + _FileType;
+            string _NewFilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, _NewProductFileName);
+
+            System.IO.File.Move(_FilePath, _NewFilePath);
+            Product.ImageName = _NewProductFileName;
+        }
+
+        [BindProperty]
+        public IFormFile? FileUpload { get; set; }
 
         [BindProperty]
         public Product Product { get; set; }

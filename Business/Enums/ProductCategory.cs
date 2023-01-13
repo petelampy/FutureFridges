@@ -9,6 +9,7 @@
         Fruit = 4,
         Grains = 5,
         Bakery = 6,
-        Beverages = 7
+        Beverages = 7,
+        Legumes = 8
     }
 }

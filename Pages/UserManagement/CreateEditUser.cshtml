@@ -26,33 +26,36 @@
         </div>
     </div>
     <br>
-    <div>
-        <label asp-for="@Model.ManagedUserPermissions.ViewStock"></label>
-        <div class="col-sm-10">
-            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ViewStock">
+    
+    @if (@Model.Id != null && new Guid(@Model.Id) != Guid.Empty)
+    {
+        <div>
+            <label asp-for="@Model.ManagedUserPermissions.ViewStock"></label>
+            <div class="col-sm-10">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ViewStock">
+            </div>
+            <label asp-for="@Model.ManagedUserPermissions.AddStock"></label>
+            <div class="col-sm-10">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.AddStock">
+            </div>
+            <label asp-for="@Model.ManagedUserPermissions.RemoveStock"></label>
+            <div class="col-sm-10">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.RemoveStock">
+            </div>
+            <label asp-for="@Model.ManagedUserPermissions.ManageProduct"></label>
+            <div class="col-sm-10">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageProduct">
+            </div>
+            <label asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport"></label>
+            <div class="col-sm-10">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport">
+            </div>
+            <label asp-for="@Model.ManagedUserPermissions.ManageUser"></label>
+            <div class="col-sm-10">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageUser">
+            </div>
         </div>
-        <label asp-for="@Model.ManagedUserPermissions.AddStock"></label>
-        <div class="col-sm-10">
-            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.AddStock">
-        </div>
-        <label asp-for="@Model.ManagedUserPermissions.RemoveStock"></label>
-        <div class="col-sm-10">
-            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.RemoveStock">
-        </div>
-        <label asp-for="@Model.ManagedUserPermissions.ManageProduct"></label>
-        <div class="col-sm-10">
-            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageProduct">
-        </div>
-        <label asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport"></label>
-        <div class="col-sm-10">
-            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport">
-        </div>
-        <label asp-for="@Model.ManagedUserPermissions.ManageUser"></label>
-        <div class="col-sm-10">
-            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageUser">
-        </div>
-    </div>
-
+    }
     <input type="hidden" asp-for="@Model.ManagedUser.Id" />
     <input type="hidden" asp-for="@Model.ManagedUserPermissions.User_UID" />
 
