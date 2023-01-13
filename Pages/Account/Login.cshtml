@@ -2,38 +2,54 @@
 @model FutureFridges.Pages.Account.LoginModel
 @{
 }
-<form method="post" novalidate class="row mt-5">
-    <div class="col-lg-5 m-auto bg-light rounded-3 border p-5 shadow-lg">
-        <div class="row mb-4">
-            <div class="text-center col-lg-12 m-auto">
-                <img class="img-thumbnail" src="/Images/CatLogo.png" alt="cat logo">
+
+<div class="row">
+    <form method="post" asp-page-handler="PinCodeLogin" novalidate class="m-auto mt-lg-5 col-lg-5">
+        <div class="col-lg-10 m-auto bg-light rounded-3 border px-5 pb-5 pt-4 shadow-lg">
+            <div class="display-6 text-center">Driver Login</div>
+            <div>
+                <div class="form-group form-floating col-sm-12 my-3">
+                    <input class="form-control" type="number" name="pinCode" min="1" max="9999" value="0000">
+                    <label>Pin Code</label>
+                    <span class="text-danger">@Html.ValidationMessage("PinError")</span>
+                </div>
+            </div>
+            <input class="w-100 btn btn-outline-primary" type="submit" value="Login">
+        </div>
+    </form>
+
+    <form method="post" asp-page-handler="Login" novalidate class="row m-auto mt-5 col-lg-7">
+        <div class="col-lg-9 m-auto bg-light rounded-3 border p-5 shadow-lg">
+            <div class="row mb-4">
+                <div class="text-center col-lg-12 m-auto">
+                    <img class="img-thumbnail" src="/Images/CatLogo.png" alt="cat logo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group form-floating">
+                    <input class="form-control" name="username">
+                    <label class="ps-4">Username</label>
+                    <span class="text-danger">@Html.ValidationMessage("username")</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group form-floating">
+                    <input class="form-control" name="password" type="password">
+                    <label class="ps-4">Password</label>
+                    <span class="text-danger">@Html.ValidationMessage("password")</span>
+                </div>
+            </div>
+            <div class="row checkbox mb-2">
+                <div class="form-group col-11 m-auto">
+                    <input type="checkbox" class="form-check-input" name="rememberMe" value="true"> Remember me
+                </div>
+            </div>
+            <div class="row">
+                <span class="text-danger">@Html.ValidationMessage("LoginError")</span>
+                <div class="form-group m-auto">
+                    <input class="w-100 btn btn-lg btn-primary" type="submit" value="Login">
+                </div> 
             </div>
         </div>
-        <div class="row">
-            <div class="form-group form-floating">
-                <input class="form-control" asp-for="@Model.Username">
-                <label class="ps-4" asp-for="@Model.Username"></label>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="form-group form-floating">
-                <input class="form-control" asp-for="@Model.Password">
-                <label class="ps-4" asp-for="@Model.Password"></label>
-            </div>
-        </div>
-        <div class="row checkbox mb-2">
-            <div class="form-group col-11 m-auto">
-                <input type="checkbox" class="form-check-input" asp-for="@Model.RememberMe"> Remember me
-            </div>
-        </div>
-        <div class="row">
-            
-            <div class="form-group m-auto">
-                @Html.ValidationSummary()
-                <input class="w-100 btn btn-lg btn-primary" type="submit" value="Login">
-            </div> 
-        </div>
-    </div>
-    
-    
-</form>
+    </form>
+</div>
