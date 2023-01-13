@@ -8,13 +8,57 @@
         <div class="col-lg-10 m-auto bg-light rounded-3 border px-5 pb-5 pt-4 shadow-lg">
             <div class="display-6 text-center">Driver Login</div>
             <div>
-                <div class="form-group form-floating col-sm-12 my-3">
-                    <input class="form-control" type="number" name="pinCode" min="1" max="9999" value="0000">
-                    <label>Pin Code</label>
-                    <span class="text-danger">@Html.ValidationMessage("PinError")</span>
+                <div class="container">
+                    <div class="form-group form-floating col-sm-12 my-3">
+                        <input class="form-control" type="text" name="pinCode" id="inputField" min="1" max="9999">
+                        <label>Pin Code</label>
+                        <span class="text-danger">@Html.ValidationMessage("PinError")</span>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(1)">1</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(2)">2</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(3)">3</button>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(4)">4</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(5)">5</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(6)">6</button>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(7)">7</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(8)">8</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(9)">9</button>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <button class="btn btn-lg btn-block" type="button" onclick="appendToInput(0)">0</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-lg btn-block" type="button" id="clear" onclick="clearInput()">Clear</button>
+                        </div>
+                    </div>
                 </div>
+
             </div>
-            <input class="w-100 btn btn-outline-primary" type="submit" value="Login">
+            <input class="w-100 btn btn-outline-main" type="submit" value="Login">
         </div>
     </form>
 
@@ -47,7 +91,7 @@
             <div class="row">
                 <span class="text-danger">@Html.ValidationMessage("LoginError")</span>
                 <div class="form-group m-auto">
-                    <input class="w-100 btn btn-lg btn-primary" type="submit" value="Login">
+                    <input class="w-100 btn btn-lg btn-Main" type="submit" value="Login">
                 </div> 
             </div>
         </div>

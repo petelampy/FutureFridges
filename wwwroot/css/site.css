@@ -16,3 +16,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.btn-Main {
+    color: #fff;
+    background-color: darkorange;
+    border-color: darkorange;
+}
+.btn-outline-main {
+    color: darkorange;
+    border-color: darkorange;
+}
