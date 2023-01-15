@@ -7,7 +7,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm">
+        <div class="@(Model.SelectedProduct.UID != Guid.Empty ? "col-sm-6" : "col-sm-12") ">
             <h2 class="display-5">Manage Stock</h2>
             <hr>
             <table class="text-center" style="width: 100%;">
@@ -48,7 +48,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-sm">
+        <div class="col-sm-6">
             @if (Model.SelectedProduct.UID != Guid.Empty)
             {
                 <h2>Selected Product Line - @Model.SelectedProduct.Name</h2>
