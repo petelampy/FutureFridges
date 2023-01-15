@@ -43,6 +43,7 @@ namespace FutureFridges.Business.UserManagement
                     _UserPermissions.AddStock = true;
                     _UserPermissions.ManageProduct = true;
                     _UserPermissions.ManageHealthAndSafetyReport = true;
+                    _UserPermissions.CreateOrder = true;
                     break;
                 case UserType.Administrator:
                     _UserPermissions.ViewStock = true;
@@ -51,6 +52,7 @@ namespace FutureFridges.Business.UserManagement
                     _UserPermissions.ManageProduct = true;
                     _UserPermissions.ManageHealthAndSafetyReport = true;
                     _UserPermissions.ManageUser = true;
+                    _UserPermissions.CreateOrder = true;
                     break;
             }
 
