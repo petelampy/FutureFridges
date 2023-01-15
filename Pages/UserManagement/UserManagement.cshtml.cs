@@ -29,7 +29,10 @@ namespace FutureFridges.Pages.UserManagement
             if (_CurrentUserPermissions.ManageUser)
             {
                 UserController _UserController = new UserController();
-                Users = _UserController.GetAll();
+                Users = _UserController
+                    .GetAll()
+                    .Where(user => user.Id != _CurrentUserID)
+                    .ToList();
 
                 return Page();
             }
