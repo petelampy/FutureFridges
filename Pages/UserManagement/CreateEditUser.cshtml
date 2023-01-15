@@ -54,6 +54,10 @@
             <div class="col-sm-10">
                 <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageUser">
             </div>
+            <label asp-for="@Model.ManagedUserPermissions.CreateOrder"></label>
+            <div class="col-sm-10">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.CreateOrder">
+            </div>
         </div>
     }
     <input type="hidden" asp-for="@Model.ManagedUser.Id" />

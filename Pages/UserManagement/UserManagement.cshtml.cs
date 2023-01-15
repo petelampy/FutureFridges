@@ -1,3 +1,4 @@
+using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace FutureFridges.Pages.UserManagement
     {
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError";
 
-        private readonly UserPermissionController __UserPermissionController;
+        private readonly IUserPermissionController __UserPermissionController;
+        private readonly IUserController __UserController;
 
         public UserManagementModel ()
         {
             __UserPermissionController = new UserPermissionController();
+            __UserController = new UserController();
         }
 
         public IActionResult OnGet ()
@@ -26,7 +29,10 @@ namespace FutureFridges.Pages.UserManagement
             if (_CurrentUserPermissions.ManageUser)
             {
                 UserController _UserController = new UserController();
-                Users = _UserController.GetAll();
+                Users = _UserController
+                    .GetAll()
+                    .Where(user => user.Id != _CurrentUserID)
+                    .ToList();
 
                 return Page();
             }
@@ -34,6 +40,14 @@ namespace FutureFridges.Pages.UserManagement
             {
                 return RedirectToPage(ACCESS_ERROR_PAGE_PATH);
             }
+        }
+
+        public async Task<IActionResult> OnGetDeleteUser (string id)
+        {
+
+            __UserController.DeleteUser(id);
+
+            return RedirectToPage("UserManagement");
         }
 
         public List<FridgeUser> Users { get; set; }
