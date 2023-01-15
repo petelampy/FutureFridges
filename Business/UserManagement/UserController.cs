@@ -52,6 +52,12 @@ namespace FutureFridges.Business.UserManagement
             __UserPermissionController.CreatePermissions(new Guid(newUser.Id), newUser.UserType);
         }
 
+        public void DeleteUser (string uid)
+        {
+            __UserRepository.DeleteUser(uid);
+            __UserPermissionController.Delete(new Guid(uid));
+        }
+
         public List<FridgeUser> GetAll ()
         {
             return __UserRepository.GetAll();

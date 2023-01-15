@@ -36,6 +36,14 @@ namespace FutureFridges.Data.UserManagement
             __DbContext.SaveChanges();
         }
 
+        public void Delete(Guid user_uid)
+        {
+            UserPermissions _Permissions = GetUserPermissions(user_uid);
+
+            __DbContext.Remove(_Permissions);
+            __DbContext.SaveChanges();
+        }
+
         public void UpdatePermissions(UserPermissions updatedUserPermissions)
         {
             UserPermissions _UserPermissions = GetUserPermissions(updatedUserPermissions.User_UID);

@@ -26,6 +26,14 @@ namespace FutureFridges.Data.UserManagement
             __DbContext.SaveChanges();
         }
 
+        public void DeleteUser (string uid)
+        {
+            FridgeUser _User = GetUser(uid);
+
+            __DbContext.Remove(_User);
+            __DbContext.SaveChanges();
+        }
+
         public List<FridgeUser> GetAll ()
         {
             return __DbContext.Users.ToList();
