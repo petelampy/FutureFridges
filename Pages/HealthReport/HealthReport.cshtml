@@ -1,0 +1,62 @@
+﻿@page
+@using FutureFridges.Business.StockManagement;
+@model FutureFridges.Pages.StockManagement.StockManagementModel
+@{
+    ViewData["Title"] = "Health Report";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h2 class="display-5">Health Report</h2>
+            <hr>
+            <table class="text-center" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Product Category
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Expiry Date
+                        </th>
+                        <th>
+                            Days Past Expiry
+                        </th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (StockItem stockItem in Model.StockItems)
+                    {
+                        //get expiry date from db
+                        
+                        //if past expiry display with time past expiry
+                        Product _Product = Model.Products.Where(product => product.UID == stockItem.Product_UID).First();
+                        int _Quantity = Model.StockItems.Where(stockItem => stockItem.Product_UID == _Product.UID).Count();
+                        @if (_Quantity > 0 && stockItem.ExpiryDate < DateTime.Now)
+                        {
+                            <tr>
+                                <td>@_Product.Name</td>
+                                <td>@_Product.Category</td>
+                                <td>@_Quantity</td>
+                                <td>@stockItem.ExpiryDate</td>
+                                <td>@Math.Floor(DateTime.Now.Subtract(stockItem.ExpiryDate).TotalDays)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
