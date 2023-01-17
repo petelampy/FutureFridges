@@ -10,8 +10,18 @@
     <hr>
     
     <form asp-page-handler="addItem" method="post">
-        <select asp-for="@Model.SelectedProduct" asp-items="@Model.ProductSelection"></select>
-        <button class="btn btn-default">Add</button>
+        <div class="row">
+            <div class="col-sm-4">
+                <select class="form-select" asp-for="@Model.SelectedProduct" asp-items="@Model.ProductSelection">Select Product</select>
+            </div>
+            <div class="col-sm-6">
+                <input type="number" class="form-control " placeholder="1" aria-label="" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group-prepend col-sm-2">
+                <button class="btn btn-outline-secondary w-100">Submit</button>
+            </div>
+        </div>
+        @*MAKE IT SO THE INPUT AMOUNT IS THE INCREASE IN THE ORDER WHEN THE BUTTON IS PLACED*@
         <input type="hidden" asp-for="@Model.Order.NumberOfItems">
         <input type="hidden" asp-for="@Model.Order.Id">
         <input type="hidden" asp-for="@Model.Order.UID">
@@ -38,7 +48,7 @@
                 </tr>
             }
         </tbody>
-        <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="createOrder">Create</a>
-        <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="cancelOrder">Cancel</a>
     </table>
+    <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="createOrder">Create</a>
+    <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="cancelOrder">Cancel</a>
 </div>

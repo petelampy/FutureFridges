@@ -4,37 +4,77 @@
 @{
 }
 
-<form method="post" enctype="multipart/form-data" novalidate>
-    <div>
-        <label asp-for="@Model.Product.Name"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="@Model.Product.Name" />
-        </div>
-    </div>
-    <div>
-        <label asp-for="@Model.Product.Category"></label>
-        <div class="col-sm-10">
-            <select asp-for="@Model.Product.Category" asp-items="Html.GetEnumSelectList<ProductCategory>()">
-                <option selected="selected" value="">Please select</option>
-            </select>
-        </div>
-    </div>
-    <div>
-        <label asp-for="@Model.Product.DaysShelfLife"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="@Model.Product.DaysShelfLife" />
-        </div>
-    </div>
-    <input type="hidden" asp-for="@Model.Product.UID" />
-    <input type="hidden" asp-for="@Model.Product.ImageName" />
-    <input type="file" asp-for="FileUpload" />
-    @if (@Model.UID != Guid.Empty)
-    {
-        <input type="submit" value="Update Product">
+
+<style>
+    input[type="file"] {
+        display: none;
     }
-    else {
-        <input type="submit" value="Create Product">
+
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: darkorange;
     }
-    @Html.ValidationSummary()
-    @*REPLACE THE SUBMIT/CREATE WITH A SAVE ICON GLYPH TO MAKE IT LOOK BETTER*@
-</form>
+
+     input[type="submit"] {
+        display: none;
+    }
+
+    .custom-file-update {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: darkorange;
+    }
+</style>
+
+
+ <div class="container-sm col-sm-8 bg-light rounded-3 border p-5 shadow-lg">
+    <form method="post" enctype="multipart/form-data" novalidate class="m-auto">
+        <div>
+            <label asp-for="@Model.Product.Name"></label>
+            <div class="col-sm-12">
+                <input class="form-control" asp-for="@Model.Product.Name" />
+            </div>
+        </div>
+        <div>
+            <label asp-for="@Model.Product.Category"></label>
+            <div class="col-sm-12">
+                <select class="form-select" asp-for="@Model.Product.Category" asp-items="Html.GetEnumSelectList<ProductCategory>()">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <label asp-for="@Model.Product.DaysShelfLife"></label>
+            <div class="col-sm-12">
+                <input class="form-control" asp-for="@Model.Product.DaysShelfLife" />
+            </div>
+        </div>
+        <div class="text-center">
+            <input type="hidden" asp-for="@Model.Product.UID" />
+            <input type="hidden" asp-for="@Model.Product.ImageName" />
+
+            <label for="file-upload" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Custom Upload
+            </label>
+            <input id="file-upload" type="file" asp-for="FileUpload"/>
+
+
+            @if (@Model.UID != Guid.Empty)
+            {
+                <label for="update-product" class="custom-file-update">
+                    <i class="fa fa-cloud-upload"></i> Update Product
+                </label>
+                <input id="update-product" type="submit" value="Update Product">
+            }
+            else {
+                <input type="submit" value="Create Product">
+            }
+            @Html.ValidationSummary()
+        </div>
+    </form>
+</div>
