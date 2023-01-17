@@ -72,7 +72,10 @@
                 <input id="update-product" type="submit" value="Update Product">
             }
             else {
-                <input type="submit" value="Create Product">
+				<label for="create-product" class="custom-file-update">
+                    <i class="fa fa-cloud-upload"></i> Create Product
+                </label>
+                <input id="create-product" type="submit" value="Create Product">
             }
             @Html.ValidationSummary()
         </div>
