@@ -40,6 +40,20 @@ namespace FutureFridges.Pages
 
         }
 
+        public async Task<IActionResult> OnGetDeleteProduct (Guid uid)
+        {
+            if(__ProductController.IsProductInUse(uid))
+            {
+                ModelState.AddModelError("", "Product in use, can't delete!");
+                return Page();
+            }
+            else
+            {
+                __ProductController.DeleteProduct(uid);
+                return RedirectToPage("ProductManagement");
+            } 
+        }
+
         public List<Product> Products { get; set; }
     }
 }
