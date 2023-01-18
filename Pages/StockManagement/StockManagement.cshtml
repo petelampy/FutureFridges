@@ -58,7 +58,12 @@
         <div class="col-sm-6">
             @if (Model.SelectedProduct.UID != Guid.Empty)
             {
-                <h2 class="display-5">@Model.SelectedProduct.Name</h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6"><h2 class="display-5">@Model.SelectedProduct.Name</h2></div>
+                        <div class="col-sm-6"><a class="btn btn-danger float-end" role="button" asp-page="StockManagement">X</a></div>
+                    </div>
+                </div>
                 <hr>
                 @*ALL THIS INLINE CSS NEEDS PUTTING IN IT'S OWN FILE*@
                 <div class="col-lg-9 m-auto rounded-3 img-thumbnail">
