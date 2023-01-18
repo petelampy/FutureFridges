@@ -1,7 +1,6 @@
 ﻿@page
 @using FutureFridges.Business.StockManagement;
 @model FutureFridges.Pages.ProductManagementModel;
-@inject IProductController __ProductController;
 @{
     ViewData["Title"] = "Product Management";
 }
@@ -42,9 +41,11 @@
                                     </svg>
                                 </span>
                             </a>
-                            @if (__ProductController.IsProductInUse(product.UID))
+                            @if (Model.IsProductInUse(product.UID))
                             {
-                                <button class="btn btn-secondary" role="button" disabled>Delete</button>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="This product is in use, and can't be deleted!">
+                                    <button class="btn btn-secondary" role="button" disabled>Delete</button>
+                                </span>
                             }
                             else {
                                 <a class="btn btn-secondary" role="button" asp-page-handler="deleteProduct" asp-page="ProductManagement" asp-route-UID="@product.UID">Delete</a>
