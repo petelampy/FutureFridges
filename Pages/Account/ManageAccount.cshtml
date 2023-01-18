@@ -1,0 +1,29 @@
+﻿@page
+@model FutureFridges.Pages.Account.ManageAccountModel
+@{
+}
+
+<form method="post" asp-page-handler="ChangePassword" novalidate class="row m-auto mt-5 col-lg-7">
+    <div class="col-lg-9 m-auto bg-light rounded-3 border p-5 shadow-lg">
+        <div class="row mb-3">
+            <div class="form-group form-floating">
+                <input class="form-control" name="currentPassword" type="password">
+                <label class="ps-4">Current Password</label>
+                <span class="text-danger">@Html.ValidationMessage("currentpassword")</span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="form-group form-floating">
+                <input class="form-control" name="newPassword" type="password">
+                <label class="ps-4">New Password</label>
+                <span class="text-danger">@Html.ValidationMessage("newpassword")</span>
+            </div>
+        </div>
+        <div class="row">
+            <span class="text-danger">@Html.ValidationMessage("LoginError")</span>
+            <div class="form-group m-auto">
+                <input class="w-100 btn btn-lg btn-primary" type="submit" value="Change Password">
+            </div>
+        </div>
+    </div>
+</form>
