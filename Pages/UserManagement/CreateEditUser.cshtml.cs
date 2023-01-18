@@ -1,5 +1,6 @@
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
@@ -14,10 +15,10 @@ namespace FutureFridges.Pages.UserManagement
         private readonly UserController __UserController;
         private readonly UserPermissionController __UserPermissionController;
 
-        public CreateEditUserModel ()
+        public CreateEditUserModel (UserManager<FridgeUser> userManager)
         {
             __UserPermissionController = new UserPermissionController();
-            __UserController = new UserController();
+            __UserController = new UserController(userManager);
         }
 
         //MAYBE ADD AN ON GET FLAG TO DETERMINE IF IT'S A CREATE/EDIT RATHER THAN RELYING ON THE UID.
