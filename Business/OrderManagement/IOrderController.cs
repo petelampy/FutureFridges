@@ -10,6 +10,7 @@
         Order GetOrder (Guid uid);
         Order GetOrderByPinCode (int pinCode);
         List<OrderItem> GetOrderItems (Guid order_uid);
+        List<OrderItem> GetOrderItemsByProduct (Guid product_UID);
         bool IsValidOrderPinCode (int pinCode);
         void UpdateOrderItem (OrderItem orderItem);
     }

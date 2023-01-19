@@ -15,7 +15,7 @@
                 <select class="form-select" asp-for="@Model.SelectedProduct" asp-items="@Model.ProductSelection">Select Product</select>
             </div>
             <div class="col-sm-6">
-                <input type="number" class="form-control " placeholder="1" aria-label="" aria-describedby="basic-addon1">
+                <input type="number" asp-for="@Model.SelectedProductQuantity" class="form-control " placeholder="1" aria-label="" aria-describedby="basic-addon1">
             </div>
             <div class="input-group-prepend col-sm-2">
                 <button class="btn btn-outline-secondary w-100">Submit</button>

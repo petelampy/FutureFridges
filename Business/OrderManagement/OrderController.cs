@@ -103,6 +103,11 @@ namespace FutureFridges.Business.OrderManagement
             return _OrderItems;
         }
 
+        public List<OrderItem> GetOrderItemsByProduct (Guid product_UID)
+        {
+            return __OrderRepository.GetOrderItemsByProduct(product_UID);
+        }
+
         public bool IsValidOrderPinCode (int pinCode)
         {
             return __OrderRepository.IsValidOrderPinCode(pinCode);

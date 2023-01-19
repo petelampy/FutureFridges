@@ -45,6 +45,7 @@ namespace FutureFridges.Pages.OrderManagement
             if (_CurrentUserPermissions.CreateOrder)
             {
                 CreateProductSelector();
+                SelectedProductQuantity = 1;
 
                 if (UID != Guid.Empty)
                 {
@@ -88,19 +89,19 @@ namespace FutureFridges.Pages.OrderManagement
         {
             Order.OrderItems = __OrderController.GetOrderItems(Order.UID);
             Guid _SelectedProduct_UID = new Guid(SelectedProduct);
-
+            
             if (Order.OrderItems.Select(orderItem => orderItem.Product_UID).Contains(_SelectedProduct_UID))
             {
                 Order.OrderItems
                     .Where(orderItem => orderItem.Product_UID == _SelectedProduct_UID)
                     .ToList()
-                    .ForEach(orderItem => orderItem.Quantity++);
+                    .ForEach(orderItem => orderItem.Quantity += SelectedProductQuantity);
             }
             else
             {
                 OrderItem _AddedItem = new OrderItem();
                 _AddedItem.Product_UID = _SelectedProduct_UID;
-                _AddedItem.Quantity = 1;
+                _AddedItem.Quantity = SelectedProductQuantity;
 
                 Order.OrderItems.Add(_AddedItem);
             }
@@ -139,6 +140,9 @@ namespace FutureFridges.Pages.OrderManagement
 
         [BindProperty(SupportsGet = true)]
         public string SelectedProduct { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int SelectedProductQuantity { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public Guid UID { get; set; }
