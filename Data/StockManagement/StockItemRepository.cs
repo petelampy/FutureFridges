@@ -57,12 +57,11 @@ namespace FutureFridges.Data.StockManagement
                 .SingleOrDefault(new StockItem());
         }
 
-        public StockItem GetStockItemByProduct (Guid product_UID)
+        public List<StockItem> GetStockItemsByProduct (Guid product_UID)
         {
             return __DbContext.StockItems
-                .ToList()
                 .Where(stockItem => stockItem.Product_UID == product_UID)
-                .SingleOrDefault(new StockItem());
+                .ToList();
         }
     }
 }

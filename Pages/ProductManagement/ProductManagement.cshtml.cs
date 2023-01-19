@@ -22,6 +22,11 @@ namespace FutureFridges.Pages
             __UserPermissionController = new UserPermissionController();
         }
 
+        public bool IsProductInUse (Guid uid)
+        {
+            return __ProductController.IsProductInUse(uid);
+        }
+
         public IActionResult OnGet ()
         {
             string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -38,6 +43,20 @@ namespace FutureFridges.Pages
                 return RedirectToPage(ACCESS_ERROR_PAGE_PATH);
             }
 
+        }
+
+        public async Task<IActionResult> OnGetDeleteProduct (Guid uid)
+        {
+            if (__ProductController.IsProductInUse(uid))
+            {
+                ModelState.AddModelError("", "Product in use, can't delete!");
+                return Page();
+            }
+            else
+            {
+                __ProductController.DeleteProduct(uid);
+                return RedirectToPage("ProductManagement");
+            }
         }
 
         public List<Product> Products { get; set; }

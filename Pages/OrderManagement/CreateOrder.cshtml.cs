@@ -1,20 +1,28 @@
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
+using FutureFridges.Business.UserManagement;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace FutureFridges.Pages.OrderManagement
 {
+    [Authorize]
     public class CreateOrderModel : PageModel
     {
+        private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError";
+
         private readonly IOrderController __OrderController;
         private readonly IProductController __ProductController;
+        private readonly IUserPermissionController __UserPermissionController;
 
         public CreateOrderModel ()
         {
             __OrderController = new OrderController();
             __ProductController = new ProductController();
+            __UserPermissionController = new UserPermissionController();
         }
 
         private void CreateProductSelector ()
@@ -29,19 +37,32 @@ namespace FutureFridges.Pages.OrderManagement
                 }).ToList();
         }
 
-        public void OnGet ()
+        public IActionResult OnGet ()
         {
-            CreateProductSelector();
+            string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            UserPermissions _CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
 
-            //ADD A PERMISSION FOR CREATE ORDER PAGE TO PREVENT ACCESS IF NOT ALLOWED
-            if (UID != Guid.Empty)
+            if (_CurrentUserPermissions.CreateOrder)
             {
-                Order = __OrderController.GetOrder(UID);
+                CreateProductSelector();
+                SelectedProductQuantity = 1;
+
+                if (UID != Guid.Empty)
+                {
+                    Order = __OrderController.GetOrder(UID);
+                }
+                else
+                {
+                    Order = new Order();
+                    Order.OrderItems = new List<OrderItem>();
+                }
+
+                return Page();
+
             }
             else
             {
-                Order = new Order();
-                Order.OrderItems = new List<OrderItem>();
+                return RedirectToPage(ACCESS_ERROR_PAGE_PATH);
             }
         }
 
@@ -68,19 +89,19 @@ namespace FutureFridges.Pages.OrderManagement
         {
             Order.OrderItems = __OrderController.GetOrderItems(Order.UID);
             Guid _SelectedProduct_UID = new Guid(SelectedProduct);
-
+            
             if (Order.OrderItems.Select(orderItem => orderItem.Product_UID).Contains(_SelectedProduct_UID))
             {
                 Order.OrderItems
                     .Where(orderItem => orderItem.Product_UID == _SelectedProduct_UID)
                     .ToList()
-                    .ForEach(orderItem => orderItem.Quantity++);
+                    .ForEach(orderItem => orderItem.Quantity += SelectedProductQuantity);
             }
             else
             {
                 OrderItem _AddedItem = new OrderItem();
                 _AddedItem.Product_UID = _SelectedProduct_UID;
-                _AddedItem.Quantity = 1;
+                _AddedItem.Quantity = SelectedProductQuantity;
 
                 Order.OrderItems.Add(_AddedItem);
             }
@@ -119,6 +140,9 @@ namespace FutureFridges.Pages.OrderManagement
 
         [BindProperty(SupportsGet = true)]
         public string SelectedProduct { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int SelectedProductQuantity { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public Guid UID { get; set; }

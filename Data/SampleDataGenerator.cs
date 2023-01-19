@@ -90,8 +90,9 @@ namespace FutureFridges.Data
                 ManageHealthAndSafetyReport = true,
                 RemoveStock = true,
                 ViewStock = true,
-                ManageProduct = false,
-                ManageUser = true
+                ManageProduct = true,
+                ManageUser = true,
+                CreateOrder = true
             };
         }
     }
