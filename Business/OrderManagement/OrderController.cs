@@ -23,7 +23,7 @@ namespace FutureFridges.Business.OrderManagement
         {
             order.UID = Guid.NewGuid();
             order.PinCode = CreatePinCode();
-            order.NumberOfItems = order.OrderItems.Select(orderItem => orderItem.Quantity).Sum();
+            order.NumberOfItems = order.OrderItems == null ? 0 : order.OrderItems.Select(orderItem => orderItem.Quantity).Sum();
 
             __OrderRepository.CreateOrder(order);
         }
@@ -86,6 +86,8 @@ namespace FutureFridges.Business.OrderManagement
             }
 
             //EMAIL EACH SUPPLIER WITH MINI ORDERS
+
+            //DELETE ORIGINAL ORDER ONCE NEW ONES ARE CREATED
         }
 
         public void DeleteOrder (Guid uid)

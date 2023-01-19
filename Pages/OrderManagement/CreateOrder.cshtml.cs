@@ -85,7 +85,7 @@ namespace FutureFridges.Pages.OrderManagement
 
         public IActionResult OnGetCreateOrder (Guid uid)
         {
-            //__OrderController.CompleteOrder(uid);
+            __OrderController.CompleteOrder(uid);
 
             return RedirectToPage("../Index");
         }
