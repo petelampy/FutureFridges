@@ -59,6 +59,28 @@ namespace FutureFridges.Business.OrderManagement
             return _AvailablePinCodes[_SelectedPinIndex];
         }
 
+        private void SendSupplierOrderEmail(List<OrderItem> supplierOrderItems, Guid supplier_UID, int pinCode)
+        {
+            Supplier _Supplier = __SupplierRepository.Get(supplier_UID);
+
+            string _SupplierEmailBody = "Hello, " + _Supplier.Name + "!\n\nYou have received the following order:\n\n";
+
+            foreach (OrderItem _Item in supplierOrderItems)
+            {
+                _SupplierEmailBody = _SupplierEmailBody + _Item.Quantity + " x " + _Item.ProductName + "\n";
+            }
+
+            _SupplierEmailBody = _SupplierEmailBody + "\nPlease use the following pin code when completing delivery: " + pinCode + "\n\nKind Regards, Future Fridges!";
+
+            __EmailManager.SendEmail(new EmailData()
+            {
+                Recipient = _Supplier.Email,
+                Subject = SUPPLIER_ORDER_EMAIL_SUBJECT,
+                Body = _SupplierEmailBody
+            });
+        }
+
+
         public void CompleteOrder (Guid uid)
         {
             Order _Order = GetOrder(uid);
@@ -69,17 +91,12 @@ namespace FutureFridges.Business.OrderManagement
 
             foreach (Guid _Supplier_UID in _Supplier_UIDs)
             {
-                Supplier _Supplier = __SupplierRepository.Get(_Supplier_UID);
-                
-                Order _SupplierOrder = new Order();
-                _SupplierOrder.Supplier_UID = _Supplier_UID;
+                Order _SupplierOrder = new Order(){ Supplier_UID = _Supplier_UID };
                 CreateOrder(_SupplierOrder);
                 
                 List<OrderItem> _SupplierOrderItems = _Order.OrderItems
                     .Where(orderItem => orderItem.Supplier_UID == _Supplier_UID)
                     .ToList();
-
-                string _SupplierEmailBody = "Hello, " + _Supplier.Name + "!\n\nYou have received the following order:\n\n";
 
                 foreach (OrderItem _Item in _SupplierOrderItems)
                 {
@@ -91,19 +108,9 @@ namespace FutureFridges.Business.OrderManagement
                         Quantity = _Item.Quantity,
                         Supplier_UID = _Item.Supplier_UID
                     });
-
-                    _SupplierEmailBody = _SupplierEmailBody + _Item.Quantity + " x " + _Item.ProductName + "\n";
                 }
 
-                _SupplierEmailBody = _SupplierEmailBody + "\nPlease use the following pin code when completing delivery: " + _SupplierOrder.PinCode +"\n\nKind Regards, Future Fridges!";
-
-                __EmailManager.SendEmail(new EmailData()
-                {
-                    Recipient = _Supplier.Email,
-                    Subject = SUPPLIER_ORDER_EMAIL_SUBJECT,
-                    Body = _SupplierEmailBody
-                });
-
+                SendSupplierOrderEmail(_SupplierOrderItems, _Supplier_UID, _SupplierOrder.PinCode);
                 __OrderRepository.UpdateItemCount(_SupplierOrder.UID);
             }
 
