@@ -1,4 +1,5 @@
-﻿using FutureFridges.Business.StockManagement;
+﻿using FutureFridges.Business.Email;
+using FutureFridges.Business.StockManagement;
 using FutureFridges.Data.OrderManagement;
 using FutureFridges.Data.StockManagement;
 
@@ -6,17 +7,23 @@ namespace FutureFridges.Business.OrderManagement
 {
     public class OrderController : IOrderController
     {
+        private const string SUPPLIER_ORDER_EMAIL_SUBJECT = "Future Fridges - You've received an order!";
+        
         private readonly IOrderRepository __OrderRepository;
         private readonly IProductRepository __ProductRepository; //REPLACE WITH CONTROLLER, FIND A WAY TO DEAL WITH THEM CALLING EACH OTHER
+        private readonly ISupplierRepository __SupplierRepository; //REPLACE WITH CONTROLLER, FIND A WAY TO DEAL WITH THEM CALLING EACH OTHER
+        private readonly IEmailManager __EmailManager;
 
         public OrderController ()
-            : this(new OrderRepository(), new ProductRepository())
-        { }
+            : this(new OrderRepository(), new ProductRepository(), new SupplierRepository(), new EmailManager())
+            { }
 
-        internal OrderController (IOrderRepository orderRepository, IProductRepository productRepository)
+        internal OrderController (IOrderRepository orderRepository, IProductRepository productRepository, ISupplierRepository supplierRepository, IEmailManager emailManager)
         {
             __OrderRepository = orderRepository;
             __ProductRepository = productRepository;
+            __SupplierRepository = supplierRepository;
+            __EmailManager = emailManager;
         }
 
         public void CreateOrder (Order order)
@@ -62,13 +69,17 @@ namespace FutureFridges.Business.OrderManagement
 
             foreach (Guid _Supplier_UID in _Supplier_UIDs)
             {
+                Supplier _Supplier = __SupplierRepository.Get(_Supplier_UID);
+                
                 Order _SupplierOrder = new Order();
                 _SupplierOrder.Supplier_UID = _Supplier_UID;
                 CreateOrder(_SupplierOrder);
-
+                
                 List<OrderItem> _SupplierOrderItems = _Order.OrderItems
                     .Where(orderItem => orderItem.Supplier_UID == _Supplier_UID)
                     .ToList();
+
+                string _SupplierEmailBody = "Hello, " + _Supplier.Name + "!\n\nYou have received the following order:\n\n";
 
                 foreach (OrderItem _Item in _SupplierOrderItems)
                 {
@@ -80,14 +91,23 @@ namespace FutureFridges.Business.OrderManagement
                         Quantity = _Item.Quantity,
                         Supplier_UID = _Item.Supplier_UID
                     });
+
+                    _SupplierEmailBody = _SupplierEmailBody + _Item.Quantity + " x " + _Item.ProductName + "\n";
                 }
+
+                _SupplierEmailBody = _SupplierEmailBody + "\nPlease use the following pin code when completing delivery: " + _SupplierOrder.PinCode +"\n\nKind Regards, Future Fridges!";
+
+                __EmailManager.SendEmail(new EmailData()
+                {
+                    Recipient = _Supplier.Email,
+                    Subject = SUPPLIER_ORDER_EMAIL_SUBJECT,
+                    Body = _SupplierEmailBody
+                });
 
                 __OrderRepository.UpdateItemCount(_SupplierOrder.UID);
             }
 
-            //EMAIL EACH SUPPLIER WITH MINI ORDERS
-
-            //DELETE ORIGINAL ORDER ONCE NEW ONES ARE CREATED
+            DeleteOrder(_Order.UID);
         }
 
         public void DeleteOrder (Guid uid)
