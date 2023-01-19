@@ -34,5 +34,17 @@ namespace FutureFridges.Business.OrderManagement
 
             return Get(_Supplier_UID);
         }
+
+        public void Create (Supplier supplier)
+        {
+            supplier.UID = Guid.NewGuid();
+            
+            __SupplierRepository.Create(supplier);
+        }
+
+        public void Update (Supplier updatedSupplier)
+        {
+            __SupplierRepository.Update(updatedSupplier);
+        }
     }
 }

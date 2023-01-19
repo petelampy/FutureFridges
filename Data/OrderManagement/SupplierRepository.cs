@@ -30,5 +30,21 @@ namespace FutureFridges.Data.OrderManagement
             return __DbContext.Suppliers
                 .ToList();
         }
+
+        public void Create (Supplier supplier)
+        {
+            __DbContext.Suppliers.Add(supplier);
+            __DbContext.SaveChanges();
+        }
+
+        public void Update (Supplier updatedSupplier)
+        {
+            Supplier _Supplier = Get(updatedSupplier.UID);
+
+            _Supplier.Name = updatedSupplier.Name;
+            _Supplier.Email = updatedSupplier.Email;
+            
+            __DbContext.SaveChanges();
+        }
     }
 }
