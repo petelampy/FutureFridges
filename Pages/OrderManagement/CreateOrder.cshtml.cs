@@ -68,8 +68,11 @@ namespace FutureFridges.Pages.OrderManagement
 
         public IActionResult OnGetCancelOrder (Guid uid)
         {
-            __OrderController.DeleteOrder(uid);
-
+            if (uid != Guid.Empty)
+            {
+                __OrderController.DeleteOrder(uid);
+            }
+            
             return RedirectToPage("../Index");
         }
 
