@@ -31,6 +31,9 @@
         <thead>
             <tr>
                 <th>
+                    Supplier
+                </th>
+                <th>
                     Item
                 </th>
                 <th>
@@ -42,6 +45,7 @@
             @foreach (OrderItem orderItem in Model.Order.OrderItems)
             {
                 <tr>
+                    <td>@Model.GetProductSupplierName(orderItem.Supplier_UID)</td>
                     <td>@orderItem.ProductName</td>
                     <td>@orderItem.Quantity</td>
                     <td><a class="btn" asp-page="CreateOrder" asp-route-item_uid="@orderItem.UID" asp-route-order_uid="@orderItem.Order_UID" asp-page-handler="removeItem">DELETE ITEM</a></td>

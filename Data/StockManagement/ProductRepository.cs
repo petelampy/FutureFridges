@@ -46,6 +46,14 @@ namespace FutureFridges.Data.StockManagement
                 .SingleOrDefault(new Product());
         }
 
+        public List<Product> GetProducts (List<Guid> uids)
+        {
+            return __DbContext.Products
+                .AsEnumerable()
+                .Where(product => uids.Contains(product.UID))
+                .ToList();
+        }
+
         public void UpdateProduct (Product updatedProduct)
         {
             //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO UPDATE?

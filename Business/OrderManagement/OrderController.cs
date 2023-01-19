@@ -1,4 +1,5 @@
-﻿using FutureFridges.Data.OrderManagement;
+﻿using FutureFridges.Business.StockManagement;
+using FutureFridges.Data.OrderManagement;
 using FutureFridges.Data.StockManagement;
 
 namespace FutureFridges.Business.OrderManagement
@@ -6,7 +7,7 @@ namespace FutureFridges.Business.OrderManagement
     public class OrderController : IOrderController
     {
         private readonly IOrderRepository __OrderRepository;
-        private readonly IProductRepository __ProductRepository;
+        private readonly IProductRepository __ProductRepository; //REPLACE WITH CONTROLLER, FIND A WAY TO DEAL WITH THEM CALLING EACH OTHER
 
         public OrderController ()
             : this(new OrderRepository(), new ProductRepository())
@@ -49,6 +50,42 @@ namespace FutureFridges.Business.OrderManagement
             int _SelectedPinIndex = _Random.Next(_AvailablePinCodes.Count());
 
             return _AvailablePinCodes[_SelectedPinIndex];
+        }
+
+        public void CompleteOrder (Guid uid)
+        {
+            Order _Order = GetOrder(uid);
+
+            List<Guid> _Supplier_UIDs = _Order.OrderItems
+                .Select(orderItem => orderItem.Supplier_UID)
+                .ToList();
+
+            foreach (Guid _Supplier_UID in _Supplier_UIDs)
+            {
+                Order _SupplierOrder = new Order();
+                _SupplierOrder.Supplier_UID = _Supplier_UID;
+                CreateOrder(_SupplierOrder);
+
+                List<OrderItem> _SupplierOrderItems = _Order.OrderItems
+                    .Where(orderItem => orderItem.Supplier_UID == _Supplier_UID)
+                    .ToList();
+
+                foreach (OrderItem _Item in _SupplierOrderItems)
+                {
+                    CreateOrderItem(new OrderItem()
+                    {
+                        Order_UID = _SupplierOrder.UID,
+                        ProductName = _Item.ProductName,
+                        Product_UID = _Item.Product_UID,
+                        Quantity = _Item.Quantity,
+                        Supplier_UID = _Item.Supplier_UID
+                    });
+                }
+
+                __OrderRepository.UpdateItemCount(_SupplierOrder.UID);
+            }
+
+            //EMAIL EACH SUPPLIER WITH MINI ORDERS
         }
 
         public void DeleteOrder (Guid uid)

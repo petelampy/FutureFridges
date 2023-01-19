@@ -16,6 +16,7 @@ namespace FutureFridges.Pages.OrderManagement
 
         private readonly IOrderController __OrderController;
         private readonly IProductController __ProductController;
+        private readonly ISupplierController __SupplierController;
         private readonly IUserPermissionController __UserPermissionController;
 
         public CreateOrderModel ()
@@ -23,6 +24,7 @@ namespace FutureFridges.Pages.OrderManagement
             __OrderController = new OrderController();
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
+            __SupplierController = new SupplierController();
         }
 
         private void CreateProductSelector ()
@@ -35,6 +37,11 @@ namespace FutureFridges.Pages.OrderManagement
                     Text = product.Name,
                     Value = product.UID.ToString()
                 }).ToList();
+        }
+
+        internal string GetProductSupplierName (Guid uid)
+        {
+            return __SupplierController.Get(uid).Name;
         }
 
         public IActionResult OnGet ()
@@ -72,12 +79,14 @@ namespace FutureFridges.Pages.OrderManagement
             {
                 __OrderController.DeleteOrder(uid);
             }
-            
+
             return RedirectToPage("../Index");
         }
 
         public IActionResult OnGetCreateOrder (Guid uid)
         {
+            //__OrderController.CompleteOrder(uid);
+
             return RedirectToPage("../Index");
         }
 
@@ -92,7 +101,7 @@ namespace FutureFridges.Pages.OrderManagement
         {
             Order.OrderItems = __OrderController.GetOrderItems(Order.UID);
             Guid _SelectedProduct_UID = new Guid(SelectedProduct);
-            
+
             if (Order.OrderItems.Select(orderItem => orderItem.Product_UID).Contains(_SelectedProduct_UID))
             {
                 Order.OrderItems
@@ -105,6 +114,7 @@ namespace FutureFridges.Pages.OrderManagement
                 OrderItem _AddedItem = new OrderItem();
                 _AddedItem.Product_UID = _SelectedProduct_UID;
                 _AddedItem.Quantity = SelectedProductQuantity;
+                _AddedItem.Supplier_UID = __ProductController.GetProduct(_SelectedProduct_UID).Supplier_UID;
 
                 Order.OrderItems.Add(_AddedItem);
             }

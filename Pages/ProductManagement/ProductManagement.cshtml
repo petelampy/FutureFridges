@@ -12,16 +12,13 @@
             <thead>
                 <tr>
                     <th>
-                        Product ID
-                    </th>
-                    <th Class="d-none d-md-block">
-                        Product GUID
+                        Name
                     </th>
                     <th>
-                        Product Name
+                        Supplier
                     </th>
                     <th>
-                        Product Category
+                        Category
                     </th>
                 </tr>
             </thead>
@@ -29,9 +26,8 @@
                 @foreach (Product product in @Model.Products)
                 {
                     <tr>
-                        <td>@product.Id</td>
-                            <td Class="d-none d-md-block">@product.UID</td>
                         <td>@product.Name</td>
+                        <td>@Model.GetSupplierName(product.Supplier_UID)</td>
                         <td>@product.Category</td>
                         <td>
                             <a class="btn btn-secondary" role="button" asp-page="CreateEditProduct" asp-route-UID="@product.UID">

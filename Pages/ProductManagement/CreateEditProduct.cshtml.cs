@@ -1,8 +1,10 @@
+using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
 namespace FutureFridges.Pages.ProductManagement
@@ -14,13 +16,15 @@ namespace FutureFridges.Pages.ProductManagement
         private const string PRODUCT_IMAGES_PATH = "wwwroot/Images/Products";
 
         private readonly IWebHostEnvironment __Environment;
-        private readonly ProductController __ProductController;
-        private readonly UserPermissionController __UserPermissionController;
+        private readonly IProductController __ProductController;
+        private readonly ISupplierController __SupplierController;
+        private readonly IUserPermissionController __UserPermissionController;
 
         public CreateEditProductModel (IWebHostEnvironment environment)
         {
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
+            __SupplierController = new SupplierController();
             __Environment = environment;
         }
 
@@ -38,6 +42,19 @@ namespace FutureFridges.Pages.ProductManagement
             Product.ImageName = _ProductFileName;
         }
 
+        private void CreateSupplierSelector ()
+        {
+            List<Supplier> _Suppliers = __SupplierController.GetAll();
+
+            SupplierSelection = _Suppliers.Select(supplier =>
+                new SelectListItem
+                {
+                    Text = supplier.Name,
+                    Value = supplier.UID.ToString(),
+                    Selected = UID != Guid.Empty && Product.Supplier_UID.Equals(UID)
+                }).ToList();
+        }
+
         public IActionResult OnGet ()
         {
             //MAYBE ADD AN ON GET FLAG TO DETERMINE IF IT'S A CREATE/EDIT RATHER THAN RELYING ON THE UID.
@@ -51,11 +68,14 @@ namespace FutureFridges.Pages.ProductManagement
                 if (UID != Guid.Empty)
                 {
                     Product = __ProductController.GetProduct(UID);
+                    
                 }
                 else
                 {
                     Product = new Product();
                 }
+
+                CreateSupplierSelector();
 
                 return Page();
             }
@@ -67,22 +87,10 @@ namespace FutureFridges.Pages.ProductManagement
 
         }
 
-        private void ValidateModel()
-        {
-            List<string?> _NamesInUse = __ProductController.GetAll().Select(product => product.Name).ToList();
-            Product _CurrentProduct = __ProductController.GetProduct(Product.UID);
-            _CurrentProduct.Name = _CurrentProduct.Name == null ? string.Empty : _CurrentProduct.Name;
-
-            if (_NamesInUse.Contains(Product.Name) && _CurrentProduct.Name != Product.Name)
-            {
-                ModelState.AddModelError("", "Product Name in use!");
-            }
-        }
-
         public IActionResult OnPost ()
         {
             ValidateModel();
-            if(ModelState.ErrorCount > 0)
+            if (ModelState.ErrorCount > 0)
             {
                 return Page();
             }
@@ -124,11 +132,25 @@ namespace FutureFridges.Pages.ProductManagement
             Product.ImageName = _NewProductFileName;
         }
 
+        private void ValidateModel ()
+        {
+            List<string?> _NamesInUse = __ProductController.GetAll().Select(product => product.Name).ToList();
+            Product _CurrentProduct = __ProductController.GetProduct(Product.UID);
+            _CurrentProduct.Name = _CurrentProduct.Name == null ? string.Empty : _CurrentProduct.Name;
+
+            if (_NamesInUse.Contains(Product.Name) && _CurrentProduct.Name != Product.Name)
+            {
+                ModelState.AddModelError("", "Product Name in use!");
+            }
+        }
+
         [BindProperty]
         public IFormFile? FileUpload { get; set; }
 
         [BindProperty]
         public Product Product { get; set; }
+
+        public List<SelectListItem> SupplierSelection { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public Guid UID { get; set; }
