@@ -4,73 +4,96 @@
 @{
 }
 
-<form method="post" novalidate>
-    <div>
-        <label asp-for="@Model.ManagedUser.UserName"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="@Model.ManagedUser.UserName">
-        </div>
-    </div>
-    <div>
-        <label asp-for="@Model.ManagedUser.Email"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="@Model.ManagedUser.Email">
-        </div>
-    </div>
-    <div>
-        <label asp-for="@Model.ManagedUser.UserType"></label>
-        <div class="col-sm-10">
-            <select asp-for="@Model.ManagedUser.UserType" asp-items="Html.GetEnumSelectList<UserType>()">
-                <option selected="selected" value="">Please select</option>
-            </select>
-        </div>
-    </div>
-    <br>
-    
-    @if (@Model.Id != null && new Guid(@Model.Id) != Guid.Empty)
-    {
+<style>
+    input[type="submit"] {
+		display: none;
+	}
+
+	.custom-edit-create {
+		border: 1px solid #ccc;
+		display: inline-block;
+		padding: 6px 12px;
+		cursor: pointer;
+		background-color: darkorange;
+	}
+</style>
+
+<div class="container-sm col-sm-8 bg-light rounded-3 border p-5 shadow-lg">
+    <form method="post" novalidate>
         <div>
-            <label asp-for="@Model.ManagedUserPermissions.ViewStock"></label>
+            <label asp-for="@Model.ManagedUser.UserName"></label>
             <div class="col-sm-10">
-                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ViewStock">
-            </div>
-            <label asp-for="@Model.ManagedUserPermissions.AddStock"></label>
-            <div class="col-sm-10">
-                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.AddStock">
-            </div>
-            <label asp-for="@Model.ManagedUserPermissions.RemoveStock"></label>
-            <div class="col-sm-10">
-                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.RemoveStock">
-            </div>
-            <label asp-for="@Model.ManagedUserPermissions.ManageProduct"></label>
-            <div class="col-sm-10">
-                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageProduct">
-            </div>
-            <label asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport"></label>
-            <div class="col-sm-10">
-                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport">
-            </div>
-            <label asp-for="@Model.ManagedUserPermissions.ManageUser"></label>
-            <div class="col-sm-10">
-                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageUser">
-            </div>
-            <label asp-for="@Model.ManagedUserPermissions.CreateOrder"></label>
-            <div class="col-sm-10">
-                <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.CreateOrder">
+                <input class="form-control" asp-for="@Model.ManagedUser.UserName">
             </div>
         </div>
-    }
-    <input type="hidden" asp-for="@Model.ManagedUser.Id" />
-    <input type="hidden" asp-for="@Model.ManagedUserPermissions.User_UID" />
+        <div>
+            <label asp-for="@Model.ManagedUser.Email"></label>
+            <div class="col-sm-10">
+                <input class="form-control" asp-for="@Model.ManagedUser.Email">
+            </div>
+        </div>
+        <div>
+            <label asp-for="@Model.ManagedUser.UserType"></label>
+            <div class="col-sm-10">
+                <select class="form-select" asp-for="@Model.ManagedUser.UserType" asp-items="Html.GetEnumSelectList<UserType>()">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+            </div>
+        </div>
+        <br>
+    
+        @if (@Model.Id != null && new Guid(@Model.Id) != Guid.Empty)
+        {
+            <div>
+                <label asp-for="@Model.ManagedUserPermissions.ViewStock"></label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ViewStock">
+                </div>
+                <label asp-for="@Model.ManagedUserPermissions.AddStock"></label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.AddStock">
+                </div>
+                <label asp-for="@Model.ManagedUserPermissions.RemoveStock"></label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.RemoveStock">
+                </div>
+                <label asp-for="@Model.ManagedUserPermissions.ManageProduct"></label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageProduct">
+                </div>
+                <label asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport"></label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport">
+                </div>
+                <label asp-for="@Model.ManagedUserPermissions.ManageUser"></label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageUser">
+                </div>
+                <label asp-for="@Model.ManagedUserPermissions.CreateOrder"></label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.CreateOrder">
+                </div>
+            </div>
+        }
+        <input type="hidden" asp-for="@Model.ManagedUser.Id" />
+        <input type="hidden" asp-for="@Model.ManagedUserPermissions.User_UID" />
 
-    @if (@Model.Id != null && new Guid(@Model.Id) != Guid.Empty)
-    {
-            <input type="submit" value="Update User">
-    }
-    else
-    {
-            <input type="submit" value="Create User">
-    }
+        @if (@Model.Id != null && new Guid(@Model.Id) != Guid.Empty)
+        {
+                 <label for="update-user" class="custom-edit-create">
+                        <i class="fa fa-cloud-upload"></i> Update User
+                 </label>
+                 <input id="update-user" type="submit" value="Update User">
+                
+        }
+        else
+        {
+                <label for="create-user" class="custom-edit-create">
+                    <i class="fa fa-cloud-upload"></i> Create User
+                 </label>
+                <input id="create-user" type="submit" value="Create User">
+        }
 
-    @*REPLACE THE SUBMIT/CREATE WITH A SAVE ICON GLYPH TO MAKE IT LOOK BETTER*@
-</form>
+        @*REPLACE THE SUBMIT/CREATE WITH A SAVE ICON GLYPH TO MAKE IT LOOK BETTER*@
+    </form>
+</div>
