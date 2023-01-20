@@ -92,6 +92,7 @@ namespace FutureFridges.Pages.ProductManagement
             ValidateModel();
             if (ModelState.ErrorCount > 0)
             {
+                CreateSupplierSelector();
                 return Page();
             }
 
