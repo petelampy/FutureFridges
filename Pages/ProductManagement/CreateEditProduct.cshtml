@@ -49,6 +49,19 @@
             </div>
         </div>
         <div>
+            <label asp-for="@Model.Product.Supplier_UID"></label>
+            <div class="col-sm-12">
+                @if(Model.UID != Guid.Empty)
+                {
+                    <select class="form-select" asp-for="@Model.Product.Supplier_UID" asp-items="@Model.SupplierSelection" disabled>Select Supplier</select>
+                }
+                else
+                {
+                    <select class="form-select" asp-for="@Model.Product.Supplier_UID" asp-items="@Model.SupplierSelection">Select Supplier</select>
+                }
+            </div>
+        </div>
+        <div>
             <label asp-for="@Model.Product.DaysShelfLife"></label>
             <div class="col-sm-12">
                 <input class="form-control" asp-for="@Model.Product.DaysShelfLife" />

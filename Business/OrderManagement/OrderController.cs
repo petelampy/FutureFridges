@@ -1,28 +1,36 @@
-﻿using FutureFridges.Data.OrderManagement;
+﻿using FutureFridges.Business.Email;
+using FutureFridges.Business.StockManagement;
+using FutureFridges.Data.OrderManagement;
 using FutureFridges.Data.StockManagement;
 
 namespace FutureFridges.Business.OrderManagement
 {
     public class OrderController : IOrderController
     {
+        private const string SUPPLIER_ORDER_EMAIL_SUBJECT = "Future Fridges - You've received an order!";
+        
         private readonly IOrderRepository __OrderRepository;
-        private readonly IProductRepository __ProductRepository;
+        private readonly IProductRepository __ProductRepository; //REPLACE WITH CONTROLLER, FIND A WAY TO DEAL WITH THEM CALLING EACH OTHER
+        private readonly ISupplierRepository __SupplierRepository; //REPLACE WITH CONTROLLER, FIND A WAY TO DEAL WITH THEM CALLING EACH OTHER
+        private readonly IEmailManager __EmailManager;
 
         public OrderController ()
-            : this(new OrderRepository(), new ProductRepository())
-        { }
+            : this(new OrderRepository(), new ProductRepository(), new SupplierRepository(), new EmailManager())
+            { }
 
-        internal OrderController (IOrderRepository orderRepository, IProductRepository productRepository)
+        internal OrderController (IOrderRepository orderRepository, IProductRepository productRepository, ISupplierRepository supplierRepository, IEmailManager emailManager)
         {
             __OrderRepository = orderRepository;
             __ProductRepository = productRepository;
+            __SupplierRepository = supplierRepository;
+            __EmailManager = emailManager;
         }
 
         public void CreateOrder (Order order)
         {
             order.UID = Guid.NewGuid();
             order.PinCode = CreatePinCode();
-            order.NumberOfItems = order.OrderItems.Select(orderItem => orderItem.Quantity).Sum();
+            order.NumberOfItems = order.OrderItems == null ? 0 : order.OrderItems.Select(orderItem => orderItem.Quantity).Sum();
 
             __OrderRepository.CreateOrder(order);
         }
@@ -49,6 +57,64 @@ namespace FutureFridges.Business.OrderManagement
             int _SelectedPinIndex = _Random.Next(_AvailablePinCodes.Count());
 
             return _AvailablePinCodes[_SelectedPinIndex];
+        }
+
+        private void SendSupplierOrderEmail(List<OrderItem> supplierOrderItems, Guid supplier_UID, int pinCode)
+        {
+            Supplier _Supplier = __SupplierRepository.Get(supplier_UID);
+
+            string _SupplierEmailBody = "Hello, " + _Supplier.Name + "!\n\nYou have received the following order:\n\n";
+
+            foreach (OrderItem _Item in supplierOrderItems)
+            {
+                _SupplierEmailBody = _SupplierEmailBody + _Item.Quantity + " x " + _Item.ProductName + "\n";
+            }
+
+            _SupplierEmailBody = _SupplierEmailBody + "\nPlease use the following pin code when completing delivery: " + pinCode + "\n\nKind Regards, Future Fridges!";
+
+            __EmailManager.SendEmail(new EmailData()
+            {
+                Recipient = _Supplier.Email,
+                Subject = SUPPLIER_ORDER_EMAIL_SUBJECT,
+                Body = _SupplierEmailBody
+            });
+        }
+
+
+        public void CompleteOrder (Guid uid)
+        {
+            Order _Order = GetOrder(uid);
+
+            List<Guid> _Supplier_UIDs = _Order.OrderItems
+                .Select(orderItem => orderItem.Supplier_UID)
+                .ToList();
+
+            foreach (Guid _Supplier_UID in _Supplier_UIDs)
+            {
+                Order _SupplierOrder = new Order(){ Supplier_UID = _Supplier_UID };
+                CreateOrder(_SupplierOrder);
+                
+                List<OrderItem> _SupplierOrderItems = _Order.OrderItems
+                    .Where(orderItem => orderItem.Supplier_UID == _Supplier_UID)
+                    .ToList();
+
+                foreach (OrderItem _Item in _SupplierOrderItems)
+                {
+                    CreateOrderItem(new OrderItem()
+                    {
+                        Order_UID = _SupplierOrder.UID,
+                        ProductName = _Item.ProductName,
+                        Product_UID = _Item.Product_UID,
+                        Quantity = _Item.Quantity,
+                        Supplier_UID = _Item.Supplier_UID
+                    });
+                }
+
+                SendSupplierOrderEmail(_SupplierOrderItems, _Supplier_UID, _SupplierOrder.PinCode);
+                __OrderRepository.UpdateItemCount(_SupplierOrder.UID);
+            }
+
+            DeleteOrder(_Order.UID);
         }
 
         public void DeleteOrder (Guid uid)

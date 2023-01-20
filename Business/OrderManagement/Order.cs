@@ -11,6 +11,7 @@ namespace FutureFridges.Business.OrderManagement
         public List<OrderItem>? OrderItems { get; set; }
 
         public int PinCode { get; set; }
+        public Guid? Supplier_UID { get; set; }
         public Guid UID { get; set; }
     }
 }

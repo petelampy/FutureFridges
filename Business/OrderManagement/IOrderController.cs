@@ -2,6 +2,7 @@
 {
     public interface IOrderController
     {
+        void CompleteOrder (Guid uid);
         void CreateOrder (Order order);
         void CreateOrderItem (OrderItem orderItem);
         void DeleteOrder (Guid uid);
