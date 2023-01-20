@@ -21,12 +21,14 @@ namespace FutureFridges.Data
             builder.Entity<StockItem>().HasData(SampleDataGenerator.GenerateStockItem());
             builder.Entity<Order>().HasData(SampleDataGenerator.GenerateOrder());
             builder.Entity<OrderItem>().HasData(SampleDataGenerator.GenerateOrderItem());
+            builder.Entity<Supplier>().HasData(SampleDataGenerator.GenerateSupplier());
         }
 
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<StockItem> StockItems { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<UserPermissions> UserPermissions { get; set; }
     }
 }

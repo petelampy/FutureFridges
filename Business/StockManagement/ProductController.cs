@@ -5,9 +5,9 @@ namespace FutureFridges.Business.StockManagement
 {
     public class ProductController : IProductController
     {
+        private readonly IOrderController __OrderController;
         private readonly IProductRepository __ProductRepository;
         private readonly IStockItemController __StockItemController;
-        private readonly IOrderController __OrderController;
 
         public ProductController ()
             : this(new ProductRepository(), new StockItemController(), new OrderController())
@@ -42,7 +42,12 @@ namespace FutureFridges.Business.StockManagement
             return __ProductRepository.GetProduct(uid);
         }
 
-        public bool IsProductInUse(Guid uid)
+        public List<Product> GetProducts (List<Guid> uids)
+        {
+            return __ProductRepository.GetProducts(uids);
+        }
+
+        public bool IsProductInUse (Guid uid)
         {
             List<StockItem> _Stock = __StockItemController.GetStockItemsByProduct(uid);
             List<OrderItem> _OrderItems = __OrderController.GetOrderItemsByProduct(uid);
