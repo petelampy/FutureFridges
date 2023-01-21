@@ -7,44 +7,65 @@
     <link rel="stylesheet" href="~/css/bootstrap.custom.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FutureFridges.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Future Fridges</a>
+        <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light tex bg-primary bg-opacity-10 border-bottom box-shadow  mb-3">
+            <div class="container-fluid px-5">
+                <img class="" src="~/Images/FutureFridgesLogo.png" width="230"/>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between text-lg-center">
+                    <ul class="navbar-nav flex-grow-1 justify-content-center">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Index">
+                                <i class="bi bi-house d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                Home
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/StockManagement/StockManagement">Stock</a>
+                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/StockManagement/StockManagement">
+                                <i class="bi bi-egg-fried d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                Stock
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/ProductManagement/ProductManagement">Product Management</a>
+                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/ProductManagement/ProductManagement">
+                                <i class="bi bi-basket d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                <div>Products</div>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/UserManagement/UserManagement">User Management</a>
+                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/UserManagement/UserManagement">
+                                <i class="bi bi-person-rolodex d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                <div>Users</div>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/SupplierManagement/SupplierManagement">Supplier Management</a>
+                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/SupplierManagement/SupplierManagement">
+                                <i class="bi bi-box2 d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                <div>Suppliers</div>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/OrderManagement/CreateOrder">Create Order</a>
+                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/OrderManagement/CreateOrder">
+                                <i class="bi bi-clipboard-plus d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                <div>Orders</div>
+                            </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav flex-grow-1 ml-auto">
+                    <ul class="navbar-nav flex-grow-2 ml-auto" width=" 300">
                         <partial name="_LoginPartial" />
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
