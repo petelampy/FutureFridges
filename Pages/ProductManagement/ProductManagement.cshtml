@@ -7,8 +7,8 @@
  <div class="container-sm m-auto bg-light rounded-3 border p-5 shadow-lg">
     <h1 class="text-center display-4">Product Management</h1>
     <hr>
-    <div class="row justify-content-center">
-        <table>
+    <div class="row text-center justify-content-center">
+        <table class="mb-3">
             <thead>
                 <tr>
                     <th>
@@ -40,11 +40,11 @@
                             @if (Model.IsProductInUse(product.UID))
                             {
                                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="This product is in use, and can't be deleted!">
-                                    <button class="btn btn-secondary" role="button" disabled>Delete</button>
+                                    <button class="btn btn-danger" role="button" disabled>Delete</button>
                                 </span>
                             }
                             else {
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="@("#deleteModal"+product.UID)">Delete</button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteModal"+product.UID)">Delete</button>
                             }
                         </td>
                     </tr>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="modal-body">Delete @product.Name?</div>
                     <div class="modal-footer">
-                        <a class="btn btn-secondary" role="button" asp-page-handler="deleteProduct" asp-page="ProductManagement" asp-route-UID="@product.UID">Delete</a>
+                        <a class="btn btn-lg" role="button" asp-page-handler="deleteProduct" asp-page="ProductManagement" asp-route-UID="@product.UID">Delete</a>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
