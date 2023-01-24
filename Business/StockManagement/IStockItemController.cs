@@ -6,5 +6,6 @@
         void CreateStockItem (StockItem stockItem);
         void DeleteStockItem (Guid stockItem_UID);
         StockItem GetStockItem (Guid stockItem_UID);
+        List<StockItem> GetStockItemsByProduct (Guid product_UID);
     }
 }

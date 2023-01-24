@@ -4,6 +4,7 @@ using FutureFridges.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FutureFridges.Migrations
 {
     [DbContext(typeof(FridgeDBContext))]
-    partial class FridgeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230119105922_FridgeDB13")]
+    partial class FridgeDB13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +38,6 @@ namespace FutureFridges.Migrations
 
                     b.Property<int>("PinCode")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("Supplier_UID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UID")
                         .HasColumnType("uniqueidentifier");
@@ -73,9 +73,6 @@ namespace FutureFridges.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("Supplier_UID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UID")
                         .HasColumnType("uniqueidentifier");
 
@@ -90,8 +87,7 @@ namespace FutureFridges.Migrations
                             OrderUID = new Guid("215fde49-288d-41e8-a768-583b01f2ee9d"),
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158"),
                             Quantity = 3,
-                            SupplierUID = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UID = new Guid("a70388d9-fd1f-413c-aa83-938b0230162f")
+                            UID = new Guid("521c4461-6fbd-404a-97b4-20a937c13069")
                         });
                 });
 
@@ -104,9 +100,11 @@ namespace FutureFridges.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UID")
@@ -194,7 +192,7 @@ namespace FutureFridges.Migrations
                         new
                         {
                             Id = 1,
-                            ExpiryDate = new DateTime(2023, 1, 20, 9, 40, 1, 541, DateTimeKind.Local).AddTicks(2467),
+                            ExpiryDate = new DateTime(2023, 1, 19, 10, 59, 22, 114, DateTimeKind.Local).AddTicks(2102),
                             ItemUID = new Guid("00000000-0000-0000-0000-000000000000"),
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158")
                         });
@@ -272,15 +270,15 @@ namespace FutureFridges.Migrations
                         {
                             Id = "56fada2a-2b97-43d7-99a2-c19179a28c57",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "098222c5-c053-48ca-9f9f-3872b042c6f9",
+                            ConcurrencyStamp = "ab38440a-1e70-4f5c-80f5-fa631fdc5e5c",
                             Email = "admin@fridges.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FRIDGES.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGxG9jfoJ1bnhMFD5tyW3B/mHLgXY4LhGP2GUUIRWnwoVDzam/A42s+B/O79Lg5mPw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPKpCAoRQ21rz1f/zKjzVkO8nc3u1clYc0Z7yvb7kjyjEMcVTvJasdX3/YHkV8V/Dg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "885d4052-08bd-40c3-a5db-ee7981a16482",
+                            SecurityStamp = "14154dbc-8cfa-4a44-a69e-8204c3d156e6",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             UserType = 0

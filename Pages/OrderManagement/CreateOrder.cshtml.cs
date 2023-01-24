@@ -16,6 +16,7 @@ namespace FutureFridges.Pages.OrderManagement
 
         private readonly IOrderController __OrderController;
         private readonly IProductController __ProductController;
+        private readonly ISupplierController __SupplierController;
         private readonly IUserPermissionController __UserPermissionController;
 
         public CreateOrderModel ()
@@ -23,6 +24,7 @@ namespace FutureFridges.Pages.OrderManagement
             __OrderController = new OrderController();
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
+            __SupplierController = new SupplierController();
         }
 
         private void CreateProductSelector ()
@@ -37,6 +39,11 @@ namespace FutureFridges.Pages.OrderManagement
                 }).ToList();
         }
 
+        internal string GetProductSupplierName (Guid uid)
+        {
+            return __SupplierController.Get(uid).Name;
+        }
+
         public IActionResult OnGet ()
         {
             string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -45,6 +52,7 @@ namespace FutureFridges.Pages.OrderManagement
             if (_CurrentUserPermissions.CreateOrder)
             {
                 CreateProductSelector();
+                SelectedProductQuantity = 1;
 
                 if (UID != Guid.Empty)
                 {
@@ -67,13 +75,18 @@ namespace FutureFridges.Pages.OrderManagement
 
         public IActionResult OnGetCancelOrder (Guid uid)
         {
-            __OrderController.DeleteOrder(uid);
+            if (uid != Guid.Empty)
+            {
+                __OrderController.DeleteOrder(uid);
+            }
 
             return RedirectToPage("../Index");
         }
 
         public IActionResult OnGetCreateOrder (Guid uid)
         {
+            __OrderController.CompleteOrder(uid);
+
             return RedirectToPage("../Index");
         }
 
@@ -94,13 +107,14 @@ namespace FutureFridges.Pages.OrderManagement
                 Order.OrderItems
                     .Where(orderItem => orderItem.Product_UID == _SelectedProduct_UID)
                     .ToList()
-                    .ForEach(orderItem => orderItem.Quantity++);
+                    .ForEach(orderItem => orderItem.Quantity += SelectedProductQuantity);
             }
             else
             {
                 OrderItem _AddedItem = new OrderItem();
                 _AddedItem.Product_UID = _SelectedProduct_UID;
-                _AddedItem.Quantity = 1;
+                _AddedItem.Quantity = SelectedProductQuantity;
+                _AddedItem.Supplier_UID = __ProductController.GetProduct(_SelectedProduct_UID).Supplier_UID;
 
                 Order.OrderItems.Add(_AddedItem);
             }
@@ -139,6 +153,9 @@ namespace FutureFridges.Pages.OrderManagement
 
         [BindProperty(SupportsGet = true)]
         public string SelectedProduct { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int SelectedProductQuantity { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public Guid UID { get; set; }

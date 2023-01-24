@@ -10,5 +10,6 @@ namespace FutureFridges.Business.StockManagement
         public string? ImageName { get; set; }
         public string? Name { get; set; }
         public Guid UID { get; set; }
+        public Guid Supplier_UID { get; set; }
     }
 }

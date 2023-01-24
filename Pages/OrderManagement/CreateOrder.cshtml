@@ -3,15 +3,27 @@
 @model FutureFridges.Pages.OrderManagement.CreateOrderModel
 @{
 }
+<div class="container-sm m-auto bg-light rounded-3 border p-5 shadow-lg">
 
-<div class="col-sm">
-    <h2>Create New Order</h2>
-    <h3>Items: @Model.Order.NumberOfItems</h3>
+<div class="col-sm text-center">
+    <h2 class="display-3">Create New Order</h2>
+    <hr>
+    <h3 class="display-6 text-muted">Total Items being ordered: @Model.Order.NumberOfItems</h3>
     <hr>
     
     <form asp-page-handler="addItem" method="post">
-        <select asp-for="@Model.SelectedProduct" asp-items="@Model.ProductSelection"></select>
-        <button class="btn btn-default">Add</button>
+        <div class="row">
+            <div class="col-sm-4">
+                <select class="form-select" asp-for="@Model.SelectedProduct" asp-items="@Model.ProductSelection">Select Product</select>
+            </div>
+            <div class="col-sm-6">
+                <input type="number" asp-for="@Model.SelectedProductQuantity" class="form-control " placeholder="1" aria-label="" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group-prepend col-sm-2">
+                <button class="btn btn-outline-secondary w-100">Add</button>
+            </div>
+        </div>
+        @*MAKE IT SO THE INPUT AMOUNT IS THE INCREASE IN THE ORDER WHEN THE BUTTON IS PLACED*@
         <input type="hidden" asp-for="@Model.Order.NumberOfItems">
         <input type="hidden" asp-for="@Model.Order.Id">
         <input type="hidden" asp-for="@Model.Order.UID">
@@ -20,6 +32,9 @@
     <table class="text-center" style="width: 100%;">
         <thead>
             <tr>
+                <th>
+                    Supplier
+                </th>
                 <th>
                     Item
                 </th>
@@ -32,13 +47,18 @@
             @foreach (OrderItem orderItem in Model.Order.OrderItems)
             {
                 <tr>
+                    <td>@Model.GetProductSupplierName(orderItem.Supplier_UID)</td>
                     <td>@orderItem.ProductName</td>
                     <td>@orderItem.Quantity</td>
-                    <td><a class="btn" asp-page="CreateOrder" asp-route-item_uid="@orderItem.UID" asp-route-order_uid="@orderItem.Order_UID" asp-page-handler="removeItem">DELETE ITEM</a></td>
+                    <td><a class="btn btn-outline-danger" asp-page="CreateOrder" asp-route-item_uid="@orderItem.UID" asp-route-order_uid="@orderItem.Order_UID" asp-page-handler="removeItem">DELETE ITEM</a></td>
                 </tr>
             }
         </tbody>
-        <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="createOrder">Create</a>
-        <a class="btn" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="cancelOrder">Cancel</a>
     </table>
+    <hr>
+    <div class="text-center">
+    <a class="btn btn-lg btn-primary" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="createOrder">Create</a>
+    <a class="btn btn-lg btn-outline-danger" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="cancelOrder">Cancel</a>
+
+</div>
 </div>

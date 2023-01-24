@@ -100,6 +100,14 @@ namespace FutureFridges.Data.OrderManagement
                 .ToList();
         }
 
+        public List<OrderItem> GetOrderItemsByProduct (Guid product_UID)
+        {
+            return __DbContext
+                .OrderItems
+                .Where(orderItem => orderItem.Product_UID == product_UID)
+                .ToList();
+        }
+
         public bool IsValidOrderPinCode (int pinCode)
         {
             Order _Order = __DbContext.Orders

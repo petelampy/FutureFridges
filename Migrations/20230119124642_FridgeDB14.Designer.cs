@@ -4,6 +4,7 @@ using FutureFridges.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FutureFridges.Migrations
 {
     [DbContext(typeof(FridgeDBContext))]
-    partial class FridgeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230119124642_FridgeDB14")]
+    partial class FridgeDB14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,7 +94,7 @@ namespace FutureFridges.Migrations
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158"),
                             Quantity = 3,
                             SupplierUID = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UID = new Guid("a70388d9-fd1f-413c-aa83-938b0230162f")
+                            UID = new Guid("2089b65b-2443-4894-b5cc-c7704ae1c062")
                         });
                 });
 
@@ -104,9 +107,11 @@ namespace FutureFridges.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UID")
@@ -194,7 +199,7 @@ namespace FutureFridges.Migrations
                         new
                         {
                             Id = 1,
-                            ExpiryDate = new DateTime(2023, 1, 20, 9, 40, 1, 541, DateTimeKind.Local).AddTicks(2467),
+                            ExpiryDate = new DateTime(2023, 1, 19, 12, 46, 42, 63, DateTimeKind.Local).AddTicks(8513),
                             ItemUID = new Guid("00000000-0000-0000-0000-000000000000"),
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158")
                         });
@@ -272,15 +277,15 @@ namespace FutureFridges.Migrations
                         {
                             Id = "56fada2a-2b97-43d7-99a2-c19179a28c57",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "098222c5-c053-48ca-9f9f-3872b042c6f9",
+                            ConcurrencyStamp = "27f8ae23-222a-4195-8024-e4dc534839d2",
                             Email = "admin@fridges.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FRIDGES.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGxG9jfoJ1bnhMFD5tyW3B/mHLgXY4LhGP2GUUIRWnwoVDzam/A42s+B/O79Lg5mPw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK4QfWIK1oMBF3CBtGbbwDeuih6MgsbEUt1yiODK9nOMqF772Fv1My9791yVXCfdeA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "885d4052-08bd-40c3-a5db-ee7981a16482",
+                            SecurityStamp = "4c7274be-fe88-4376-b5e3-8d5c9a8e8d23",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             UserType = 0

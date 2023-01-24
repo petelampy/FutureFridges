@@ -1,6 +1,7 @@
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
@@ -14,11 +15,13 @@ namespace FutureFridges.Pages.UserManagement
 
         private readonly IUserPermissionController __UserPermissionController;
         private readonly IUserController __UserController;
+        private readonly UserManager<FridgeUser> __UserManager;
 
-        public UserManagementModel ()
+        public UserManagementModel (UserManager<FridgeUser> userManager)
         {
             __UserPermissionController = new UserPermissionController();
-            __UserController = new UserController();
+            __UserController = new UserController(userManager);
+            __UserManager = userManager;
         }
 
         public IActionResult OnGet ()
@@ -28,7 +31,7 @@ namespace FutureFridges.Pages.UserManagement
 
             if (_CurrentUserPermissions.ManageUser)
             {
-                UserController _UserController = new UserController();
+                UserController _UserController = new UserController(__UserManager);
                 Users = _UserController
                     .GetAll()
                     .Where(user => user.Id != _CurrentUserID)
@@ -46,6 +49,14 @@ namespace FutureFridges.Pages.UserManagement
         {
 
             __UserController.DeleteUser(id);
+
+            return RedirectToPage("UserManagement");
+        }
+
+        public async Task<IActionResult> OnGetResetPassword (string id)
+        {
+
+            await __UserController.ResetPassword(id);
 
             return RedirectToPage("UserManagement");
         }

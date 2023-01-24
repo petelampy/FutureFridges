@@ -4,10 +4,16 @@
     ViewData["Title"] = "Homepage";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-
-    <a asp-page="/Account/Login" class="btn btn-default">Login</a>
-
-    <a asp-page="/Deliveries/DriverLogin" class="btn btn-default">Delivery Driver Login</a>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 class="display-2">Welcome</h1>
+            <p class="lead">Enter the future of the fridge!</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <a asp-page="/Account/Login" class="btn btn-defult">Login</a>
+        </div>
+    </div>
 </div>

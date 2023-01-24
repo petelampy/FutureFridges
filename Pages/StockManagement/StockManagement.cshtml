@@ -5,88 +5,77 @@
     ViewData["Title"] = "Stock";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <h2 class="display-5">Manage Stock</h2>
-            <hr>
-            <table class="text-center" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th>
-                            Product Name
-                        </th>
-                        <th>
-                            Product Category
-                        </th>
-                        <th>
-                            Quantity
-                        </th>
-                       
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (Product product in Model.Products)
-                    {
-                        int _Quantity = Model.StockItems.Where(stockItem => stockItem.Product_UID == product.UID).Count();
+<div class="container m-auto bg-light rounded-3 border px-5 pb-5 pt-4 shadow-lg">
+    <h2 class="display-5">Manage Stock</h2>
 
-                        @if (_Quantity > 0)
-                        {
-                            <form id="@product.Id" asp-page-handler="selectProduct" asp-route-uid="@product.UID" method="post">
-                            <tr onclick="document.getElementById('@product.Id').submit();">
-                                <td>@product.Name</td>
-                                <td>@product.Category</td>
-                                <td>@_Quantity</td>
-                                <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-square-fill" viewBox="0 0 16 16">
-  <path d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z"/>
-</svg></td>
-                                <input type="hidden" name="productUID" value="@product.UID" />
-                            </tr>
-                            </form>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-sm">
-            @if (Model.SelectedProduct.UID != Guid.Empty)
+    <div class="display-6 row text-center p-3 text-muted" style="width: 100%;">
+        <span class="col-4">Product Name</span>
+        <span class="col-4">Product Category</span>
+        <span class="col-4">Quantity</span>
+    </div>
+
+    <div class="accordion" id="accordion">
+
+        @foreach (Product product in Model.Products)
+        {
+            int _Quantity = Model.StockItems.Where(stockItem => stockItem.Product_UID == product.UID).Count();
+
+            @if (_Quantity > 0)
             {
-                <h2>Selected Product Line - @Model.SelectedProduct.Name</h2>
-                <hr>
-                @*ALL THIS INLINE CSS NEEDS PUTTING IN IT'S OWN FILE*@
-                <img src="@($"{Model.ProductImagePath}{Model.SelectedProduct.ImageName}")" style="width:300px; height: auto; display: block; margin-left: auto; margin-right: auto;">
-                <br>
-                <table class="text-center" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>
-                                Stock Item ID
-                            </th>
-                            <th>
-                                Product
-                            </th>
-                            <th>
-                                Expiry Date
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (StockItem stockItem in Model.StockItems.Where(stockItem => stockItem.Product_UID == Model.SelectedProduct.UID))
-                        {
-                            <tr>
-                                <td>@stockItem.Id</td>
-                                <td>@Model.SelectedProduct.Name</td>
-                                <td>@stockItem.ExpiryDate</td>
-                                @if (Model.CurrentUserPermissions.RemoveStock)
-                                {
-                                    <td><a class="btn btn-danger" role="button" asp-page-handler="takeProduct" asp-route-uid="@stockItem.Item_UID">Take Item</a></td>
-                                }
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button @(Model.SelectedProduct.Name != product.Name ? "collapsed" : "")" type="button" data-bs-toggle="collapse" data-bs-target="#id-@product.UID" aria-expanded="true" aria-controls="collapseOne">
+                            <div class="row text-center w-100">
+                                <span class="col-4">@product.Name</span>
+                                <span class="col-4">@product.Category</span>
+                                <span class="col-4">@_Quantity</span>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="id-@product.UID" class="accordion-collapse collapse @(Model.SelectedProduct.Name == product.Name ? "show" : "")" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                        <div class="accordion-body">
+                            <h2 class="display-5">@product.Name</h2>
+                            <div class="col-lg-9 m-auto rounded-3 ">
+                                <img class="img-thumbnail" src="@($"{Model.ProductImagePath}{product.ImageName}")" style="width:300px; height: auto; display: block; margin-left: auto; margin-right: auto;">
+                                <table class="text-center table table-bordered" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Stock Item ID
+                                        </th>
+                                        <th>
+                                            Product
+                                        </th>
+                                        <th>
+                                            Expiry Date
+                                        </th>
+                                        <th>
+                                            Take
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (StockItem stockItem in Model.StockItems.Where(stockItem => stockItem.Product_UID == product.UID))
+                                    {
+                                        <tr>
+                                            <td>@stockItem.Id</td>
+                                            <td>@product.Name</td>
+                                            <td>@stockItem.ExpiryDate</td>
+                                            @if (Model.CurrentUserPermissions.RemoveStock)
+                                            {
+                                                <td><a class="btn btn-danger" role="button" asp-page-handler="takeProduct" asp-route-uid="@stockItem.Item_UID">Take Item</a></td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
-        </div>
+            
+        }
     </div>
 </div>
 
