@@ -13,6 +13,7 @@
         SupplierCreate = 8,
         SupplierDelete = 9,
         SupplierUpdate = 10,
-        DeliveryReceive = 11
+        DeliveryReceive = 11,
+        OrderCreate = 12
     }
 }
