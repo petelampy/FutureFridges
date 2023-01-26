@@ -1,4 +1,5 @@
-﻿using FutureFridges.Business.Enums;
+﻿using FutureFridges.Business.AuditLog;
+using FutureFridges.Business.Enums;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
@@ -70,6 +71,19 @@ namespace FutureFridges.Data
                 UID = __SampleSupplierUID,
                 Name = "Satisfactory Cheeses",
                 Email = "petelampy@gmail.com"
+            };
+        }
+
+        public static LogEntry GenerateLogEntry()
+        {
+            return new LogEntry
+            {
+                Id = 1,
+                UID = Guid.NewGuid(),
+                UserSupplierName = "SampleUser",
+                Description = "This is an example log entry",
+                EventTime = DateTime.Now,
+                LogType = LogType.ItemAdd
             };
         }
 
