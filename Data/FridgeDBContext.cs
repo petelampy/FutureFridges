@@ -1,4 +1,6 @@
-﻿using FutureFridges.Business.AuditLog;
+﻿using FutureFridges.Business.Admin;
+using FutureFridges.Business.AuditLog;
+using FutureFridges.Business.Notifications;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
@@ -24,6 +26,7 @@ namespace FutureFridges.Data
             builder.Entity<OrderItem>().HasData(SampleDataGenerator.GenerateOrderItem());
             builder.Entity<Supplier>().HasData(SampleDataGenerator.GenerateSupplier());
             builder.Entity<LogEntry>().HasData(SampleDataGenerator.GenerateLogEntry());
+            builder.Entity<Settings>().HasData(SampleDataGenerator.GenerateSettings());
         }
 
         public DbSet<LogEntry> AuditLogs { get; set; }
@@ -33,5 +36,7 @@ namespace FutureFridges.Data
         public DbSet<StockItem> StockItems { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<UserPermissions> UserPermissions { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Settings> Settings { get; set; }
     }
 }

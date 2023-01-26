@@ -67,6 +67,12 @@
                 <input class="form-control" asp-for="@Model.Product.DaysShelfLife" />
             </div>
         </div>
+        <div>
+            <label asp-for="@Model.Product.MinimumStockLevel"></label>
+            <div class="col-sm-12">
+                <input class="form-control" asp-for="@Model.Product.MinimumStockLevel" />
+            </div>
+        </div>
         <div class="text-center">
             <input type="hidden" asp-for="@Model.Product.UID" />
             <input type="hidden" asp-for="@Model.Product.ImageName" />

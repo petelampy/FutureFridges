@@ -20,6 +20,9 @@
                     <th>
                         Category
                     </th>
+                    <th>
+                        Minimum Stock Level
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +32,7 @@
                         <td>@product.Name</td>
                         <td>@Model.GetSupplierName(product.Supplier_UID)</td>
                         <td>@product.Category</td>
+                        <td>@product.MinimumStockLevel</td>
                         <td>
                             <a class="btn btn-secondary" role="button" asp-page="CreateEditProduct" asp-route-UID="@product.UID">
                                 <i class="bi bi-pencil"></i>
