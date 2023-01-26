@@ -1,3 +1,5 @@
+using FutureFridges.Business.AuditLog;
+using FutureFridges.Business.Enums;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
@@ -11,16 +13,19 @@ namespace FutureFridges.Pages.StockManagement
     public class StockManagementModel : PageModel
     {
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError";
+        private const string LOG_TAKE_FORMAT = "A {0} was removed from the fridge";
 
-        private readonly ProductController __ProductController;
-        private readonly StockItemController __StockItemController;
-        private readonly UserPermissionController __UserPermissionController;
+        private readonly IProductController __ProductController;
+        private readonly IStockItemController __StockItemController;
+        private readonly IUserPermissionController __UserPermissionController;
+        private readonly IAuditLogController __AuditLogController;
 
         public StockManagementModel ()
         {
             __StockItemController = new StockItemController();
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
+            __AuditLogController = new AuditLogController();
         }
 
         public IActionResult OnGet ()
@@ -41,6 +46,10 @@ namespace FutureFridges.Pages.StockManagement
         public async Task<IActionResult> OnGetTakeProduct (Guid uid)
         {
             StockItem _CurrentItem = __StockItemController.GetStockItem(uid);
+
+            string _CurrentProductName = __ProductController.GetProduct(_CurrentItem.Product_UID).Name;
+            __AuditLogController.Create(User.Identity.Name, string.Format(LOG_TAKE_FORMAT, _CurrentProductName), LogType.ItemTake);
+
             __StockItemController.DeleteStockItem(uid);
 
             SetStockAndProducts();
