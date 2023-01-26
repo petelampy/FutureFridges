@@ -6,14 +6,15 @@
         ItemAdd = 1,
         UserCreate = 2,
         UserDelete = 3,
-        UserPasswordReset = 4,
-        ProductCreate = 5,
-        ProductDelete = 6,
-        ProductUpdate = 7,
-        SupplierCreate = 8,
-        SupplierDelete = 9,
-        SupplierUpdate = 10,
-        DeliveryReceive = 11,
-        OrderCreate = 12
+        UserUpdate = 4,
+        UserPasswordReset = 5,
+        ProductCreate = 6,
+        ProductDelete = 7,
+        ProductUpdate = 8,
+        SupplierCreate = 9,
+        SupplierDelete = 10,
+        SupplierUpdate = 11,
+        DeliveryReceive = 12,
+        OrderCreate = 13
     }
 }
