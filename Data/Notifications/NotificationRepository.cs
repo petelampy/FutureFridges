@@ -26,5 +26,20 @@ namespace FutureFridges.Data.Notifications
         public List<Notification> GetAll () {
             return __DbContext.Notifications.ToList();
         }
+
+        public Notification Get (Guid uid)
+        {
+            return __DbContext.Notifications
+                .Where(notification => notification.UID == uid)
+                .FirstOrDefault();
+        }
+
+        public void Delete (Guid uid)
+        {
+            Notification _CurrentNotification = Get(uid);
+            
+            __DbContext.Remove(_CurrentNotification);
+            __DbContext.SaveChanges();
+        }
     }
 }

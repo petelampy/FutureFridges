@@ -1,5 +1,6 @@
 using FutureFridges.Business.AuditLog;
 using FutureFridges.Business.Enums;
+using FutureFridges.Business.Notifications;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,7 @@ namespace FutureFridges.Pages.StockManagement
         private readonly IStockItemController __StockItemController;
         private readonly IUserPermissionController __UserPermissionController;
         private readonly IAuditLogController __AuditLogController;
+        private readonly INotificationController __NotificationController;
 
         public StockManagementModel ()
         {
@@ -26,6 +28,7 @@ namespace FutureFridges.Pages.StockManagement
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
             __AuditLogController = new AuditLogController();
+            __NotificationController = new NotificationController();
         }
 
         public IActionResult OnGet ()
@@ -51,6 +54,7 @@ namespace FutureFridges.Pages.StockManagement
             __AuditLogController.Create(User.Identity.Name, string.Format(LOG_TAKE_FORMAT, _CurrentProductName), LogType.ItemTake);
 
             __StockItemController.DeleteStockItem(uid);
+            __NotificationController.CreateProductNotifications();
 
             SetStockAndProducts();
             SetUserPermissions();

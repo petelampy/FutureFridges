@@ -31,7 +31,7 @@ namespace FutureFridges.Business.Notifications
             CreateProductNotifications();
         }
 
-        private void CreateProductNotifications ()
+        public void CreateProductNotifications ()
         {
             List<Product> _Products = __ProductController.GetAll();
             List<StockItem> _StockItems = __StockItemController.GetAll();
@@ -59,6 +59,27 @@ namespace FutureFridges.Business.Notifications
                     __NotificationRepository.Create(_Notification);
                 }
             }
+        }
+
+        public int GetCountByUser (Guid userUID)
+        {
+            return __NotificationRepository
+                .GetAll()
+                .Where(notification => notification.User_UID == userUID)
+                .Count();
+        }
+
+        public List<Notification> GetByUser (Guid userUID)
+        {
+            return __NotificationRepository
+                .GetAll()
+                .Where(notification => notification.User_UID == userUID)
+                .ToList();
+        }
+
+        public void Delete (Guid uid)
+        {
+            __NotificationRepository.Delete(uid);
         }
     }
 }

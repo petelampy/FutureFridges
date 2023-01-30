@@ -63,7 +63,8 @@ namespace FutureFridges.Data
                 Name = "CHEESE",
                 ImageName = "cheese.jpeg",
                 DaysShelfLife = 5,
-                Supplier_UID = __SampleSupplierUID
+                Supplier_UID = __SampleSupplierUID,
+                MinimumStockLevel = 2
             };
         }
 
