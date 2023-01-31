@@ -1,3 +1,4 @@
+using FutureFridges.Business.Notifications;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Identity;
@@ -14,11 +15,13 @@ namespace FutureFridges.Pages.Account
         private readonly SignInManager<FridgeUser> __SignInManager;
 
         private readonly IOrderController __OrderController;
+        private readonly INotificationController __NotificationController;
 
         public LoginModel (SignInManager<FridgeUser> signInManager)
         {
             __SignInManager = signInManager;
             __OrderController = new OrderController();
+            __NotificationController = new NotificationController();
         }
 
         public void OnGetAsync ()
@@ -34,6 +37,8 @@ namespace FutureFridges.Pages.Account
 
                 if (_IdentityResult.Succeeded)
                 {
+                    __NotificationController.CreateNotifications();
+
                     if (returnUrl == null || returnUrl == "/")
                     {
                         return RedirectToPage(INDEX_PAGE_PATH);

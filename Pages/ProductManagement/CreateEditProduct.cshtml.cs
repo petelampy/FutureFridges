@@ -1,3 +1,5 @@
+using FutureFridges.Business.AuditLog;
+using FutureFridges.Business.Enums;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
@@ -13,8 +15,13 @@ namespace FutureFridges.Pages.ProductManagement
     public class CreateEditProductModel : PageModel
     {
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError"; //MOVE PAGE PATHS INTO A GLOBAL RESX FILE??
+        private const string LOG_ENTRY_FORMAT_CATEGORY_UPDATE = "{0}'s category was changed from {1} to {2}";
+        private const string LOG_ENTRY_FORMAT_CREATE = "{0} supplied by {1} was created";
+        private const string LOG_ENTRY_FORMAT_DAYS_UPDATE = "{0}'s shelf life was changed from {1} to {2}";
+        private const string LOG_ENTRY_FORMAT_RENAME = "{0} was renamed to {1}";
         private const string PRODUCT_IMAGES_PATH = "wwwroot/Images/Products";
 
+        private readonly IAuditLogController __AuditLogController;
         private readonly IWebHostEnvironment __Environment;
         private readonly IProductController __ProductController;
         private readonly ISupplierController __SupplierController;
@@ -25,7 +32,48 @@ namespace FutureFridges.Pages.ProductManagement
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
             __SupplierController = new SupplierController();
+            __AuditLogController = new AuditLogController();
             __Environment = environment;
+        }
+
+        private void CreateAuditLogs ()
+        {
+            if (UID == Guid.Empty)
+            {
+                string? _SupplierName = __SupplierController.Get(Product.Supplier_UID).Name;
+                __AuditLogController.Create(User.Identity.Name, string.Format(LOG_ENTRY_FORMAT_CREATE, Product.Name, _SupplierName), LogType.ProductCreate);
+            }
+            else
+            {
+                Product _CurrentProduct = __ProductController.GetProduct(Product.UID);
+
+                if (_CurrentProduct.DaysShelfLife != Product.DaysShelfLife)
+                {
+                    __AuditLogController.Create(
+                        User.Identity.Name,
+                        string.Format(LOG_ENTRY_FORMAT_DAYS_UPDATE, _CurrentProduct.Name, _CurrentProduct.DaysShelfLife, Product.DaysShelfLife),
+                        LogType.ProductUpdate
+                        );
+                }
+
+                if (_CurrentProduct.Category != Product.Category)
+                {
+                    __AuditLogController.Create(
+                        User.Identity.Name,
+                        string.Format(LOG_ENTRY_FORMAT_CATEGORY_UPDATE, _CurrentProduct.Name, _CurrentProduct.Category, Product.Category),
+                        LogType.ProductUpdate
+                        );
+                }
+
+                if (_CurrentProduct.Name != Product.Name)
+                {
+                    __AuditLogController.Create(
+                        User.Identity.Name,
+                        string.Format(LOG_ENTRY_FORMAT_RENAME, _CurrentProduct.Name, Product.Name),
+                        LogType.ProductUpdate
+                        );
+                }
+            }
         }
 
         private void CreateProductImageFile (IFormFile file)
@@ -68,7 +116,7 @@ namespace FutureFridges.Pages.ProductManagement
                 if (UID != Guid.Empty)
                 {
                     Product = __ProductController.GetProduct(UID);
-                    
+
                 }
                 else
                 {
@@ -95,6 +143,8 @@ namespace FutureFridges.Pages.ProductManagement
                 CreateSupplierSelector();
                 return Page();
             }
+
+            CreateAuditLogs();
 
             if (UID != Guid.Empty)
             {

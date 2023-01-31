@@ -1,3 +1,5 @@
+using FutureFridges.Business.AuditLog;
+using FutureFridges.Business.Enums;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using Microsoft.AspNetCore.Mvc;
@@ -7,15 +9,21 @@ namespace FutureFridges.Pages.Deliveries
 {
     public class ReviewDeliveryModel : PageModel
     {
+        private const string LOG_RECEIVE_FORMAT = "Delivery received containing: {0}";
+
         private readonly IOrderController __OrderController;
         private readonly IProductController __ProductController;
         private readonly IStockItemController __StockItemController;
+        private readonly IAuditLogController __AuditLogController;
+        private readonly ISupplierController __SupplierController;
 
         public ReviewDeliveryModel ()
         {
             __OrderController = new OrderController();
             __StockItemController = new StockItemController();
             __ProductController = new ProductController();
+            __AuditLogController = new AuditLogController();
+            __SupplierController = new SupplierController();
         }
 
         public void OnGet ()
@@ -44,6 +52,19 @@ namespace FutureFridges.Pages.Deliveries
                     _StockItems.Add(_StockItem);
                 }
             }
+
+            List<Product> _Products = __ProductController.GetProducts(Order.OrderItems.Select(orderItem => orderItem.Product_UID).ToList());
+            Supplier _Supplier = __SupplierController.Get(Order.Supplier_UID.Value);
+            string _ItemsString = "";
+
+            foreach (OrderItem _Item in Order.OrderItems)
+            {
+                string? _ProductName = _Products.Where(product => product.UID == _Item.Product_UID).SingleOrDefault().Name;
+
+                _ItemsString = _ItemsString + _Item.Quantity + " x " + _ProductName + ", ";
+            }   
+
+            __AuditLogController.Create(_Supplier.Name, string.Format(LOG_RECEIVE_FORMAT, _ItemsString), LogType.DeliveryReceive);
 
             __StockItemController.CreateStockItem(_StockItems);
 
