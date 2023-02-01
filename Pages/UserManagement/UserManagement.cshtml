@@ -39,7 +39,7 @@
                                     </svg>
                                 </span>
                             </a>
-                            <a class="btn btn-secondary" role="button" asp-page-handler="resetPassword" asp-page="UserManagement" asp-route-id="@user.Id">Reset Password</a>
+                            <button class="btn btn-secondary" type="button" onclick="passwordReset('@user.Id')">Reset Password</button>
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteModal"+@user.Id)">Delete</button>
                         </td>
                     </tr>
@@ -51,6 +51,19 @@
     <hr>
 
     <a class="btn btn-primary btn-lg" role="button" asp-page="CreateEditUser">Create User</a>
+</div>
+
+<div class="container-sm m-auto">
+    @*Bootstrap Toast - Confirm Reset*@
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Password Reset</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Password successfully reset.
+        </div>
+    </div>
 </div>
 
 @foreach (FridgeUser user in Model.Users) {
@@ -73,3 +86,7 @@
         </div>
     </div>
 }
+
+@section Scripts {
+    <script type="text/javascript" src="~/Pages/UserManagement/UserManagement.cshtml.js"></script>
+}               

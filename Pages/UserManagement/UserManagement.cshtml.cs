@@ -37,8 +37,7 @@ namespace FutureFridges.Pages.UserManagement
 
             if (_CurrentUserPermissions.ManageUser)
             {
-                UserController _UserController = new UserController(__UserManager);
-                Users = _UserController
+                Users = __UserController
                     .GetAll()
                     .Where(user => user.Id != _CurrentUserID)
                     .ToList();
@@ -60,15 +59,15 @@ namespace FutureFridges.Pages.UserManagement
 
             return RedirectToPage("UserManagement");
         }
-
-        public async Task<IActionResult> OnGetResetPassword (string id)
+        
+        public async Task OnGetResetPassword (string id)
         {
             string _CurrentUserName = __UserController.GetUser(id).UserName;
             __AuditLogController.Create(User.Identity.Name, string.Format(LOG_PASSWORD_RESET_FORMAT, _CurrentUserName), LogType.UserPasswordReset);
 
-            await __UserController.ResetPassword(id);
+            __UserController.ResetPassword(id);
 
-            return RedirectToPage("UserManagement");
+            //return RedirectToPage("UserManagement");
         }
 
         public List<FridgeUser> Users { get; set; }
