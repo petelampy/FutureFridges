@@ -16,6 +16,7 @@ namespace FutureFridges.Pages.ProductManagement
     {
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError"; //MOVE PAGE PATHS INTO A GLOBAL RESX FILE??
         private const string LOG_ENTRY_FORMAT_CATEGORY_UPDATE = "{0}'s category was changed from {1} to {2}";
+        private const string LOG_ENTRY_FORMAT_STOCK_LEVEL_UPDATE = "{0}'s minimum stock level was changed from {1} to {2}";
         private const string LOG_ENTRY_FORMAT_CREATE = "{0} supplied by {1} was created";
         private const string LOG_ENTRY_FORMAT_DAYS_UPDATE = "{0}'s shelf life was changed from {1} to {2}";
         private const string LOG_ENTRY_FORMAT_RENAME = "{0} was renamed to {1}";
@@ -70,6 +71,14 @@ namespace FutureFridges.Pages.ProductManagement
                     __AuditLogController.Create(
                         User.Identity.Name,
                         string.Format(LOG_ENTRY_FORMAT_RENAME, _CurrentProduct.Name, Product.Name),
+                        LogType.ProductUpdate
+                        );
+                }
+                if (_CurrentProduct.MinimumStockLevel != Product.MinimumStockLevel)
+                {
+                    __AuditLogController.Create(
+                        User.Identity.Name,
+                        string.Format(LOG_ENTRY_FORMAT_STOCK_LEVEL_UPDATE, _CurrentProduct.Name, _CurrentProduct.MinimumStockLevel, Product.MinimumStockLevel),
                         LogType.ProductUpdate
                         );
                 }
