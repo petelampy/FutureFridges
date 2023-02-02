@@ -85,7 +85,7 @@ namespace FutureFridges.Pages.OrderManagement
                 __OrderController.DeleteOrder(uid);
             }
 
-            return RedirectToPage("../Index");
+            return RedirectToPage("OrderManagement");
         }
 
         public IActionResult OnGetCreateOrder (Guid uid)
@@ -105,7 +105,7 @@ namespace FutureFridges.Pages.OrderManagement
 
             __OrderController.CompleteOrder(uid);
 
-            return RedirectToPage("../Index");
+            return RedirectToPage("OrderManagement");
         }
 
         public IActionResult OnGetRemoveItem (Guid item_uid, Guid order_uid)

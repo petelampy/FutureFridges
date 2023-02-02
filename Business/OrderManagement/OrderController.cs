@@ -106,7 +106,14 @@ namespace FutureFridges.Business.OrderManagement
 
         public List<Order> GetAll ()
         {
-            return __OrderRepository.GetAll();
+            List<Order> _Orders = __OrderRepository.GetAll();
+
+            foreach (Order _Order in _Orders)
+            {
+                _Order.OrderItems = GetItemProductNames(_Order.OrderItems);
+            }
+
+            return _Orders;
         }
 
         private List<OrderItem> GetItemProductNames (List<OrderItem> orderItems)
