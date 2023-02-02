@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using FutureFridges.Business.UserManagement;
+@using Microsoft.AspNetCore.Identity;
+
+@inject SignInManager<FridgeUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,59 +24,63 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between text-lg-center">
-                    <ul class="navbar-nav flex-grow-1 justify-content-center">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Index">
-                                <i class="bi bi-house d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                Home
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/StockManagement/StockManagement">
-                                <i class="bi bi-egg-fried d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                Stock
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/ProductManagement/ProductManagement">
-                                <i class="bi bi-basket d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                <div>Products</div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/UserManagement/UserManagement">
-                                <i class="bi bi-person-rolodex d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                <div>Users</div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/SupplierManagement/SupplierManagement">
-                                <i class="bi bi-box2 d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                <div>Suppliers</div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/OrderManagement/OrderManagement">
-                                <i class="bi bi-clipboard-plus d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                <div>Orders</div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/AuditLog/AuditLog">
-                                <i class="bi bi-journals d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                <div>Audit Log</div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Admin/Settings">
-                                <i class="bi bi-gear d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                <div>Settings</div>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav flex-grow-2 ml-auto" width=" 300">
-                        <partial name="_LoginPartial" />
-                    </ul>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <ul class="navbar-nav flex-grow-1 justify-content-center">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Index">
+                                    <i class="bi bi-house d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/StockManagement/StockManagement">
+                                    <i class="bi bi-egg-fried d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    Stock
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/ProductManagement/ProductManagement">
+                                    <i class="bi bi-basket d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <div>Products</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/UserManagement/UserManagement">
+                                    <i class="bi bi-person-rolodex d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <div>Users</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/SupplierManagement/SupplierManagement">
+                                    <i class="bi bi-box2 d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <div>Suppliers</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/OrderManagement/OrderManagement">
+                                    <i class="bi bi-clipboard-plus d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <div>Orders</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/AuditLog/AuditLog">
+                                    <i class="bi bi-journals d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <div>Audit Log</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Admin/Settings">
+                                    <i class="bi bi-gear d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <div>Settings</div>
+                                </a>
+                            </li>
+                        </ul>
+                    
+                        <ul class="navbar-nav flex-grow-2 ml-auto" width=" 300">
+                            <partial name="_LoginPartial" />
+                        </ul>
+                    }
                 </div>
             </div>
         </nav>
