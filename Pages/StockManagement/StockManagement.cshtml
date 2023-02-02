@@ -77,6 +77,14 @@
             
         }
     </div>
+
+    <hr>
+
+    @if(Model.CurrentUserPermissions.AddStock)
+    {
+        <a class="btn btn-lg btn-primary" asp-page="AddStockItem">Insert Stock Item</a>
+    }
+
 </div>
 
 

@@ -16,11 +16,11 @@ namespace FutureFridges.Pages.StockManagement
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError";
         private const string LOG_TAKE_FORMAT = "A {0} was removed from the fridge";
 
+        private readonly IAuditLogController __AuditLogController;
+        private readonly INotificationController __NotificationController;
         private readonly IProductController __ProductController;
         private readonly IStockItemController __StockItemController;
         private readonly IUserPermissionController __UserPermissionController;
-        private readonly IAuditLogController __AuditLogController;
-        private readonly INotificationController __NotificationController;
 
         public StockManagementModel ()
         {
@@ -91,7 +91,9 @@ namespace FutureFridges.Pages.StockManagement
             CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
         }
 
+        [BindProperty(SupportsGet = true)]
         public UserPermissions CurrentUserPermissions { get; set; }
+
         public string ProductImagePath { get; set; } = "../Images/Products/";
         public List<Product> Products { get; set; }
         public Product? SelectedProduct { get; set; } = new Product();
