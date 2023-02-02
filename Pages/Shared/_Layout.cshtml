@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light tex bg-primary bg-opacity-10 border-bottom box-shadow  mb-3">
+        <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light bg-primary bg-opacity-10 border-bottom box-shadow  mb-3">
             <div class="container-fluid px-5">
                 <img class="" src="~/Images/FutureFridgesLogo.png" width="230"/>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -57,7 +57,22 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/HealthReport/HealthReport">Health Report</a>
+                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/AuditLog/AuditLog">
+                                <i class="bi bi-journals d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                <div>Audit Log</div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Admin/Settings">
+                                <i class="bi bi-gear d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                <div>Settings</div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/HealthReport/HealthReport">
+                                <i class="bi bi-hospital d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                <div>Health Report</div>
+                            </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-2 ml-auto" width=" 300">
@@ -67,7 +82,6 @@
             </div>
         </nav>
     </header>
-
 
     <div class="container">
         <main role="main" class="pb-3">
