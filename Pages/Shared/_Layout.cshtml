@@ -71,24 +71,35 @@
                                 </li>
                             }
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/SupplierManagement/SupplierManagement">
-                                    <i class="bi bi-box2 d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                    <div>Suppliers</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/OrderManagement/OrderManagement">
-                                    <i class="bi bi-clipboard-plus d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                    <div>Orders</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/AuditLog/AuditLog">
-                                    <i class="bi bi-journals d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                    <div>Audit Log</div>
-                                </a>
-                            </li>
+                            @if(_CurrentUserPermissions.ManageSuppliers)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/SupplierManagement/SupplierManagement">
+                                        <i class="bi bi-box2 d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                        <div>Suppliers</div>
+                                    </a>
+                                </li>
+                            }
+
+                            @if(_CurrentUserPermissions.ManageOrders)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/OrderManagement/OrderManagement">
+                                        <i class="bi bi-clipboard-plus d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                        <div>Orders</div>
+                                    </a>
+                                </li>
+                            }
+
+                            @if(_CurrentUserPermissions.ViewAuditLog)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/AuditLog/AuditLog">
+                                        <i class="bi bi-journals d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                        <div>Audit Log</div>
+                                    </a>
+                                </li>
+                            }
 
                             @if(_CurrentUser.UserType == UserType.Administrator)
                             {

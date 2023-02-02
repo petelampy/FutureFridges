@@ -2,29 +2,33 @@ using FutureFridges.Business.AuditLog;
 using FutureFridges.Business.Enums;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
+using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
 namespace FutureFridges.Pages.SupplierManagement
 {
     public class SupplierManagementModel : PageModel
     {
         private const string LOG_ENTRY_DELETE = "{0} was deleted";
+        private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError";
 
         private readonly IProductController __ProductController;
         private readonly ISupplierController __SupplierController;
         private readonly IAuditLogController __AuditLogController;
+        private readonly IUserPermissionController __UserPermissionController;
 
         public SupplierManagementModel ()
         {
             __SupplierController = new SupplierController();
             __ProductController = new ProductController();
             __AuditLogController = new AuditLogController();
+            __UserPermissionController = new UserPermissionController();
         }
 
         internal int GetSupplierProductCount (Guid uid)
         {
-
             return __ProductController
                 .GetAll()
                 .Where(product => product.Supplier_UID == uid)
@@ -38,9 +42,18 @@ namespace FutureFridges.Pages.SupplierManagement
 
         public IActionResult OnGet ()
         {
-            Suppliers = __SupplierController.GetAll();
+            string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            UserPermissions _CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
 
-            return Page();
+            if (_CurrentUserPermissions.ManageSuppliers)
+            {
+                Suppliers = __SupplierController.GetAll();
+                return Page();
+            }
+            else
+            {
+                return RedirectToPage(ACCESS_ERROR_PAGE_PATH);
+            }
         }
 
         public async Task<IActionResult> OnGetDeleteSupplier (Guid uid)
