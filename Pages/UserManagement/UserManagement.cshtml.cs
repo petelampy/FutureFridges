@@ -1,6 +1,5 @@
 using FutureFridges.Business.AuditLog;
 using FutureFridges.Business.Enums;
-using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,10 +16,10 @@ namespace FutureFridges.Pages.UserManagement
         private const string LOG_DELETE_FORMAT = "{0} was deleted";
         private const string LOG_PASSWORD_RESET_FORMAT = "{0}'s password was reset";
 
-        private readonly IUserPermissionController __UserPermissionController;
-        private readonly IUserController __UserController;
         private readonly IAuditLogController __AuditLogController;
+        private readonly IUserController __UserController;
         private readonly UserManager<FridgeUser> __UserManager;
+        private readonly IUserPermissionController __UserPermissionController;
 
         public UserManagementModel (UserManager<FridgeUser> userManager)
         {
@@ -32,14 +31,14 @@ namespace FutureFridges.Pages.UserManagement
 
         public IActionResult OnGet ()
         {
-            string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            UserPermissions _CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
+            CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            UserPermissions _CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(CurrentUserID));
 
             if (_CurrentUserPermissions.ManageUser)
             {
                 Users = __UserController
                     .GetAll()
-                    .Where(user => user.Id != _CurrentUserID)
+                    .Where(user => user.Id != CurrentUserID)
                     .ToList();
 
                 return Page();
@@ -59,17 +58,22 @@ namespace FutureFridges.Pages.UserManagement
 
             return RedirectToPage("UserManagement");
         }
-        
-        public async Task OnGetResetPassword (string id)
+
+        public async Task OnGetResetPassword (string id, string currentUserID)
         {
             string _CurrentUserName = __UserController.GetUser(id).UserName;
             __AuditLogController.Create(User.Identity.Name, string.Format(LOG_PASSWORD_RESET_FORMAT, _CurrentUserName), LogType.UserPasswordReset);
 
-            __UserController.ResetPassword(id);
+            await __UserController.ResetPassword(id);
 
-            //return RedirectToPage("UserManagement");
+            Users = __UserController
+                    .GetAll()
+                    .Where(user => user.Id != currentUserID)
+                    .ToList();
         }
 
+        [BindProperty(SupportsGet = true)]
+        public string CurrentUserID { get; set; }
         public List<FridgeUser> Users { get; set; }
     }
 }

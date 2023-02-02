@@ -6,12 +6,12 @@
 }
 
 
-function passwordReset(userID) {
+function passwordReset(userID, currentUserID) {
 
     var pageurl = document.URL;
     
     $.ajax({
-        url: pageurl+ '?handler=ResetPassword&id=' + userID,
+        url: pageurl+ '?handler=ResetPassword&id=' + userID + "&currentUserID=" + currentUserID,
         async: false,
         type: "GET"
     })
