@@ -1,6 +1,6 @@
 ﻿@page
 @using FutureFridges.Business.StockManagement;
-@model FutureFridges.Pages.StockManagement.StockManagementModel
+@model FutureFridges.Pages.HealthReport.HealthReportModel
 @{
     ViewData["Title"] = "Health Report";
 }
@@ -8,27 +8,23 @@
 <div class="container">
     <div class="row">
         <div class="col-sm">
-            <h2 class="display-5">Health Report</h2>
+            <h2 class="display-5">Health Report @DateTime.Now</h2>
             <hr>
             <table class="text-center" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>
+                            Product ID
+                        </th>
+                        <th>
                             Product Name
-                        </th>
-                        <th>
-                            Product Category
-                        </th>
-                        <th>
-                            Quantity
                         </th>
                         <th>
                             Expiry Date
                         </th>
                         <th>
-                            Days Past Expiry
+                            Time Past Expiry
                         </th>
-                       
                     </tr>
                 </thead>
                 <tbody>
@@ -37,16 +33,15 @@
                         //get expiry date from db
                         
                         //if past expiry display with time past expiry
-                        Product _Product = Model.Products.Where(product => product.UID == stockItem.Product_UID).First();
-                        int _Quantity = Model.StockItems.Where(stockItem => stockItem.Product_UID == _Product.UID).Count();
-                        @if (_Quantity > 0 && stockItem.ExpiryDate < DateTime.Now)
+                        TimeSpan ExpiryDiff = DateTime.Now.Subtract(stockItem.ExpiryDate);
+                        @if (stockItem.ExpiryDate < DateTime.Now)
                         {
+                        Product _Product = Model.Products.Where(product => product.UID == stockItem.Product_UID).First();
                             <tr>
+                                <td>@stockItem.Item_UID</td>
                                 <td>@_Product.Name</td>
-                                <td>@_Product.Category</td>
-                                <td>@_Quantity</td>
                                 <td>@stockItem.ExpiryDate</td>
-                                <td>@Math.Floor(DateTime.Now.Subtract(stockItem.ExpiryDate).TotalDays)</td>
+                                <td>@ExpiryDiff.Days Day(s) @ExpiryDiff.Hours Hour(s) @ExpiryDiff.Minutes Minute(s)</td>
                             </tr>
                         }
                     }

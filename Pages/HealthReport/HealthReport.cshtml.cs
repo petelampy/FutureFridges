@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 
-namespace FutureFridges.Pages.StockManagement
+namespace FutureFridges.Pages.HealthReport
 {
     [Authorize]
     public class HealthReportModel : PageModel
@@ -54,7 +54,7 @@ namespace FutureFridges.Pages.StockManagement
             }
             else
             {
-                return RedirectToPage("StockManagement");
+                return RedirectToPage("HealthReport");
             }
         }
 
