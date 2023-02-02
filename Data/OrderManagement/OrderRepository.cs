@@ -56,7 +56,14 @@ namespace FutureFridges.Data.OrderManagement
 
         public List<Order> GetAll ()
         {
-            return __DbContext.Orders.ToList();
+            List<Order> _Orders = __DbContext.Orders.ToList();
+
+            foreach(Order _Order in _Orders)
+            {
+                _Order.OrderItems = GetOrderItems(_Order.UID);
+            }
+
+            return _Orders;
         }
 
         public Order GetOrder (Guid uid)
@@ -105,6 +112,14 @@ namespace FutureFridges.Data.OrderManagement
             return __DbContext
                 .OrderItems
                 .Where(orderItem => orderItem.Product_UID == product_UID)
+                .ToList();
+        }
+
+        public List<Order> GetOrdersBySupplier (Guid supplier_UID)
+        {
+            return __DbContext
+                .Orders
+                .Where(order => order.Supplier_UID == supplier_UID)
                 .ToList();
         }
 

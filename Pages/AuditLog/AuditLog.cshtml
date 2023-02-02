@@ -1,12 +1,30 @@
 ﻿@page
 @using FutureFridges.Business.AuditLog;
+@using FutureFridges.Business.Enums;
+@using FutureFridges.Business.Utilities;
 @model FutureFridges.Pages.Logs.AuditLogModel
 @{
+    
+    if (Model.CurrentUser.UserType == UserType.Administrator)
+    {
+        ViewData["Title"] = "Audit Log";
+    }
+    else
+    {
+        ViewData["Title"] = "Stock Audit Log";
+    }
 }
 
 
 <div class="container-sm m-auto bg-light rounded-3 border p-5 shadow-lg">
-    <h1 class="text-center display-4">Stock Audit Log</h1>
+    @if(Model.CurrentUser.UserType == UserType.Administrator)
+    {
+        <h1 class="text-center display-4">Audit Log</h1>
+    }
+    else
+    {
+        <h1 class="text-center display-4">Stock Audit Log</h1>
+    }
     <hr>
     <div class="row justify-content-center">
         <table class="mb-3">
@@ -32,7 +50,7 @@
                     <tr>
                         <td>@logEntry.EventTime</td>
                         <td>@logEntry.UserSupplierName</td>
-                        <td>@logEntry.LogType</td>
+                        <td>@logEntry.LogType.GetLabel()</td>
                         <td>@logEntry.Description</td>
                     </tr>
                 }

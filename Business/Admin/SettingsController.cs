@@ -19,5 +19,10 @@ namespace FutureFridges.Business.Admin
         {
             return __SettingsRepository.Get();
         }
+
+        public void Update (Settings updatedSettings)
+        {
+            __SettingsRepository.Update(updatedSettings);
+        }
     }
 }

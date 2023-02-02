@@ -55,6 +55,9 @@ namespace FutureFridges.Data.UserManagement
             _UserPermissions.RemoveStock = updatedUserPermissions.RemoveStock;
             _UserPermissions.ViewStock = updatedUserPermissions.ViewStock;
             _UserPermissions.CreateOrder = updatedUserPermissions.CreateOrder;
+            _UserPermissions.ManageSuppliers = updatedUserPermissions.ManageSuppliers;
+            _UserPermissions.ManageOrders = updatedUserPermissions.ManageOrders;
+            _UserPermissions.ViewAuditLog = updatedUserPermissions.ViewAuditLog;
 
             __DbContext.UserPermissions.Update(_UserPermissions);
             __DbContext.SaveChanges();

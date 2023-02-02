@@ -5,5 +5,6 @@ namespace FutureFridges.Data.Admin
     public interface ISettingsRepository
     {
         Settings Get ();
+        void Update (Settings updatedSettings);
     }
 }

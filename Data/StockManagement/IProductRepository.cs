@@ -9,6 +9,7 @@ namespace FutureFridges.Data.StockManagement
         List<Product> GetAll ();
         Product GetProduct (Guid product_UID);
         List<Product> GetProducts (List<Guid> uids);
+        List<Product> GetProductsBySupplier (Guid supplier_UID);
         void UpdateProduct (Product updatedProduct);
     }
 }

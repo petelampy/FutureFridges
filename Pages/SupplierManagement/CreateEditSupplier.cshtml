@@ -1,6 +1,14 @@
 ﻿@page
 @model FutureFridges.Pages.SupplierManagement.CreateEditSupplierModel
 @{
+    if (@Model.UID != Guid.Empty)
+    {
+        ViewData["Title"] = "Edit Supplier";
+    }
+    else
+    {
+        ViewData["Title"] = "Create Supplier";
+    }
 }
 
 <style>

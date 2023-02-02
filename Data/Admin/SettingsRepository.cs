@@ -23,5 +23,16 @@ namespace FutureFridges.Data.Admin
                 .AsEnumerable()
                 .FirstOrDefault(new Settings());
         }
+
+        public void Update (Settings updatedSettings)
+        {
+            Settings _Settings = Get();
+
+            _Settings.Administrator_UID = updatedSettings.Administrator_UID;
+
+            __DbContext.Settings.Update(_Settings);
+            __DbContext.SaveChanges();
+        }
+
     }
 }

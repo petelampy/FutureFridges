@@ -14,6 +14,7 @@ namespace FutureFridges.Data.OrderManagement
         OrderItem GetOrderItem (Guid uid);
         List<OrderItem> GetOrderItems (Guid order_UID);
         List<OrderItem> GetOrderItemsByProduct (Guid product_UID);
+        List<Order> GetOrdersBySupplier (Guid supplier_UID);
         bool IsValidOrderPinCode (int pinCode);
         void UpdateItemCount (Guid orderUID);
         void UpdateOrderItem (OrderItem orderItem);

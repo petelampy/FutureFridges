@@ -132,7 +132,10 @@ namespace FutureFridges.Data
                 ViewStock = true,
                 ManageProduct = true,
                 ManageUser = true,
-                CreateOrder = true
+                CreateOrder = true,
+                ViewAuditLog = true,
+                ManageOrders = true,
+                ManageSuppliers = true
             };
         }
     }

@@ -47,6 +47,11 @@ namespace FutureFridges.Business.StockManagement
             return __ProductRepository.GetProducts(uids);
         }
 
+        public List<Product> GetProductsBySupplier (Guid supplier_uid)
+        {
+            return __ProductRepository.GetProductsBySupplier(supplier_uid);
+        }
+
         public bool IsProductInUse (Guid uid)
         {
             List<StockItem> _Stock = __StockItemController.GetStockItemsByProduct(uid);

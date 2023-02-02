@@ -5,17 +5,31 @@ namespace FutureFridges.Business.OrderManagement
 {
     public class SupplierController : ISupplierController
     {
+        private readonly IOrderController __OrderController;
         private readonly IProductController __ProductController;
         private readonly ISupplierRepository __SupplierRepository;
 
         public SupplierController ()
-            : this(new SupplierRepository(), new ProductController())
+            : this(new SupplierRepository(), new ProductController(), new OrderController())
         { }
 
-        internal SupplierController (ISupplierRepository supplierRepository, IProductController productController)
+        internal SupplierController (ISupplierRepository supplierRepository, IProductController productController, IOrderController orderController)
         {
             __SupplierRepository = supplierRepository;
             __ProductController = productController;
+            __OrderController = orderController;
+        }
+
+        public void Create (Supplier supplier)
+        {
+            supplier.UID = Guid.NewGuid();
+
+            __SupplierRepository.Create(supplier);
+        }
+
+        public void Delete (Guid uid)
+        {
+            __SupplierRepository.Delete(uid);
         }
 
         public Supplier Get (Guid uid)
@@ -35,11 +49,12 @@ namespace FutureFridges.Business.OrderManagement
             return Get(_Supplier_UID);
         }
 
-        public void Create (Supplier supplier)
+        public bool IsSupplierInUse (Guid uid)
         {
-            supplier.UID = Guid.NewGuid();
-            
-            __SupplierRepository.Create(supplier);
+            List<Product> _Products = __ProductController.GetProductsBySupplier(uid);
+            List<Order> _Orders = __OrderController.GetOrdersBySupplier(uid);
+
+            return _Products.Count > 0 || _Orders.Count > 0;
         }
 
         public void Update (Supplier updatedSupplier)
