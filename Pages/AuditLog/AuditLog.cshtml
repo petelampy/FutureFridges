@@ -1,5 +1,6 @@
 ﻿@page
 @using FutureFridges.Business.AuditLog;
+@using FutureFridges.Business.Utilities;
 @model FutureFridges.Pages.Logs.AuditLogModel
 @{
 }
@@ -32,7 +33,7 @@
                     <tr>
                         <td>@logEntry.EventTime</td>
                         <td>@logEntry.UserSupplierName</td>
-                        <td>@logEntry.LogType</td>
+                        <td>@logEntry.LogType.GetLabel()</td>
                         <td>@logEntry.Description</td>
                     </tr>
                 }
