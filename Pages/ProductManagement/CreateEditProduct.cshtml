@@ -2,6 +2,15 @@
 @using FutureFridges.Business.Enums;
 @model FutureFridges.Pages.ProductManagement.CreateEditProductModel
 @{
+    
+    if (@Model.UID != Guid.Empty)
+    {
+        ViewData["Title"] = "Edit Product";
+    }
+    else
+    {
+        ViewData["Title"] = "Create Product";
+    }
 }
 
 

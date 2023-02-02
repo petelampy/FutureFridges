@@ -4,6 +4,15 @@
 @using FutureFridges.Business.Utilities;
 @model FutureFridges.Pages.Logs.AuditLogModel
 @{
+    
+    if (Model.CurrentUser.UserType == UserType.Administrator)
+    {
+        ViewData["Title"] = "Audit Log";
+    }
+    else
+    {
+        ViewData["Title"] = "Stock Audit Log";
+    }
 }
 
 

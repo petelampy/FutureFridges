@@ -2,6 +2,14 @@
 @using FutureFridges.Business.Enums;
 @model FutureFridges.Pages.UserManagement.CreateEditUserModel
 @{
+    if (@Model.Id != null && new Guid(@Model.Id) != Guid.Empty)
+    {
+        ViewData["Title"] = "Update User";
+    }
+    else
+    {
+        ViewData["Title"] = "Create User";
+    } 
 }
 
 <style>
