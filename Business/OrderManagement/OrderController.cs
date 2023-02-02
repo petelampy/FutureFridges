@@ -31,6 +31,7 @@ namespace FutureFridges.Business.OrderManagement
 
             List<Guid> _Supplier_UIDs = _Order.OrderItems
                 .Select(orderItem => orderItem.Supplier_UID)
+                .Distinct()
                 .ToList();
 
             foreach (Guid _Supplier_UID in _Supplier_UIDs)
