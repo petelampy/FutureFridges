@@ -17,6 +17,8 @@ _Builder.Services
     .AddDefaultTokenProviders();
 
 _Builder.Services.AddTransient<NotificationController>();
+_Builder.Services.AddTransient<UserPermissionController>();
+_Builder.Services.AddTransient<UserController>();
 
 var _App = _Builder.Build();
 

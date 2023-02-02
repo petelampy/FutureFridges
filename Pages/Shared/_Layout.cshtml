@@ -1,7 +1,11 @@
-﻿@using FutureFridges.Business.UserManagement;
+﻿@using FutureFridges.Business.Enums;
+@using FutureFridges.Business.UserManagement;
 @using Microsoft.AspNetCore.Identity;
+@using System.Security.Claims;
 
 @inject SignInManager<FridgeUser> SignInManager
+@inject UserPermissionController UserPermissionController
+@inject UserController UserController
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +30,10 @@
                 <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between text-lg-center">
                     @if (SignInManager.IsSignedIn(User))
                     {
+                        string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        UserPermissions _CurrentUserPermissions = UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
+                        FridgeUser _CurrentUser = UserController.GetUser(_CurrentUserID);
+
                         <ul class="navbar-nav flex-grow-1 justify-content-center">
                             <li class="nav-item">
                                 <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Index">
@@ -33,24 +41,36 @@
                                     Home
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/StockManagement/StockManagement">
-                                    <i class="bi bi-egg-fried d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                    Stock
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/ProductManagement/ProductManagement">
-                                    <i class="bi bi-basket d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                    <div>Products</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/UserManagement/UserManagement">
-                                    <i class="bi bi-person-rolodex d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                    <div>Users</div>
-                                </a>
-                            </li>
+                            @if(_CurrentUserPermissions.ViewStock)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/StockManagement/StockManagement">
+                                        <i class="bi bi-egg-fried d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                        Stock
+                                    </a>
+                                </li> 
+                            }
+                            
+                            @if(_CurrentUserPermissions.ManageProduct)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/ProductManagement/ProductManagement">
+                                        <i class="bi bi-basket d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                        <div>Products</div>
+                                    </a>
+                                </li>  
+                            }
+                            
+                            @if(_CurrentUserPermissions.ManageUser)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/UserManagement/UserManagement">
+                                        <i class="bi bi-person-rolodex d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                        <div>Users</div>
+                                    </a>
+                                </li>
+                            }
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/SupplierManagement/SupplierManagement">
                                     <i class="bi bi-box2 d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
@@ -69,12 +89,16 @@
                                     <div>Audit Log</div>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Admin/Settings">
-                                    <i class="bi bi-gear d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                    <div>Settings</div>
-                                </a>
-                            </li>
+
+                            @if(_CurrentUser.UserType == UserType.Administrator)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Admin/Settings">
+                                        <i class="bi bi-gear d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                        <div>Settings</div>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     
                         <ul class="navbar-nav flex-grow-2 ml-auto" width=" 300">
