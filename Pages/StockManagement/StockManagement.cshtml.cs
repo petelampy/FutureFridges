@@ -54,7 +54,7 @@ namespace FutureFridges.Pages.StockManagement
             __AuditLogController.Create(User.Identity.Name, string.Format(LOG_TAKE_FORMAT, _CurrentProductName), LogType.ItemTake);
 
             __StockItemController.DeleteStockItem(uid);
-            __NotificationController.CreateProductNotifications();
+            __NotificationController.CreateProductNotification(_CurrentItem.Product_UID);
 
             SetStockAndProducts();
             SetUserPermissions();

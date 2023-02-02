@@ -58,7 +58,7 @@
             </div>
         </div>
         <div>
-            <label asp-for="@Model.Product.Supplier_UID"></label>
+            <label asp-for="@Model.Product.Supplier_UID">Supplier</label>
             <div class="col-sm-12">
                 @if(Model.UID != Guid.Empty)
                 {
@@ -71,13 +71,13 @@
             </div>
         </div>
         <div>
-            <label asp-for="@Model.Product.DaysShelfLife"></label>
+            <label asp-for="@Model.Product.DaysShelfLife">Shelf Life (Days)</label>
             <div class="col-sm-12">
                 <input class="form-control" asp-for="@Model.Product.DaysShelfLife" />
             </div>
         </div>
         <div>
-            <label asp-for="@Model.Product.MinimumStockLevel"></label>
+            <label asp-for="@Model.Product.MinimumStockLevel">Minimum Stock Level</label>
             <div class="col-sm-12">
                 <input class="form-control" asp-for="@Model.Product.MinimumStockLevel" />
             </div>

@@ -34,7 +34,6 @@
                     </h2>
                     <div id="id-@product.UID" class="accordion-collapse collapse @(Model.SelectedProduct.Name == product.Name ? "show" : "")" aria-labelledby="headingOne" data-bs-parent="#accordion">
                         <div class="accordion-body">
-                            <h2 class="display-5">@product.Name</h2>
                             <div class="col-lg-9 m-auto rounded-3 ">
                                 <img class="img-thumbnail" src="@($"{Model.ProductImagePath}{product.ImageName}")" style="width:300px; height: auto; display: block; margin-left: auto; margin-right: auto;">
                                 <table class="text-center table table-bordered" style="width: 100%;">
@@ -42,9 +41,6 @@
                                     <tr>
                                         <th>
                                             Stock Item ID
-                                        </th>
-                                        <th>
-                                            Product
                                         </th>
                                         <th>
                                             Expiry Date
@@ -59,8 +55,7 @@
                                     {
                                         <tr>
                                             <td>@stockItem.Id</td>
-                                            <td>@product.Name</td>
-                                            <td>@stockItem.ExpiryDate</td>
+                                            <td>@stockItem.ExpiryDate.ToShortDateString()</td>
                                             @if (Model.CurrentUserPermissions.RemoveStock)
                                             {
                                                 <td><a class="btn btn-danger" role="button" asp-page-handler="takeProduct" asp-route-uid="@stockItem.Item_UID">Take Item</a></td>

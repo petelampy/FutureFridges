@@ -31,6 +31,33 @@ namespace FutureFridges.Business.Notifications
             CreateProductNotifications();
         }
 
+        public void CreateProductNotification (Guid product_UID)
+        {
+            Product _Product = __ProductController.GetProduct(product_UID);
+            List<StockItem> _StockItems = __StockItemController.GetAll();
+
+            bool _NotificationExists = __NotificationRepository
+                    .GetAll()
+                    .Where(notification => notification.Product_UID == _Product.UID)
+                    .Count() > 0;
+
+            int _QuantityInStock = _StockItems.Where(stockItem => stockItem.Product_UID == _Product.UID).Count();
+
+            if (_QuantityInStock <= _Product.MinimumStockLevel && !_NotificationExists)
+            {
+                Notification _Notification = new Notification()
+                {
+                    UID = Guid.NewGuid(),
+                    DateCreated = DateTime.Now,
+                    Message = string.Format(LOW_STOCK_FORMAT, _Product.Name),
+                    User_UID = __SettingsController.Get().Administrator_UID,
+                    Product_UID = _Product.UID
+                };
+
+                __NotificationRepository.Create(_Notification);
+            }
+        }
+
         public void CreateProductNotifications ()
         {
             List<Product> _Products = __ProductController.GetAll();
