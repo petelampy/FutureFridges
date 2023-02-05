@@ -1,4 +1,6 @@
-﻿using FutureFridges.Business.Enums;
+﻿using FutureFridges.Business.Admin;
+using FutureFridges.Business.AuditLog;
+using FutureFridges.Business.Enums;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
@@ -13,6 +15,20 @@ namespace FutureFridges.Data
         private static readonly Guid __SampleProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158");
         private static readonly Guid __SampleSupplierUID = new Guid("a27ccab3-cdf9-4888-a2fa-d16a3462ad9a");
         private static readonly Guid __SampleUserUID = new Guid("56fada2a-2b97-43d7-99a2-c19179a28c57");
+
+
+        public static LogEntry GenerateLogEntry ()
+        {
+            return new LogEntry
+            {
+                Id = 1,
+                UID = Guid.NewGuid(),
+                UserSupplierName = "SampleUser",
+                Description = "This is an example log entry",
+                EventTime = DateTime.Now,
+                LogType = LogType.ItemAdd
+            };
+        }
 
         public static Order GenerateOrder ()
         {
@@ -47,7 +63,18 @@ namespace FutureFridges.Data
                 Name = "CHEESE",
                 ImageName = "cheese.jpeg",
                 DaysShelfLife = 5,
-                Supplier_UID = __SampleSupplierUID
+                Supplier_UID = __SampleSupplierUID,
+                MinimumStockLevel = 2
+            };
+        }
+
+        public static Settings GenerateSettings ()
+        {
+            return new Settings()
+            {
+                Id = 1,
+                UID = Guid.NewGuid(),
+                Administrator_UID = __SampleUserUID
             };
         }
 

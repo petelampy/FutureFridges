@@ -4,6 +4,7 @@ using FutureFridges.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FutureFridges.Migrations
 {
     [DbContext(typeof(FridgeDBContext))]
-    partial class FridgeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230126144612_FridgeDB16")]
+    partial class FridgeDB16
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,33 +24,6 @@ namespace FutureFridges.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FutureFridges.Business.Admin.Settings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid>("Administrator_UID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Settings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AdministratorUID = new Guid("56fada2a-2b97-43d7-99a2-c19179a28c57"),
-                            UID = new Guid("741ccde1-56fd-4be1-beb8-e107c0418cf1")
-                        });
-                });
 
             modelBuilder.Entity("FutureFridges.Business.AuditLog.LogEntry", b =>
                 {
@@ -82,40 +58,11 @@ namespace FutureFridges.Migrations
                         {
                             Id = 1,
                             Description = "This is an example log entry",
-                            EventTime = new DateTime(2023, 1, 26, 20, 36, 53, 628, DateTimeKind.Local).AddTicks(856),
+                            EventTime = new DateTime(2023, 1, 26, 14, 46, 12, 41, DateTimeKind.Local).AddTicks(980),
                             LogType = 1,
-                            UID = new Guid("4a5f2ec0-2a0b-4901-a339-d4312cfb7ecf"),
+                            UID = new Guid("3b1a53a3-825f-4a03-b638-52b352580ea9"),
                             UserSupplierName = "SampleUser"
                         });
-                });
-
-            modelBuilder.Entity("FutureFridges.Business.Notifications.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("Product_UID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("User_UID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("FutureFridges.Business.OrderManagement.Order", b =>
@@ -187,7 +134,7 @@ namespace FutureFridges.Migrations
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158"),
                             Quantity = 3,
                             SupplierUID = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UID = new Guid("4ca4d4bd-c108-472a-8109-d6a46777eab1")
+                            UID = new Guid("63827b62-84ca-466d-982d-294170fcec13")
                         });
                 });
 
@@ -239,9 +186,6 @@ namespace FutureFridges.Migrations
                     b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MinimumStockLevel")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -262,7 +206,6 @@ namespace FutureFridges.Migrations
                             Category = 2,
                             DaysShelfLife = 5,
                             ImageName = "cheese.jpeg",
-                            MinimumStockLevel = 0,
                             Name = "CHEESE",
                             SupplierUID = new Guid("a27ccab3-cdf9-4888-a2fa-d16a3462ad9a"),
                             UID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158")
@@ -294,7 +237,7 @@ namespace FutureFridges.Migrations
                         new
                         {
                             Id = 1,
-                            ExpiryDate = new DateTime(2023, 1, 26, 20, 36, 53, 628, DateTimeKind.Local).AddTicks(719),
+                            ExpiryDate = new DateTime(2023, 1, 26, 14, 46, 12, 41, DateTimeKind.Local).AddTicks(693),
                             ItemUID = new Guid("00000000-0000-0000-0000-000000000000"),
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158")
                         });
@@ -372,15 +315,15 @@ namespace FutureFridges.Migrations
                         {
                             Id = "56fada2a-2b97-43d7-99a2-c19179a28c57",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "29a37d25-f01b-465a-9eb3-63948bd6ba49",
+                            ConcurrencyStamp = "6b0a0c03-59d0-4208-b20d-a23589b2bd8f",
                             Email = "admin@fridges.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FRIDGES.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAECD9IcPemvdDFlfGb1NrK2Yo3X6x/U9R6coM5fiDRAiDbGvCQV3AhhN++nbq1Zqjgw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIQZSnhee3GBym2N2NpK4jid1mHlA+ti38OKJPBGamP2tmkl5EBG83a1D+CdDktBGQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "723d0802-8a53-4d1d-aea4-3acc33f6a75f",
+                            SecurityStamp = "68c95820-399c-45f7-81bd-25c382bcb464",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             UserType = 0

@@ -4,6 +4,7 @@ using FutureFridges.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FutureFridges.Migrations
 {
     [DbContext(typeof(FridgeDBContext))]
-    partial class FridgeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230126201543_FridgeDB17")]
+    partial class FridgeDB17
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace FutureFridges.Migrations
                         {
                             Id = 1,
                             AdministratorUID = new Guid("56fada2a-2b97-43d7-99a2-c19179a28c57"),
-                            UID = new Guid("741ccde1-56fd-4be1-beb8-e107c0418cf1")
+                            UID = new Guid("00000000-0000-0000-0000-000000000000")
                         });
                 });
 
@@ -82,9 +85,9 @@ namespace FutureFridges.Migrations
                         {
                             Id = 1,
                             Description = "This is an example log entry",
-                            EventTime = new DateTime(2023, 1, 26, 20, 36, 53, 628, DateTimeKind.Local).AddTicks(856),
+                            EventTime = new DateTime(2023, 1, 26, 20, 15, 42, 909, DateTimeKind.Local).AddTicks(831),
                             LogType = 1,
-                            UID = new Guid("4a5f2ec0-2a0b-4901-a339-d4312cfb7ecf"),
+                            UID = new Guid("f1294480-7b47-4486-aaf2-4ee38497dfe1"),
                             UserSupplierName = "SampleUser"
                         });
                 });
@@ -103,9 +106,6 @@ namespace FutureFridges.Migrations
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("Product_UID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UID")
                         .HasColumnType("uniqueidentifier");
@@ -187,7 +187,7 @@ namespace FutureFridges.Migrations
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158"),
                             Quantity = 3,
                             SupplierUID = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UID = new Guid("4ca4d4bd-c108-472a-8109-d6a46777eab1")
+                            UID = new Guid("c54ba986-f4d6-456c-8c0e-f58e03059b10")
                         });
                 });
 
@@ -294,7 +294,7 @@ namespace FutureFridges.Migrations
                         new
                         {
                             Id = 1,
-                            ExpiryDate = new DateTime(2023, 1, 26, 20, 36, 53, 628, DateTimeKind.Local).AddTicks(719),
+                            ExpiryDate = new DateTime(2023, 1, 26, 20, 15, 42, 909, DateTimeKind.Local).AddTicks(655),
                             ItemUID = new Guid("00000000-0000-0000-0000-000000000000"),
                             ProductUID = new Guid("c0c1847b-1007-4e1e-820e-86976226c158")
                         });
@@ -372,15 +372,15 @@ namespace FutureFridges.Migrations
                         {
                             Id = "56fada2a-2b97-43d7-99a2-c19179a28c57",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "29a37d25-f01b-465a-9eb3-63948bd6ba49",
+                            ConcurrencyStamp = "8aad5cdd-dcd0-4829-b8c3-d465302700a2",
                             Email = "admin@fridges.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FRIDGES.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAECD9IcPemvdDFlfGb1NrK2Yo3X6x/U9R6coM5fiDRAiDbGvCQV3AhhN++nbq1Zqjgw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP2Epf9n8sQ41VG5hXozEyuX0eGtPNP8ova+FhdecJd1k/k2/uFQjScEX43Lw6Zh6w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "723d0802-8a53-4d1d-aea4-3acc33f6a75f",
+                            SecurityStamp = "51bb1705-abb2-405a-931b-e73a4d498521",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             UserType = 0

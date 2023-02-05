@@ -1,3 +1,5 @@
+using FutureFridges.Business.AuditLog;
+using FutureFridges.Business.Enums;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
@@ -12,15 +14,19 @@ namespace FutureFridges.Pages.UserManagement
     public class UserManagementModel : PageModel
     {
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError";
+        private const string LOG_DELETE_FORMAT = "{0} was deleted";
+        private const string LOG_PASSWORD_RESET_FORMAT = "{0}'s password was reset";
 
         private readonly IUserPermissionController __UserPermissionController;
         private readonly IUserController __UserController;
+        private readonly IAuditLogController __AuditLogController;
         private readonly UserManager<FridgeUser> __UserManager;
 
         public UserManagementModel (UserManager<FridgeUser> userManager)
         {
             __UserPermissionController = new UserPermissionController();
             __UserController = new UserController(userManager);
+            __AuditLogController = new AuditLogController();
             __UserManager = userManager;
         }
 
@@ -47,6 +53,8 @@ namespace FutureFridges.Pages.UserManagement
 
         public async Task<IActionResult> OnGetDeleteUser (string id)
         {
+            string _CurrentUserName = __UserController.GetUser(id).UserName;
+            __AuditLogController.Create(User.Identity.Name, string.Format(LOG_DELETE_FORMAT, _CurrentUserName), LogType.UserDelete);
 
             __UserController.DeleteUser(id);
 
@@ -55,6 +63,8 @@ namespace FutureFridges.Pages.UserManagement
 
         public async Task<IActionResult> OnGetResetPassword (string id)
         {
+            string _CurrentUserName = __UserController.GetUser(id).UserName;
+            __AuditLogController.Create(User.Identity.Name, string.Format(LOG_PASSWORD_RESET_FORMAT, _CurrentUserName), LogType.UserPasswordReset);
 
             await __UserController.ResetPassword(id);
 

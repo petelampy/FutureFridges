@@ -1,3 +1,4 @@
+using FutureFridges.Business.Notifications;
 using FutureFridges.Business.UserManagement;
 using FutureFridges.Data;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +15,8 @@ _Builder.Services
     .AddIdentity<FridgeUser, IdentityRole>()
     .AddEntityFrameworkStores<FridgeDBContext>()
     .AddDefaultTokenProviders();
+
+_Builder.Services.AddTransient<NotificationController>();
 
 var _App = _Builder.Build();
 

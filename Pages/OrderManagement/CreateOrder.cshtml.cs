@@ -1,3 +1,5 @@
+using FutureFridges.Business.AuditLog;
+using FutureFridges.Business.Enums;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
@@ -13,11 +15,13 @@ namespace FutureFridges.Pages.OrderManagement
     public class CreateOrderModel : PageModel
     {
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError";
+        private const string LOG_CREATE_FORMAT = "An order was created for: {0}";
 
         private readonly IOrderController __OrderController;
         private readonly IProductController __ProductController;
         private readonly ISupplierController __SupplierController;
         private readonly IUserPermissionController __UserPermissionController;
+        private readonly IAuditLogController __AuditLogController;
 
         public CreateOrderModel ()
         {
@@ -25,6 +29,7 @@ namespace FutureFridges.Pages.OrderManagement
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
             __SupplierController = new SupplierController();
+            __AuditLogController = new AuditLogController();
         }
 
         private void CreateProductSelector ()
@@ -85,6 +90,19 @@ namespace FutureFridges.Pages.OrderManagement
 
         public IActionResult OnGetCreateOrder (Guid uid)
         {
+            List<OrderItem> _OrderItems = __OrderController.GetOrder(uid).OrderItems;
+            List<Product> _Products = __ProductController.GetProducts(_OrderItems.Select(orderItem => orderItem.Product_UID).ToList());
+            string _ItemsString = "";
+           
+            foreach (OrderItem _Item in _OrderItems)
+            {
+                string? _ProductName = _Products.Where(product => product.UID == _Item.Product_UID).SingleOrDefault().Name;
+
+                _ItemsString = _ItemsString + _Item.Quantity + " x " + _ProductName + ", ";
+            }
+
+            __AuditLogController.Create(User.Identity.Name, string.Format(LOG_CREATE_FORMAT,_ItemsString), LogType.OrderCreate);
+
             __OrderController.CompleteOrder(uid);
 
             return RedirectToPage("../Index");
