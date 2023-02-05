@@ -1,4 +1,5 @@
 using FutureFridges.Business.StockManagement;
+using FutureFridges.Business.HealthReport;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,34 +39,6 @@ namespace FutureFridges.Pages.HealthReport
             }
         }
 
-        public async Task<IActionResult> OnGetTakeProduct (Guid uid)
-        {
-            StockItem _CurrentItem = __StockItemController.GetStockItem(uid);
-            __StockItemController.DeleteStockItem(uid);
-
-            SetStockAndProducts();
-            SetUserPermissions();
-
-            int _RemainingQuantity = StockItems.Where(stockItem => stockItem.Product_UID == _CurrentItem.Product_UID).Count();
-            if (_RemainingQuantity > 0)
-            {
-                SelectedProduct = __ProductController.GetProduct(_CurrentItem.Product_UID);
-                return Page();
-            }
-            else
-            {
-                return RedirectToPage("HealthReport");
-            }
-        }
-
-        public void OnPostSelectProduct (Guid uid)
-        {
-            SetUserPermissions();
-            SetStockAndProducts();
-
-            SelectedProduct = __ProductController.GetProduct(uid);
-        }
-
         public void SetStockAndProducts ()
         {
             StockItems = __StockItemController.GetAll();
@@ -78,10 +51,16 @@ namespace FutureFridges.Pages.HealthReport
             CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
         }
 
+        public IActionResult OnPostSendReport(string email)
+        {
+            Console.WriteLine(email);
+            HealthReportController _HealthReportController = new HealthReportController();
+            _HealthReportController.createHealthReport(email, DateTime.Now);
+            return RedirectToPage("HealthReport");
+        }
+
         public UserPermissions CurrentUserPermissions { get; set; }
-        public string ProductImagePath { get; set; } = "../Images/Products/";
         public List<Product> Products { get; set; }
-        public Product? SelectedProduct { get; set; } = new Product();
         public List<StockItem> StockItems { get; set; }
     }
 }
