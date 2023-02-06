@@ -24,8 +24,16 @@ namespace FutureFridges.Pages.Account
             __NotificationController = new NotificationController();
         }
 
-        public void OnGetAsync ()
+        public IActionResult OnGetAsync ()
         {
+            if (__SignInManager.IsSignedIn(User))
+            {
+                return RedirectToPage(INDEX_PAGE_PATH);
+            }
+            else
+            {
+                return Page();
+            }
         }
 
         public async Task<IActionResult> OnPostLoginAsync (string username, string password, bool rememberMe, string? returnUrl = null)
