@@ -1,11 +1,14 @@
 using FutureFridges.Business.AuditLog;
 using FutureFridges.Business.Enums;
 using FutureFridges.Business.OrderManagement;
+using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace FutureFridges.Pages.UserManagement
@@ -19,8 +22,8 @@ namespace FutureFridges.Pages.UserManagement
         private const string LOG_CHANGE_EMAIL_FORMAT = "{0}'s email was changed from {1} to {2}";
         private const string LOG_CHANGE_TYPE_FORMAT = "{0}'s user type was changed from {1} to {2}";
 
-        private readonly UserController __UserController;
-        private readonly UserPermissionController __UserPermissionController;
+        private readonly IUserController __UserController;
+        private readonly IUserPermissionController __UserPermissionController;
         private readonly IAuditLogController __AuditLogController;
 
         public CreateEditUserModel (UserManager<FridgeUser> userManager)
@@ -95,7 +98,13 @@ namespace FutureFridges.Pages.UserManagement
 
         public IActionResult OnPost ()
         {
-            //ADD VALIDATION
+            ModelState.Remove("ManagedUserPermissions.User_UID");
+            ValidateModel();
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
             CreateAuditLogs();
 
@@ -112,9 +121,72 @@ namespace FutureFridges.Pages.UserManagement
             return RedirectToPage("UserManagement");
         }
 
+        private void ValidateModel ()
+        {
+            if (ManagedUser.UserName.IsNullOrEmpty())
+            {
+                ModelState.AddModelError("ManagedUser.UserName", "User Name is required!");
+            }
+            if (ManagedUser.Email.IsNullOrEmpty())
+            {
+                ModelState.AddModelError("ManagedUser.Email", "Email is required!");
+            }
+
+            if(!ManagedUser.Email.IsNullOrEmpty() && !IsValidEmail(ManagedUser.Email))
+            {
+                ModelState.AddModelError("ManagedUser.Email", "Email address is invalid");
+            }
+
+            if (Id == null || new Guid(Id) == Guid.Empty)
+            {
+                if(!ManagedUser.Email.IsNullOrEmpty() && __UserController.IsEmailInUse(ManagedUser.Email))
+                {
+                    ModelState.AddModelError("ManagedUser.Email", "Email is already in use!");
+                }
+
+                if (!ManagedUser.UserName.IsNullOrEmpty() && __UserController.IsUsernameInUse(ManagedUser.UserName))
+                {
+                    ModelState.AddModelError("ManagedUser.UserName", "User Name is already in use!");
+                }
+            }
+            else
+            {
+                FridgeUser _CurrentUser = __UserController.GetUser(ManagedUser.Id);
+
+                if (_CurrentUser.Email != ManagedUser.Email && !ManagedUser.Email.IsNullOrEmpty() && __UserController.IsEmailInUse(ManagedUser.Email))
+                {
+                    ModelState.AddModelError("ManagedUser.Email", "Email is already in use!");
+                }
+
+                if (_CurrentUser.UserName != ManagedUser.UserName && !ManagedUser.UserName.IsNullOrEmpty() && __UserController.IsUsernameInUse(ManagedUser.UserName))
+                {
+                    ModelState.AddModelError("ManagedUser.UserName", "User Name is already in use!");
+                }
+            }
+        }
+
+        private bool IsValidEmail (string email)
+        {
+            var _EmailWithoutDisplayName = email.Trim();
+
+            if (_EmailWithoutDisplayName.EndsWith("."))
+            {
+                return false;
+            }
+            try
+            {
+                var _EmailAddress = new System.Net.Mail.MailAddress(email);
+                return _EmailAddress.Address == _EmailWithoutDisplayName;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         [BindProperty(SupportsGet = true)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [BindProperty]
         public FridgeUser ManagedUser { get; set; }

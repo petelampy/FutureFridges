@@ -80,6 +80,20 @@ namespace FutureFridges.Business.UserManagement
             return __UserRepository.GetUser(user_UID);
         }
 
+        public bool IsEmailInUse (string email)
+        {
+            List<FridgeUser> _Users = __UserRepository.GetAll();
+
+            return _Users.Count(user => user.Email.ToUpper() == email.ToUpper()) > 0;
+        }
+
+        public bool IsUsernameInUse (string username)
+        {
+            List<FridgeUser> _Users = __UserRepository.GetAll();
+
+            return _Users.Count(user => user.UserName.ToUpper() == username.ToUpper()) > 0;
+        }
+
         public async Task ResetPassword (string uid)
         {
             FridgeUser _User = await __UserManager.FindByIdAsync(uid);
