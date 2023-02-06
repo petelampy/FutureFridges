@@ -27,18 +27,19 @@
             <div class="col-sm-12">
                 <select class="form-select" asp-for="@Model.StockItem.Product_UID" asp-items="@Model.ProductSelection">Select Product</select>
             </div>
+            <span class="text-danger" asp-validation-for="@Model.StockItem.Product_UID"></span>
         </div>
         <div>
             <label asp-for="@Model.StockItem.ExpiryDate">Expiry Date</label>
             <div class="col-sm-12">
                 <input class="form-control" asp-for="@Model.StockItem.ExpiryDate" asp-format="{0:yyyy/MM/dd}" />
             </div>
+            <span class="text-danger" asp-validation-for="@Model.StockItem.ExpiryDate"></span>
         </div>
         <div class="text-center">
             <label for="add-product" class="custom-file-update">
                 <i class="fa fa-cloud-upload"></i> Add Item</label>
             <input id="add-product" type="submit" value="Add Item">
-            @Html.ValidationSummary()
         </div>
     </form>
 </div>

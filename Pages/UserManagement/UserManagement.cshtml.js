@@ -1,6 +1,4 @@
 ﻿function displayResetPasswordToast() {
-    //const elem = document.getElementById('para');
-
     $('.toast').toast();
     $('.toast').toast('show');
 }

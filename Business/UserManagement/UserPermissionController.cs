@@ -36,6 +36,7 @@ namespace FutureFridges.Business.UserManagement
                 case UserType.Chef:
                     _UserPermissions.ViewStock = true;
                     _UserPermissions.RemoveStock = true;
+                    _UserPermissions.AddStock = true;
                     break;
                 case UserType.HeadChef:
                     _UserPermissions.ViewStock = true;

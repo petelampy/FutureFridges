@@ -1,4 +1,5 @@
 ﻿using FutureFridges.Business.Admin;
+using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Data.Notifications;
 
@@ -13,18 +14,20 @@ namespace FutureFridges.Business.Notifications
         private readonly IProductController __ProductController;
         private readonly ISettingsController __SettingsController;
         private readonly IStockItemController __StockItemController;
+        private readonly IOrderController __OrderController;
 
         public NotificationController ()
-            : this(new NotificationRepository(), new StockItemController(), new ProductController(), new SettingsController())
+            : this(new NotificationRepository(), new StockItemController(), new ProductController(), new SettingsController(), new OrderController())
         { }
 
         internal NotificationController (INotificationRepository notificationRepository, IStockItemController stockItemController,
-            IProductController productController, ISettingsController settingsController)
+            IProductController productController, ISettingsController settingsController, IOrderController orderController)
         {
             __NotificationRepository = notificationRepository;
             __StockItemController = stockItemController;
             __ProductController = productController;
             __SettingsController = settingsController;
+            __OrderController = orderController;
         }
 
         private void CreateExpiryNotifications ()
@@ -71,6 +74,7 @@ namespace FutureFridges.Business.Notifications
         {
             Product _Product = __ProductController.GetProduct(product_UID);
             List<StockItem> _StockItems = __StockItemController.GetAll();
+            List<Order> _Orders = __OrderController.GetAll();
 
             bool _NotificationExists = __NotificationRepository
                     .GetAll()
@@ -79,7 +83,15 @@ namespace FutureFridges.Business.Notifications
 
             int _QuantityInStock = _StockItems.Where(stockItem => stockItem.Product_UID == _Product.UID).Count();
 
-            if (_QuantityInStock <= _Product.MinimumStockLevel && !_NotificationExists)
+            int _QuantityOnOrder = 0;
+            foreach (Order _Order in _Orders)
+            {
+                _QuantityOnOrder += _Order.OrderItems
+                    .Where(orderItem => orderItem.Product_UID == _Product.UID)
+                    .Sum(orderItem => orderItem.Quantity);
+            }
+
+            if (_QuantityInStock + _QuantityOnOrder <= _Product.MinimumStockLevel && !_NotificationExists)
             {
                 Notification _Notification = new Notification()
                 {
@@ -98,6 +110,7 @@ namespace FutureFridges.Business.Notifications
         {
             List<Product> _Products = __ProductController.GetAll();
             List<StockItem> _StockItems = __StockItemController.GetAll();
+            List<Order> _Orders = __OrderController.GetAll();
 
             foreach (Product _Product in _Products)
             {
@@ -108,7 +121,15 @@ namespace FutureFridges.Business.Notifications
 
                 int _QuantityInStock = _StockItems.Where(stockItem => stockItem.Product_UID == _Product.UID).Count();
 
-                if (_QuantityInStock <= _Product.MinimumStockLevel && !_NotificationExists)
+                int _QuantityOnOrder = 0;
+                foreach(Order _Order in _Orders)
+                {
+                    _QuantityOnOrder += _Order.OrderItems
+                        .Where(orderItem => orderItem.Product_UID == _Product.UID)
+                        .Sum(orderItem => orderItem.Quantity);
+                }
+
+                if (_QuantityInStock + _QuantityOnOrder <= _Product.MinimumStockLevel && !_NotificationExists)
                 {
                     Notification _Notification = new Notification()
                     {

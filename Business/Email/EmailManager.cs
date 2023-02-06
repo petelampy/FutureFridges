@@ -62,5 +62,24 @@ namespace FutureFridges.Business.Email
 
             _Email.Dispose();
         }
+
+        public bool IsValidEmail (string email)
+        {
+            var _EmailWithoutDisplayName = email.Trim();
+
+            if (_EmailWithoutDisplayName.EndsWith("."))
+            {
+                return false;
+            }
+            try
+            {
+                var _EmailAddress = new System.Net.Mail.MailAddress(email);
+                return _EmailAddress.Address == _EmailWithoutDisplayName;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

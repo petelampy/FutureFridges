@@ -88,8 +88,36 @@ namespace FutureFridges.Pages.OrderManagement
             return RedirectToPage("OrderManagement");
         }
 
+        private void ValidateOrderCreate(Guid uid)
+        {
+            if(uid == Guid.Empty || __OrderController.GetOrder(uid).OrderItems.Count < 1)
+            {
+                ModelState.AddModelError("", "Cannot create an order with 0 items");
+            }
+
+        }
+
         public IActionResult OnGetCreateOrder (Guid uid)
         {
+            ValidateOrderCreate(uid);
+            if(ModelState.ErrorCount > 0)
+            {
+                CreateProductSelector();
+                SelectedProductQuantity = 1;
+
+                if (UID != Guid.Empty)
+                {
+                    Order = __OrderController.GetOrder(UID);
+                }
+                else
+                {
+                    Order = new Order();
+                    Order.OrderItems = new List<OrderItem>();
+                }
+
+                return Page();
+            }
+
             List<OrderItem> _OrderItems = __OrderController.GetOrder(uid).OrderItems;
             List<Product> _Products = __ProductController.GetProducts(_OrderItems.Select(orderItem => orderItem.Product_UID).ToList());
             string _ItemsString = "";
@@ -120,18 +148,38 @@ namespace FutureFridges.Pages.OrderManagement
             Order.OrderItems = __OrderController.GetOrderItems(Order.UID);
             Guid _SelectedProduct_UID = new Guid(SelectedProduct);
 
+            if(SelectedProductQuantity.Value < 1)
+            {
+                ModelState.AddModelError("", "Cannot add less than 1 of a product");
+                
+                CreateProductSelector();
+                SelectedProductQuantity = 1;
+
+                if (UID != Guid.Empty)
+                {
+                    Order = __OrderController.GetOrder(UID);
+                }
+                else
+                {
+                    Order = new Order();
+                    Order.OrderItems = new List<OrderItem>();
+                }
+
+                return Page();
+            }
+
             if (Order.OrderItems.Select(orderItem => orderItem.Product_UID).Contains(_SelectedProduct_UID))
             {
                 Order.OrderItems
                     .Where(orderItem => orderItem.Product_UID == _SelectedProduct_UID)
                     .ToList()
-                    .ForEach(orderItem => orderItem.Quantity += SelectedProductQuantity);
+                    .ForEach(orderItem => orderItem.Quantity += SelectedProductQuantity.Value);
             }
             else
             {
                 OrderItem _AddedItem = new OrderItem();
                 _AddedItem.Product_UID = _SelectedProduct_UID;
-                _AddedItem.Quantity = SelectedProductQuantity;
+                _AddedItem.Quantity = SelectedProductQuantity.Value;
                 _AddedItem.Supplier_UID = __ProductController.GetProduct(_SelectedProduct_UID).Supplier_UID;
 
                 Order.OrderItems.Add(_AddedItem);
@@ -170,10 +218,10 @@ namespace FutureFridges.Pages.OrderManagement
         public List<SelectListItem> ProductSelection { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string SelectedProduct { get; set; }
+        public string? SelectedProduct { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public int SelectedProductQuantity { get; set; }
+        public int? SelectedProductQuantity { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public Guid UID { get; set; }

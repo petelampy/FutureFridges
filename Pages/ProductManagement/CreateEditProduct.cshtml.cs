@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace FutureFridges.Pages.ProductManagement
@@ -130,6 +131,8 @@ namespace FutureFridges.Pages.ProductManagement
                 else
                 {
                     Product = new Product();
+                    Product.DaysShelfLife = 1;
+                    Product.MinimumStockLevel = 1;
                 }
 
                 CreateSupplierSelector();
@@ -200,7 +203,22 @@ namespace FutureFridges.Pages.ProductManagement
 
             if (_NamesInUse.Contains(Product.Name) && _CurrentProduct.Name != Product.Name)
             {
-                ModelState.AddModelError("", "Product Name in use!");
+                ModelState.AddModelError("Product.Name", "Product Name in use!");
+            }
+
+            if (Product.Name.IsNullOrEmpty())
+            {
+                ModelState.AddModelError("Product.Name", "Product name is required!");
+            }
+
+            if (Product.MinimumStockLevel < 1)
+            {
+                ModelState.AddModelError("Product.MinimumStockLevel", "Minimum Stock Level cannot be less than 1!");
+            }
+            
+            if (Product.DaysShelfLife < 1)
+            {
+                ModelState.AddModelError("Product.DaysShelfLife", "Shelf Life cannot be less than 1 day!");
             }
         }
 

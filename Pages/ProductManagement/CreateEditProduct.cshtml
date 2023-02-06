@@ -48,6 +48,7 @@
             <div class="col-sm-12">
                 <input class="form-control" asp-for="@Model.Product.Name" />
             </div>
+            <span class="text-danger" asp-validation-for="@Model.Product.Name"></span>
         </div>
         <div>
             <label asp-for="@Model.Product.Category"></label>
@@ -56,6 +57,7 @@
                     <option selected="selected" value="">Please select</option>
                 </select>
             </div>
+            <span class="text-danger" asp-validation-for="@Model.Product.Category"></span>
         </div>
         <div>
             <label asp-for="@Model.Product.Supplier_UID">Supplier</label>
@@ -69,18 +71,21 @@
                     <select class="form-select" asp-for="@Model.Product.Supplier_UID" asp-items="@Model.SupplierSelection">Select Supplier</select>
                 }
             </div>
+            <span class="text-danger" asp-validation-for="@Model.Product.Supplier_UID"></span>
         </div>
         <div>
             <label asp-for="@Model.Product.DaysShelfLife">Shelf Life (Days)</label>
             <div class="col-sm-12">
                 <input class="form-control" asp-for="@Model.Product.DaysShelfLife" />
             </div>
+            <span class="text-danger" asp-validation-for="@Model.Product.DaysShelfLife"></span>
         </div>
         <div>
             <label asp-for="@Model.Product.MinimumStockLevel">Minimum Stock Level</label>
             <div class="col-sm-12">
                 <input class="form-control" asp-for="@Model.Product.MinimumStockLevel" />
             </div>
+            <span class="text-danger" asp-validation-for="@Model.Product.MinimumStockLevel"></span>
         </div>
         <div class="text-center">
             <input type="hidden" asp-for="@Model.Product.UID" />
@@ -105,7 +110,6 @@
                 </label>
                 <input id="create-product" type="submit" value="Create Product">
             }
-            @Html.ValidationSummary()
         </div>
     </form>
 </div>
