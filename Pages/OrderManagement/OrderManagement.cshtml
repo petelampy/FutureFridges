@@ -1,0 +1,58 @@
+﻿@page
+@using FutureFridges.Business.OrderManagement;
+@model FutureFridges.Pages.OrderManagement.OrderManagementModel
+@{
+    ViewData["Title"] = "Order Management";
+}
+
+<div class="container-sm m-auto bg-light rounded-3 border p-5 shadow-lg">
+    <h1 class="text-center display-3">Order Management</h1>
+    <hr>
+    <div class="accordion" id="orderAccordion">
+        @foreach (Order order in @Model.Orders)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-@order.UID">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@order.UID" aria-expanded="true" aria-controls="collapse-@order.UID">
+                        Order @order.Id - @Model.GetSupplierName(order.Supplier_UID.Value)
+                    </button>
+                </h2>
+                <div id="collapse-@order.UID" class="accordion-collapse collapse" aria-labelledby="heading-@order.UID" data-bs-parent="#orderAccordion">
+                    <div class="accordion-body">
+                        <table class="text-center table table-bordered" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Product
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (OrderItem orderItem in order.OrderItems)
+                                {
+                                    <tr>
+                                        <td>@orderItem.ProductName</td>
+                                        <td>@orderItem.Quantity</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <hr>
+    
+    @if(Model.CurrentUserPermissions.CreateOrder)
+    {
+        <div class="col-md-10 text-center">
+            <a class="btn btn-Main btn-primary" role="button" asp-page="CreateOrder">Create Order</a>
+        </div>
+    }
+
+</div>

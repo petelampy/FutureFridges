@@ -3,7 +3,7 @@
     public interface INotificationController
     {
         void CreateNotifications ();
-        void CreateProductNotifications ();
+        void CreateProductNotification (Guid product_UID);
         void Delete (Guid uid);
         List<Notification> GetByUser (Guid userUID);
         int GetCountByUser (Guid userUID);

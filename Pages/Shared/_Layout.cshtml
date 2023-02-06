@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using FutureFridges.Business.Enums;
+@using FutureFridges.Business.UserManagement;
+@using Microsoft.AspNetCore.Identity;
+@using System.Security.Claims;
+
+@inject SignInManager<FridgeUser> SignInManager
+@inject UserPermissionController UserPermissionController
+@inject UserController UserController
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -66,12 +75,6 @@
                             <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Admin/Settings">
                                 <i class="bi bi-gear d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
                                 <div>Settings</div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/HealthReport/HealthReport">
-                                <i class="bi bi-hospital d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
-                                <div>Health Report</div>
                             </a>
                         </li>
                     </ul>

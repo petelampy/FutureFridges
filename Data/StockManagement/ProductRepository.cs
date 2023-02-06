@@ -54,6 +54,14 @@ namespace FutureFridges.Data.StockManagement
                 .ToList();
         }
 
+        public List<Product> GetProductsBySupplier (Guid supplier_UID)
+        {
+            return __DbContext
+                .Products
+                .Where(product => product.Supplier_UID == supplier_UID)
+                .ToList();
+        }
+
         public void UpdateProduct (Product updatedProduct)
         {
             //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO UPDATE?
