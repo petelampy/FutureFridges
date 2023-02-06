@@ -24,10 +24,10 @@ namespace FutureFridges.Business.HealthReport
 
             File.WriteAllLines(_Filename, _Data);
 
-            SendHeathReportEmail(safetyOfficerEmail, _Filename);
+            SendHealthReportEmail(safetyOfficerEmail, _Filename);
         }
 
-        private void SendHeathReportEmail (string safetyOfficerEmail, string filename)
+        private void SendHealthReportEmail (string safetyOfficerEmail, string filename)
         {
             string _SupplierEmailBody = "Your health report export is attached.";
             EmailManager _EmailManager = new EmailManager();

@@ -28,7 +28,7 @@ namespace FutureFridges.Pages.HealthReport
         {
             SetUserPermissions();
 
-            if (CurrentUserPermissions.ViewStock)
+            if (CurrentUserPermissions.ManageHealthAndSafetyReport)
             {
                 SetStockAndProducts();
                 return Page();
