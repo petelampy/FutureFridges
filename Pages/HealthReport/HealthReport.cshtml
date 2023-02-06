@@ -5,10 +5,11 @@
     ViewData["Title"] = "Health Report";
 }
 
-<div class="container">
+<div class="container-sm m-auto bg-light rounded-3 border p-5 shadow-lg">
     <div class="row">
         <div class="col-sm">
-            <h2 class="display-5">Health Report @DateTime.Now</h2>
+            <div class="display-4 text-center">Health Report</div>
+            <div class="display-6 text-center">@DateTime.Now</div>
             <hr>
             <table class="text-center" style="width: 100%;">
                 <thead>
@@ -47,6 +48,7 @@
                         }
                 </tbody>
             </table>
+            <hr>
             <div class="mt-5">
                 <form method="post" asp-page-handler="sendReport">
                     <h3>Send health report</h3>
