@@ -17,7 +17,7 @@ namespace FutureFridges.Business.StockManagement
 
         public void CreateStockItem (StockItem stockItem)
         {
-            //MOVE SHELF LIFE CODE TO HERE FROM THE REVIEW DELIVERY PAGE, LESS BUSINESS CODE IN WEB LAYER
+            //MOVE SHELF LIFE CODE TO HERE FROM THE REVIEW DELIVERY PAGE, LESS BUSINESS CODE IN WEB LAYER. THIS WILL MEAN UPDATING TEST
 
             stockItem.Item_UID = Guid.NewGuid();
 

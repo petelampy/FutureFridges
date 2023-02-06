@@ -41,7 +41,7 @@ namespace FutureFridges.Business.Email
             _Email.Dispose();
         }
 
-        public void SendEmail (EmailData email, Attachment attachment = null)
+        public void SendEmail (EmailData email, Attachment? attachment = null)
         {
 
             MailMessage _Email = new MailMessage(
