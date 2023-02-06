@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="reports\" />
     <Folder Include="Unit Tests\UserManagement\" />
     <Folder Include="Unit Tests\StockManagement\" />
     <Folder Include="wwwroot\Images\Products\" />
