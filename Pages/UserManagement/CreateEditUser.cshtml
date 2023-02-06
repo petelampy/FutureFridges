@@ -58,14 +58,22 @@
                 <div class="col-sm-10">
                     <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ViewStock">
                 </div>
-                <label asp-for="@Model.ManagedUserPermissions.AddStock"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.AddStock">
-                </div>
-                <label asp-for="@Model.ManagedUserPermissions.RemoveStock"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.RemoveStock">
-                </div>
+                
+                @if(Model.ManagedUserPermissions.ViewStock == true) {
+                    <label asp-for="@Model.ManagedUserPermissions.AddStock"></label>
+                    <div class="col-sm-10">
+                        <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.AddStock">
+                    </div>
+                    <label asp-for="@Model.ManagedUserPermissions.RemoveStock"></label>
+                    <div class="col-sm-10">
+                        <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.RemoveStock">
+                    </div>
+                }
+                else {
+                    <input type="hidden" asp-for="@Model.ManagedUserPermissions.AddStock">
+                    <input type="hidden" asp-for="@Model.ManagedUserPermissions.RemoveStock">
+                }
+                
                 <label asp-for="@Model.ManagedUserPermissions.ManageProduct"></label>
                 <div class="col-sm-10">
                     <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageProduct">
