@@ -5,6 +5,14 @@
 @inject SignInManager<FridgeUser> SignInManager
 @inject UserManager<FridgeUser> UserManager
 @inject NotificationController NotificationController
+@inject IHttpContextAccessor Accessor
+@using System.Text.RegularExpressions
+@{
+    String? path = Accessor.HttpContext.Request.Path.Value;
+    var notifRegex = new Regex(@"^\/Notifications(.+)$");
+    var accountRegex = new Regex(@"^\/Account(.+)$");
+
+}
 
 @*Display Sign in options if user not signed in*@
 
@@ -12,7 +20,7 @@
 {
     <li class="nav-item pe-4">
         <a asp-page="/Notifications/Notifications">
-            <i class="bi bi-bell position-relative d-lg-block" style="font-size: 1.5rem">
+            <i class="bi bi-bell position-relative d-lg-block @(notifRegex.IsMatch(path) ? "text-secondary": "")" style="font-size: 1.5rem">
                 @{
                     int NotificationCount = NotificationController.GetCountByUser(new Guid(UserManager.GetUserId(User)));
                 }
@@ -24,7 +32,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a id="manage" class="nav-link active" asp-page="/Account/ManageAccount" title="Manage">Welcome @UserManager.GetUserName(User)!</a>
+        <a id="manage" class="nav-link active @(accountRegex.IsMatch(path) ? "fw-bolder": "")" asp-page="/Account/ManageAccount" title="Manage">Welcome @UserManager.GetUserName(User)!</a>
     </li>
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="" asp-page="/Account/Logout">Logout</a>
