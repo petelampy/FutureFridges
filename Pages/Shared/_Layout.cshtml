@@ -41,7 +41,7 @@
                                     Home
                                 </a>
                             </li>
-                            @if (_CurrentUserPermissions.ViewStock)
+                            @if(_CurrentUserPermissions.ViewStock)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/StockManagement/StockManagement">
@@ -51,7 +51,7 @@
                                 </li>
                             }
 
-                            @if (_CurrentUserPermissions.ManageProduct)
+                            @if(_CurrentUserPermissions.ManageProduct)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/ProductManagement/ProductManagement">
@@ -61,7 +61,7 @@
                                 </li>
                             }
 
-                            @if (_CurrentUserPermissions.ManageUser)
+                            @if(_CurrentUserPermissions.ManageUser)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/UserManagement/UserManagement">
@@ -71,7 +71,7 @@
                                 </li>
                             }
 
-                            @if (_CurrentUserPermissions.ManageSuppliers)
+                            @if(_CurrentUserPermissions.ManageSuppliers)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/SupplierManagement/SupplierManagement">
@@ -81,7 +81,7 @@
                                 </li>
                             }
 
-                            @if (_CurrentUserPermissions.ManageOrders)
+                            @if(_CurrentUserPermissions.ManageOrders)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/OrderManagement/OrderManagement">
@@ -91,7 +91,7 @@
                                 </li>
                             }
 
-                            @if (_CurrentUserPermissions.ManageHealthAndSafetyReport)
+                            @if(_CurrentUserPermissions.ManageHealthAndSafetyReport)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/HealthReport/HealthReport">
@@ -101,7 +101,7 @@
                                 </li>
                             }
 
-                            @if (_CurrentUserPermissions.ViewAuditLog)
+                            @if(_CurrentUserPermissions.ViewAuditLog)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/AuditLog/AuditLog">
@@ -111,7 +111,7 @@
                                 </li>
                             }
 
-                            @if (_CurrentUser.UserType == UserType.Administrator)
+                            @if(_CurrentUser.UserType == UserType.Administrator)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Admin/Settings">
