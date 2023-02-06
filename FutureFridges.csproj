@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Unit Tests\**" />
-    <Content Remove="Unit Tests\**" />
-    <EmbeddedResource Remove="Unit Tests\**" />
-    <None Remove="Unit Tests\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
