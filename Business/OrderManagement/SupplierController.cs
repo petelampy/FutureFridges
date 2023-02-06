@@ -1,4 +1,5 @@
 ﻿using FutureFridges.Business.StockManagement;
+using FutureFridges.Business.UserManagement;
 using FutureFridges.Data.OrderManagement;
 
 namespace FutureFridges.Business.OrderManagement
@@ -49,6 +50,20 @@ namespace FutureFridges.Business.OrderManagement
             return Get(_Supplier_UID);
         }
 
+        public bool IsEmailInUse (string email)
+        {
+            List<Supplier> _Suppliers = __SupplierRepository.GetAll();
+
+            return _Suppliers.Count(supplier => supplier.Email.ToUpper() == email.ToUpper()) > 0;
+        }
+
+        public bool IsNameInUse (string name)
+        {
+            List<Supplier> _Suppliers = __SupplierRepository.GetAll();
+
+            return _Suppliers.Count(supplier => supplier.Name.ToUpper() == name.ToUpper()) > 0;
+        }
+        
         public bool IsSupplierInUse (Guid uid)
         {
             List<Product> _Products = __ProductController.GetProductsBySupplier(uid);

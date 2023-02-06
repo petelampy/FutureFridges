@@ -1,4 +1,5 @@
 using FutureFridges.Business.AuditLog;
+using FutureFridges.Business.Email;
 using FutureFridges.Business.Enums;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
@@ -25,12 +26,14 @@ namespace FutureFridges.Pages.UserManagement
         private readonly IUserController __UserController;
         private readonly IUserPermissionController __UserPermissionController;
         private readonly IAuditLogController __AuditLogController;
+        private readonly IEmailManager __EmailManager;
 
         public CreateEditUserModel (UserManager<FridgeUser> userManager)
         {
             __UserPermissionController = new UserPermissionController();
             __UserController = new UserController(userManager);
             __AuditLogController = new AuditLogController();
+            __EmailManager = new EmailManager();
         }
 
         //MAYBE ADD AN ON GET FLAG TO DETERMINE IF IT'S A CREATE/EDIT RATHER THAN RELYING ON THE UID.
@@ -132,7 +135,7 @@ namespace FutureFridges.Pages.UserManagement
                 ModelState.AddModelError("ManagedUser.Email", "Email is required!");
             }
 
-            if(!ManagedUser.Email.IsNullOrEmpty() && !IsValidEmail(ManagedUser.Email))
+            if(!ManagedUser.Email.IsNullOrEmpty() && !__EmailManager.IsValidEmail(ManagedUser.Email))
             {
                 ModelState.AddModelError("ManagedUser.Email", "Email address is invalid");
             }
@@ -164,26 +167,6 @@ namespace FutureFridges.Pages.UserManagement
                 }
             }
         }
-
-        private bool IsValidEmail (string email)
-        {
-            var _EmailWithoutDisplayName = email.Trim();
-
-            if (_EmailWithoutDisplayName.EndsWith("."))
-            {
-                return false;
-            }
-            try
-            {
-                var _EmailAddress = new System.Net.Mail.MailAddress(email);
-                return _EmailAddress.Address == _EmailWithoutDisplayName;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
 
         [BindProperty(SupportsGet = true)]
         public string? Id { get; set; }
