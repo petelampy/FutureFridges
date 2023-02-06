@@ -51,11 +51,10 @@ namespace FutureFridges.Pages.HealthReport
             CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
         }
 
-        public IActionResult OnPostSendReport(string email)
+        public IActionResult OnPostSendReport(string safetyOfficerEmail)
         {
-            Console.WriteLine(email);
             HealthReportController _HealthReportController = new HealthReportController();
-            _HealthReportController.createHealthReport(email, DateTime.Now);
+            _HealthReportController.createHealthReport(safetyOfficerEmail, DateTime.Now);
             return RedirectToPage("HealthReport");
         }
 
