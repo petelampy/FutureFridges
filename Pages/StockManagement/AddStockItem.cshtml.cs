@@ -31,6 +31,14 @@ namespace FutureFridges.Pages.StockManagement
 
         public IActionResult OnPost()
         {
+            ModelState.Clear();
+            ValidateModel();
+            if (!ModelState.IsValid)
+            {
+                CreateProductSelector();
+                return Page();
+            }
+
             __StockItemController.CreateStockItem(StockItem);
 
             string _ProductName = __ProductController.GetProduct(StockItem.Product_UID).Name;
@@ -44,12 +52,38 @@ namespace FutureFridges.Pages.StockManagement
         {
             List<Product> _Products = __ProductController.GetAll();
 
-            ProductSelection = _Products.Select(product =>
+            ProductSelection = new List<SelectListItem>();
+
+            ProductSelection.Add(new SelectListItem
+            {
+                Text = "Please Select",
+                Value = Guid.Empty.ToString()
+            });
+            
+            ProductSelection.AddRange(_Products.Select(product =>
                 new SelectListItem
                 {
                     Text = product.Name,
                     Value = product.UID.ToString()
-                }).ToList();
+                }).ToList());
+        }
+
+        private void ValidateModel()
+        {
+            if (StockItem.Product_UID == Guid.Empty)
+            {
+                ModelState.AddModelError("StockItem.Product_UID", "Please select a product!");
+            }
+
+            if (StockItem.ExpiryDate == DateTime.MinValue)
+            {
+                ModelState.AddModelError("StockItem.ExpiryDate", "Please enter an expiry date!");
+            }
+
+            if (StockItem.ExpiryDate < DateTime.Now)
+            {
+                ModelState.AddModelError("StockItem.ExpiryDate", "Cannot add an expired item!");
+            }
         }
 
         [BindProperty(SupportsGet = true)]
