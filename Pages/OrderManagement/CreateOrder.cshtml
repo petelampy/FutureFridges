@@ -58,8 +58,8 @@
     </table>
     <hr>
     <div class="text-center">
-    <a class="btn btn-lg btn-primary" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="createOrder">Create</a>
-    <a class="btn btn-lg btn-outline-danger" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="cancelOrder">Cancel</a>
-
-</div>
+        <a class="btn btn-lg btn-primary" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="createOrder">Create</a>
+        <a class="btn btn-lg btn-outline-danger" asp-page="CreateOrder" asp-route-uid="@Model.UID" asp-page-handler="cancelOrder">Cancel</a>
+        <span class="text-danger">@Html.ValidationSummary()</span>
+    </div>
 </div>
