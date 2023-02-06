@@ -50,10 +50,14 @@
             </table>
             <hr>
             <div class="mt-5">
-                <form method="post" asp-page-handler="sendReport">
-                    <h3>Send health report</h3>
-                    <input name="safetyOfficerEmail" placeholder="safetyofficer@email.com"/>
-                    <button type="submit" name="submit">Send</button>
+                <h3>Send health report</h3>
+                <form class="row" method="post" asp-page-handler="sendReport">
+                    <div class="form-group col-lg-3">
+                        <input class="form-control" name="safetyOfficerEmail" placeholder="safetyofficer@email.com"/>
+                    </div>
+                    <div class="form-group col-lg-2">
+                    <button class="btn btn-primary w-100" type="submit" name="submit">Send</button>
+                    </div>
                 </form>
             </div>
         </div>

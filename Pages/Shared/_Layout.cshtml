@@ -6,6 +6,20 @@
 @inject SignInManager<FridgeUser> SignInManager
 @inject UserPermissionController UserPermissionController
 @inject UserController UserController
+@inject IHttpContextAccessor Accessor
+@using System.Text.RegularExpressions
+@{
+    String? path = Accessor.HttpContext.Request.Path.Value;
+    var homeRegex = new Regex(@"^\/$");
+    var stockRegex = new Regex(@"^\/StockManagement(.+)$");
+    var productsRegex = new Regex(@"^\/ProductManagement(.+)$");
+    var usersRegex = new Regex(@"^\/UserManagement(.+)$");
+    var suppliersRegex = new Regex(@"^\/SupplierManagement(.+)$");
+    var ordersRegex = new Regex(@"^\/OrderManagement(.+)$");
+    var reportRegex = new Regex(@"^\/HealthReport(.+)$");
+    var auditRegex = new Regex(@"^\/AuditLog(.+)$");
+    var settingsRegex = new Regex(@"^\/Admin(.+)$");
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,16 +50,16 @@
 
                         <ul class="navbar-nav flex-grow-1 justify-content-center">
                             <li class="nav-item">
-                                <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Index">
-                                    <i class="bi bi-house d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                <a class="nav-link @(homeRegex.IsMatch(path) ? "fw-bolder": "") text-dark mx-lg-2" asp-area="" asp-page="/Index">
+                                    <i class="bi bi-house d-none d-lg-block text-center @(homeRegex.IsMatch(path) ? "": "text-secondary")" style="font-size: @(homeRegex.IsMatch(path) ? "2.1rem": "2rem");"></i>
                                     Home
                                 </a>
                             </li>
                             @if(_CurrentUserPermissions.ViewStock)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/StockManagement/StockManagement">
-                                        <i class="bi bi-egg-fried d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <a class="nav-link @(stockRegex.IsMatch(path) ? "fw-bolder": "") text-dark mx-lg-2" asp-area="" asp-page="/StockManagement/StockManagement">
+                                        <i class="bi bi-egg-fried d-none d-lg-block text-center @(stockRegex.IsMatch(path) ? "": "text-secondary")" style="font-size: @(stockRegex.IsMatch(path) ? "2.1rem": "2rem");"></i>
                                         Stock
                                     </a>
                                 </li>
@@ -54,8 +68,8 @@
                             @if(_CurrentUserPermissions.ManageProduct)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/ProductManagement/ProductManagement">
-                                        <i class="bi bi-basket d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <a class="nav-link @(productsRegex.IsMatch(path) ? "fw-bolder": "") text-dark mx-lg-2" asp-area="" asp-page="/ProductManagement/ProductManagement">
+                                        <i class="bi bi-basket d-none d-lg-block text-center @(productsRegex.IsMatch(path) ? "": "text-secondary")" style="font-size: @(productsRegex.IsMatch(path) ? "2.1rem": "2rem");"></i>
                                         <div>Products</div>
                                     </a>
                                 </li>
@@ -64,8 +78,8 @@
                             @if(_CurrentUserPermissions.ManageUser)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/UserManagement/UserManagement">
-                                        <i class="bi bi-person-rolodex d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <a class="nav-link @(usersRegex.IsMatch(path) ? "fw-bolder": "") text-dark mx-lg-2" asp-area="" asp-page="/UserManagement/UserManagement">
+                                        <i class="bi bi-person-rolodex d-none d-lg-block text-center @(usersRegex.IsMatch(path) ? "": "text-secondary")" style="font-size: @(usersRegex.IsMatch(path) ? "2.1rem": "2rem");"></i>
                                         <div>Users</div>
                                     </a>
                                 </li>
@@ -74,8 +88,8 @@
                             @if(_CurrentUserPermissions.ManageSuppliers)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/SupplierManagement/SupplierManagement">
-                                        <i class="bi bi-box2 d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <a class="nav-link @(suppliersRegex.IsMatch(path) ? "fw-bolder": "") text-dark mx-lg-2" asp-area="" asp-page="/SupplierManagement/SupplierManagement">
+                                        <i class="bi bi-box2 d-none d-lg-block text-center @(suppliersRegex.IsMatch(path) ? "": "text-secondary")" style="font-size: @(suppliersRegex.IsMatch(path) ? "2.1rem": "2rem");"></i>
                                         <div>Suppliers</div>
                                     </a>
                                 </li>
@@ -84,8 +98,8 @@
                             @if(_CurrentUserPermissions.ManageOrders)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/OrderManagement/OrderManagement">
-                                        <i class="bi bi-clipboard-plus d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <a class="nav-link @(ordersRegex.IsMatch(path) ? "fw-bolder": "") text-dark mx-lg-2" asp-area="" asp-page="/OrderManagement/OrderManagement">
+                                        <i class="bi bi-clipboard-plus d-none d-lg-block text-center @(ordersRegex.IsMatch(path) ? "": "text-secondary")" style="font-size: @(ordersRegex.IsMatch(path) ? "2.1rem": "2rem");"></i>
                                         <div>Orders</div>
                                     </a>
                                 </li>
@@ -94,8 +108,8 @@
                             @if(_CurrentUserPermissions.ManageHealthAndSafetyReport)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/HealthReport/HealthReport">
-                                        <i class="bi bi-hospital d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <a class="nav-link @(reportRegex.IsMatch(path) ? "fw-bolder": "") text-dark mx-lg-2" asp-area="" asp-page="/HealthReport/HealthReport">
+                                        <i class="bi bi-hospital d-none d-lg-block text-center @(reportRegex.IsMatch(path) ? "": "text-secondary")" style="font-size: @(reportRegex.IsMatch(path) ? "2.1rem": "2rem");"></i>
                                         <div>Report</div>
                                     </a>
                                 </li>
@@ -104,8 +118,8 @@
                             @if(_CurrentUserPermissions.ViewAuditLog)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/AuditLog/AuditLog">
-                                        <i class="bi bi-journals d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <a class="nav-link @(auditRegex.IsMatch(path) ? "fw-bolder": "") text-dark mx-lg-2" asp-area="" asp-page="/AuditLog/AuditLog">
+                                        <i class="bi bi-journals d-none d-lg-block text-center @(auditRegex.IsMatch(path) ? "": "text-secondary")" style="font-size: @(auditRegex.IsMatch(path) ? "2.1rem": "2rem");"></i>
                                         <div>Audit Log</div>
                                     </a>
                                 </li>
@@ -114,8 +128,8 @@
                             @if(_CurrentUser.UserType == UserType.Administrator)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark mx-lg-2" asp-area="" asp-page="/Admin/Settings">
-                                        <i class="bi bi-gear d-none d-lg-block text-center text-secondary" style="font-size: 2rem;"></i>
+                                    <a class="nav-link @(settingsRegex.IsMatch(path) ? "fw-bolder": "") text-dark mx-lg-2" asp-area="" asp-page="/Admin/Settings">
+                                        <i class="bi bi-gear d-none d-lg-block text-center @(settingsRegex.IsMatch(path) ? "": "text-secondary")" style="font-size: @(settingsRegex.IsMatch(path) ? "2.1rem": "2rem");"></i>
                                         <div>Settings</div>
                                     </a>
                                 </li>
