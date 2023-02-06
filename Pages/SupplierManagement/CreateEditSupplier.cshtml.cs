@@ -98,7 +98,7 @@ namespace FutureFridges.Pages.SupplierManagement
             }
             if (Supplier.Email.IsNullOrEmpty())
             {
-                ModelState.AddMode#lError("Supplier.Email", "Email is required!");
+                ModelState.AddModelError("Supplier.Email", "Email is required!");
             }
             if (!Supplier.Email.IsNullOrEmpty() && !__EmailManager.IsValidEmail(Supplier.Email))
             {
