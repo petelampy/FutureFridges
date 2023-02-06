@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
@@ -56,6 +57,8 @@ namespace FutureFridges.Pages.UserManagement
                     ManagedUser = new FridgeUser();
                 }
 
+                CreateUserTypeSelector();
+
                 return Page();
 
             }
@@ -99,6 +102,21 @@ namespace FutureFridges.Pages.UserManagement
 
         }
 
+        private void CreateUserTypeSelector ()
+        {
+            UserTypeSelection = new List<SelectListItem>();
+
+            foreach (int _UserType in Enum.GetValues(typeof(UserType)))
+            {
+                UserTypeSelection.Add(new SelectListItem
+                {
+                    Text = ((UserType)_UserType) == UserType.Unselected ? "Please Select" : ((UserType)_UserType).ToString(),
+                    Value = ((UserType)_UserType).ToString(),
+                    Selected = !ManagedUser.Id.IsNullOrEmpty() && new Guid(ManagedUser.Id) != Guid.Empty && ManagedUser.UserType == ((UserType)_UserType)
+                });
+            }
+        }
+
         public IActionResult OnPost ()
         {
             ModelState.Remove("ManagedUserPermissions.User_UID");
@@ -106,6 +124,7 @@ namespace FutureFridges.Pages.UserManagement
 
             if (!ModelState.IsValid)
             {
+                CreateUserTypeSelector();
                 return Page();
             }
 
@@ -138,6 +157,11 @@ namespace FutureFridges.Pages.UserManagement
             if(!ManagedUser.Email.IsNullOrEmpty() && !__EmailManager.IsValidEmail(ManagedUser.Email))
             {
                 ModelState.AddModelError("ManagedUser.Email", "Email address is invalid");
+            }
+
+            if(ManagedUser.UserType == UserType.Unselected)
+            {
+                ModelState.AddModelError("ManagedUser.UserType", "Please select a user type");
             }
 
             if (Id == null || new Guid(Id) == Guid.Empty)
@@ -176,5 +200,7 @@ namespace FutureFridges.Pages.UserManagement
 
         [BindProperty]
         public UserPermissions ManagedUserPermissions { get; set; }
+
+        public List<SelectListItem> UserTypeSelection { get; set; }
     }
 }

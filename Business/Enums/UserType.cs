@@ -2,8 +2,9 @@
 {
     public enum UserType
     {
-        Administrator = 0,
-        HeadChef = 1,
-        Chef = 2
+        Unselected = 0,
+        Administrator = 1,
+        HeadChef = 2,
+        Chef = 3,
     }
 }

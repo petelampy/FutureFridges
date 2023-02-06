@@ -45,9 +45,7 @@
         <div>
             <label asp-for="@Model.ManagedUser.UserType"></label>
             <div class="col-sm-10">
-                <select class="form-select" asp-for="@Model.ManagedUser.UserType" asp-items="Html.GetEnumSelectList<UserType>()">
-                    <option selected="selected" value="">Please select</option>
-                </select>
+                <select class="form-select" asp-for="@Model.ManagedUser.UserType" asp-items="@Model.UserTypeSelection">User Type</select>
             </div>
             <span class="text-danger" asp-validation-for="@Model.ManagedUser.UserType"></span>
         </div>
