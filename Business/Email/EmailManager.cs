@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 
 namespace FutureFridges.Business.Email
 {
@@ -25,11 +26,35 @@ namespace FutureFridges.Business.Email
 
         public void SendEmail (EmailData email)
         {
+
             MailMessage _Email = new MailMessage(
                 SENDER_EMAIL,
                 email.Recipient,
                 email.Subject,
-                email.Body);
+                email.Body
+            );
+
+            SmtpClient _EmailClient = CreateEmailClient();
+
+            _EmailClient.Send(_Email);
+
+            _Email.Dispose();
+        }
+
+        public void SendEmail (EmailData email, Attachment attachment = null)
+        {
+
+            MailMessage _Email = new MailMessage(
+                SENDER_EMAIL,
+                email.Recipient,
+                email.Subject,
+                email.Body
+            );
+
+            if (attachment != null)
+            {
+                _Email.Attachments.Add(attachment);
+            }
 
             SmtpClient _EmailClient = CreateEmailClient();
 

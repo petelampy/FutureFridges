@@ -1,0 +1,64 @@
+﻿@page
+@using FutureFridges.Business.StockManagement;
+@model FutureFridges.Pages.HealthReport.HealthReportModel
+@{
+    ViewData["Title"] = "Health Report";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h2 class="display-5">Health Report @DateTime.Now</h2>
+            <hr>
+            <table class="text-center" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            Product ID
+                        </th>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Expiry Date
+                        </th>
+                        <th>
+                            Time Past Expiry
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                        @foreach (StockItem stockItem in Model.StockItems)
+                        {
+                            //get expiry date from db
+
+                            //if past expiry display with time past expiry
+                            TimeSpan ExpiryDiff = DateTime.Now.Subtract(stockItem.ExpiryDate);
+                            @if (stockItem.ExpiryDate < DateTime.Now)
+                            {
+                                Product _Product = Model.Products.Where(product => product.UID == stockItem.Product_UID).First();
+                                <tr>
+                                    <td>@stockItem.Item_UID</td>
+                                    <td>@_Product.Name</td>
+                                    <td>@stockItem.ExpiryDate</td>
+                                    <td>@ExpiryDiff.Days Day(s) @ExpiryDiff.Hours Hour(s) @ExpiryDiff.Minutes Minute(s)</td>
+                                </tr>
+                            }
+                        }
+                </tbody>
+            </table>
+            <div class="mt-5">
+                <form method="post" asp-page-handler="sendReport">
+                    <h3>Send health report</h3>
+                    <input name="safetyOfficerEmail" placeholder="safetyofficer@email.com"/>
+                    <button type="submit" name="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
