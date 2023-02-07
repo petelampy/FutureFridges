@@ -80,7 +80,7 @@ namespace FutureFridges.Business.OrderManagement
 
         internal int CreatePinCode ()
         {
-            List<int> _ValidPinCodes = Enumerable.Range(1000, 9999).ToList();
+            List<int> _ValidPinCodes = Enumerable.Range(1000, 8999).ToList();
 
             List<int> _UsedPinCodes = __OrderRepository
                 .GetAll()
