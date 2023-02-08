@@ -41,7 +41,7 @@ namespace FutureFridges.Business.HealthReport
 
             string[] _Data = GenerateCsvString(_StockItems
                 .Where(stockItem => stockItem.ExpiryDate < date)
-                .ToList());
+                .ToList(), date);
 
             File.WriteAllLines(_Filename, _Data);
 
@@ -60,7 +60,7 @@ namespace FutureFridges.Business.HealthReport
             }, _Pdf);
         }
 
-        private string[] GenerateCsvString (List<StockItem> stockItems)
+        private string[] GenerateCsvString (List<StockItem> stockItems, DateTime date)
         {
             List<string> _Csv = new List<string>
             {
@@ -70,8 +70,8 @@ namespace FutureFridges.Business.HealthReport
             foreach (StockItem _Item in stockItems)
             {
                 Product _Product = __ProductController.GetProduct(_Item.Product_UID);
-                TimeSpan _TimeSinceExpiry = DateTime.Now.Subtract(_Item.ExpiryDate);
-
+                TimeSpan _TimeSinceExpiry = date.Subtract(_Item.ExpiryDate);
+                
                 _Csv.Add(
                     _Item.Item_UID.ToString() + CSV_STRING_DELIMITER
                     + _Product.Name + CSV_STRING_DELIMITER
