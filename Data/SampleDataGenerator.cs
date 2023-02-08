@@ -37,7 +37,8 @@ namespace FutureFridges.Data
                 Id = 1,
                 UID = __SampleOrderUID,
                 NumberOfItems = 3,
-                PinCode = 1001
+                PinCode = 1001,
+                Supplier_UID = __SampleSupplierUID
             };
         }
 
@@ -50,6 +51,7 @@ namespace FutureFridges.Data
                 Order_UID = __SampleOrderUID,
                 Product_UID = __SampleProductUID,
                 Quantity = 3,
+                Supplier_UID = __SampleSupplierUID
             };
         }
 
