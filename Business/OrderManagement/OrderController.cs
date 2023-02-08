@@ -25,6 +25,19 @@ namespace FutureFridges.Business.OrderManagement
             __EmailManager = emailManager;
         }
 
+        public void ClearUnfinishedOrders()
+        {
+            List<Order> _UnfinishedOrders = __OrderRepository
+                .GetAll()
+                .Where(order => order.Supplier_UID == null || order.Supplier_UID == Guid.Empty)
+                .ToList();
+            
+            foreach (Order _Order in _UnfinishedOrders)
+            {
+                DeleteOrder(_Order.UID);
+            }
+        }
+
         public void CompleteOrder (Guid uid)
         {
             Order _Order = GetOrder(uid);

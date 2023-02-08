@@ -28,6 +28,8 @@ namespace FutureFridges.Pages.OrderManagement
 
             if(CurrentUserPermissions.ManageOrders)
             {
+                __OrderController.ClearUnfinishedOrders();
+                
                 Orders = __OrderController.GetAll();
                 return Page();
             }
