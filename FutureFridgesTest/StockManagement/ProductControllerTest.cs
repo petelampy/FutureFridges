@@ -3,7 +3,7 @@ using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Data.StockManagement;
 
-namespace FutureFridgesTest
+namespace FutureFridgesTest.StockManagement
 {
     [TestClass]
     public class ProductControllerTest
