@@ -54,7 +54,7 @@ namespace FutureFridges.Pages.HealthReport
         public IActionResult OnPostSendReport(string safetyOfficerEmail)
         {
             HealthReportController _HealthReportController = new HealthReportController();
-            _HealthReportController.createHealthReport(safetyOfficerEmail, DateTime.Now);
+            _HealthReportController.CreateHealthReport(safetyOfficerEmail, DateTime.Now);
             return RedirectToPage("HealthReport");
         }
 
