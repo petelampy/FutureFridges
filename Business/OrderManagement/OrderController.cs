@@ -78,9 +78,9 @@ namespace FutureFridges.Business.OrderManagement
             __OrderRepository.CreateOrderItem(orderItem);
         }
 
-        private int CreatePinCode ()
+        internal int CreatePinCode ()
         {
-            List<int> _ValidPinCodes = Enumerable.Range(1000, 9999).ToList();
+            List<int> _ValidPinCodes = Enumerable.Range(1000, 8999).ToList();
 
             List<int> _UsedPinCodes = __OrderRepository
                 .GetAll()

@@ -13,15 +13,17 @@ namespace FutureFridges.Pages.HealthReport
     {
         private const string ACCESS_ERROR_PAGE_PATH = "../Account/AccessError";
 
-        private readonly ProductController __ProductController;
-        private readonly StockItemController __StockItemController;
-        private readonly UserPermissionController __UserPermissionController;
+        private readonly IProductController __ProductController;
+        private readonly IStockItemController __StockItemController;
+        private readonly IUserPermissionController __UserPermissionController;
+        private readonly IHealthReportController __HealthReportController;
 
         public HealthReportModel ()
         {
             __StockItemController = new StockItemController();
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
+            __HealthReportController = new HealthReportController();
         }
 
         public IActionResult OnGet ()
@@ -53,8 +55,7 @@ namespace FutureFridges.Pages.HealthReport
 
         public IActionResult OnPostSendReport(string safetyOfficerEmail)
         {
-            HealthReportController _HealthReportController = new HealthReportController();
-            _HealthReportController.createHealthReport(safetyOfficerEmail, DateTime.Now);
+            __HealthReportController.CreateHealthReport(safetyOfficerEmail, DateTime.Now);
             return RedirectToPage("HealthReport");
         }
 

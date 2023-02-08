@@ -23,12 +23,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
+    <InternalsVisibleTo Include="FutureFridgesTest" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="reports\" />
-    <Folder Include="Unit Tests\UserManagement\" />
-    <Folder Include="Unit Tests\StockManagement\" />
     <Folder Include="wwwroot\Images\Products\" />
   </ItemGroup>
 
