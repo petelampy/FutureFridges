@@ -34,7 +34,8 @@ namespace FutureFridges.Data.AuditLog
             List<LogType> _StockLogTypes = new List<LogType>() {
                 LogType.ItemAdd,
                 LogType.ItemTake,
-                LogType.DeliveryReceive
+                LogType.DeliveryReceive,
+                LogType.OrderCreate
             };
 
             return __DbContext.AuditLogs
