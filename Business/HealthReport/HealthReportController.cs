@@ -4,7 +4,7 @@ using System.Net.Mail;
 
 namespace FutureFridges.Business.HealthReport
 {
-    public class HealthReportController
+    public class HealthReportController : IHealthReportController
     {
         private const string SUPPLIER_ORDER_EMAIL_SUBJECT = "Future Fridges - Health Report Extract";
         private const string SUPPLIER_ORDER_EMAIL_BODY = "Your health report export is attached.";
@@ -51,7 +51,7 @@ namespace FutureFridges.Business.HealthReport
         private void SendHealthReportEmail (string safetyOfficerEmail, string filename)
         {
             Attachment _Pdf = new Attachment(filename);
-            
+
             __EmailManager.SendEmail(new EmailData()
             {
                 Recipient = safetyOfficerEmail,
@@ -60,7 +60,7 @@ namespace FutureFridges.Business.HealthReport
             }, _Pdf);
         }
 
-        private string[] GenerateCsvString(List<StockItem> stockItems)
+        private string[] GenerateCsvString (List<StockItem> stockItems)
         {
             List<string> _Csv = new List<string>
             {
@@ -71,7 +71,7 @@ namespace FutureFridges.Business.HealthReport
             {
                 Product _Product = __ProductController.GetProduct(_Item.Product_UID);
                 TimeSpan _TimeSinceExpiry = DateTime.Now.Subtract(_Item.ExpiryDate);
-                
+
                 _Csv.Add(
                     _Item.Item_UID.ToString() + CSV_STRING_DELIMITER
                     + _Product.Name + CSV_STRING_DELIMITER
