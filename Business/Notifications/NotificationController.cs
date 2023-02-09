@@ -77,7 +77,7 @@ namespace FutureFridges.Business.Notifications
                     }
                     else
                     {
-                        __NotificationRepository.Create(new Notification()
+                        __NotificationRepository.Create(new Notification
                         {
                             UID = Guid.NewGuid(),
                             DateCreated = DateTime.Now,
@@ -130,7 +130,7 @@ namespace FutureFridges.Business.Notifications
 
                     foreach (FridgeUser _HeadChef in _HeadChefs)
                     {
-                        __NotificationRepository.Create(new Notification()
+                        __NotificationRepository.Create(new Notification
                         {
                             UID = Guid.NewGuid(),
                             DateCreated = DateTime.Now,
@@ -142,7 +142,7 @@ namespace FutureFridges.Business.Notifications
                 }
                 else
                 {
-                    __NotificationRepository.Create(new Notification()
+                    __NotificationRepository.Create(new Notification
                     {
                         UID = Guid.NewGuid(),
                         DateCreated = DateTime.Now,
@@ -189,7 +189,7 @@ namespace FutureFridges.Business.Notifications
 
                         foreach (FridgeUser _HeadChef in _HeadChefs)
                         {
-                            __NotificationRepository.Create(new Notification()
+                            __NotificationRepository.Create(new Notification
                             {
                                 UID = Guid.NewGuid(),
                                 DateCreated = DateTime.Now,
@@ -201,7 +201,7 @@ namespace FutureFridges.Business.Notifications
                     }
                     else
                     {
-                        __NotificationRepository.Create(new Notification()
+                        __NotificationRepository.Create(new Notification
                         {
                             UID = Guid.NewGuid(),
                             DateCreated = DateTime.Now,

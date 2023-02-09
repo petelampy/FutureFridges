@@ -174,7 +174,7 @@ namespace FutureFridgesTest.OrderManagement
 
             Order _Order = new Order();
             _Order.OrderItems = new List<OrderItem>();
-            OrderItem _OrderItem = new OrderItem()
+            OrderItem _OrderItem = new OrderItem
             {
                 Id = 7,
                 ProductName = "",
@@ -182,7 +182,7 @@ namespace FutureFridgesTest.OrderManagement
                 Quantity = 4,
                 Supplier_UID = Guid.NewGuid()
             };
-            OrderItem _OrderItem2 = new OrderItem()
+            OrderItem _OrderItem2 = new OrderItem
             {
                 Id = 4,
                 ProductName = "",
@@ -197,7 +197,7 @@ namespace FutureFridgesTest.OrderManagement
                 .Setup(mock => mock.GetOrderByPinCode(It.IsAny<int>()))
                 .Returns(_Order);
 
-            Product _Product = new Product()
+            Product _Product = new Product
             {
                 Name = "Test Product Name"
             };
@@ -271,7 +271,7 @@ namespace FutureFridgesTest.OrderManagement
             _MockRepository.Setup(mock => mock.CreateOrder(It.IsAny<Order>()))
                 .Callback((Order resultOrder) => { _ResultOrder = resultOrder; });
 
-            _MockRepository.Setup(mock => mock.GetAll()).Returns(new List<Order>() { new Order
+            _MockRepository.Setup(mock => mock.GetAll()).Returns(new List<Order> { new Order
                 {
                     PinCode = 11
                 } 

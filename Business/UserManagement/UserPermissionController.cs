@@ -62,6 +62,7 @@ namespace FutureFridges.Business.UserManagement
                     _UserPermissions.ViewAuditLog = true;
                     break;
                 default:
+                    _UserPermissions.ViewStock = true;
                     break;
             }
 
