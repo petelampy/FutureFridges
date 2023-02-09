@@ -1,5 +1,5 @@
 ﻿function displayEmailSuccessToast() {
-    $('.toast').toast('show');
+    $(".toast").toast("show");
 }
 
 

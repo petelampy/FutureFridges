@@ -17,9 +17,9 @@ namespace FutureFridgesTest.HealthReport
 
             Guid _ProductUID = Guid.NewGuid();
 
-            List<StockItem> _StockItems = new List<StockItem>()
+            List<StockItem> _StockItems = new List<StockItem>
             {
-                new StockItem()
+                new StockItem
                 {
                     ExpiryDate = DateTime.Now,
                     Product_UID = _ProductUID,
@@ -30,7 +30,7 @@ namespace FutureFridgesTest.HealthReport
 
             _MockStockItemController.Setup(mock => mock.GetAll()).Returns(_StockItems);
 
-            Product _MockProduct = new Product()
+            Product _MockProduct = new Product
             {
                 Name = "Test Product",
                 UID = _ProductUID,

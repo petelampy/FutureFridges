@@ -31,7 +31,7 @@ namespace FutureFridges.Data.AuditLog
 
         public List<LogEntry> GetStockLogs ()
         {
-            List<LogType> _StockLogTypes = new List<LogType>() {
+            List<LogType> _StockLogTypes = new List<LogType> {
                 LogType.ItemAdd,
                 LogType.ItemTake,
                 LogType.DeliveryReceive,

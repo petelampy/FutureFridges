@@ -20,7 +20,7 @@ namespace FutureFridgesTest.StockManagement
             
             IStockItemController _StockItemController = new StockItemController(_MockRepository.Object);
 
-            StockItem _StockItem = new StockItem()
+            StockItem _StockItem = new StockItem
             {
                 ExpiryDate = DateTime.Now,
                 Id = 25,

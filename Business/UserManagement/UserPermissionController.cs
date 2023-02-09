@@ -61,6 +61,8 @@ namespace FutureFridges.Business.UserManagement
                     _UserPermissions.ManageOrders = true;
                     _UserPermissions.ViewAuditLog = true;
                     break;
+                default:
+                    break;
             }
 
             __UserPermissionRepository.CreatePermissions(_UserPermissions);

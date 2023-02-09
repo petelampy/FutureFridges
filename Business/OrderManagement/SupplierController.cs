@@ -54,14 +54,14 @@ namespace FutureFridges.Business.OrderManagement
         {
             List<Supplier> _Suppliers = __SupplierRepository.GetAll();
 
-            return _Suppliers.Count(supplier => supplier.Email.ToUpper() == email.ToUpper()) > 0;
+            return _Suppliers.Count(supplier => supplier.Email.ToUpperInvariant() == email.ToUpperInvariant()) > 0;
         }
 
         public bool IsNameInUse (string name)
         {
             List<Supplier> _Suppliers = __SupplierRepository.GetAll();
 
-            return _Suppliers.Count(supplier => supplier.Name.ToUpper() == name.ToUpper()) > 0;
+            return _Suppliers.Count(supplier => supplier.Name.ToUpperInvariant() == name.ToUpperInvariant()) > 0;
         }
         
         public bool IsSupplierInUse (Guid uid)

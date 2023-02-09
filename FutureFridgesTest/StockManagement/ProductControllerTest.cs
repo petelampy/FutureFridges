@@ -24,7 +24,7 @@ namespace FutureFridgesTest.StockManagement
 
             IProductController _ProductController = new ProductController(_MockRepository.Object, _MockStockItemController.Object, _MockOrderController.Object);
 
-            Product _Product = new Product()
+            Product _Product = new Product
             {
                 Category = ProductCategory.Dairy,
                 DaysShelfLife = 10,
@@ -59,12 +59,12 @@ namespace FutureFridgesTest.StockManagement
 
             _MockStockItemController
                 .Setup(mock => mock.GetStockItemsByProduct(It.IsAny<Guid>()))
-                .Returns(new List<StockItem>() { new StockItem(), new StockItem() })
+                .Returns(new List<StockItem> { new StockItem(), new StockItem() })
                 .Verifiable();
 
             _MockOrderController
                 .Setup(mock => mock.GetOrderItemsByProduct(It.IsAny<Guid>()))
-                .Returns(new List<OrderItem>() { new OrderItem(), new OrderItem() })
+                .Returns(new List<OrderItem> { new OrderItem(), new OrderItem() })
                 .Verifiable();
 
             IProductController _ProductController = new ProductController(_MockRepository.Object, _MockStockItemController.Object, _MockOrderController.Object);

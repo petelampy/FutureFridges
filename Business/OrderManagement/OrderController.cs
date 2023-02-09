@@ -1,6 +1,7 @@
 ﻿using FutureFridges.Business.Email;
 using FutureFridges.Data.OrderManagement;
 using FutureFridges.Data.StockManagement;
+using System.Text;
 
 namespace FutureFridges.Business.OrderManagement
 {
@@ -49,7 +50,7 @@ namespace FutureFridges.Business.OrderManagement
 
             foreach (Guid _Supplier_UID in _Supplier_UIDs)
             {
-                Order _SupplierOrder = new Order() { Supplier_UID = _Supplier_UID };
+                Order _SupplierOrder = new Order { Supplier_UID = _Supplier_UID };
                 CreateOrder(_SupplierOrder);
 
                 List<OrderItem> _SupplierOrderItems = _Order.OrderItems
@@ -58,7 +59,7 @@ namespace FutureFridges.Business.OrderManagement
 
                 foreach (OrderItem _Item in _SupplierOrderItems)
                 {
-                    CreateOrderItem(new OrderItem()
+                    CreateOrderItem(new OrderItem
                     {
                         Order_UID = _SupplierOrder.UID,
                         ProductName = _Item.ProductName,
@@ -186,20 +187,22 @@ namespace FutureFridges.Business.OrderManagement
         {
             Supplier _Supplier = __SupplierRepository.Get(supplier_UID);
 
-            string _SupplierEmailBody = "Hello, " + _Supplier.Name + "!\n\nYou have received the following order:\n\n";
+            StringBuilder _StringBuilder = new StringBuilder();
+
+            _StringBuilder.Append("Hello, " + _Supplier.Name + "!\n\nYou have received the following order:\n\n");
 
             foreach (OrderItem _Item in supplierOrderItems)
             {
-                _SupplierEmailBody = _SupplierEmailBody + _Item.Quantity + " x " + _Item.ProductName + "\n";
+                _StringBuilder.Append(_Item.Quantity + " x " + _Item.ProductName + "\n");
             }
 
-            _SupplierEmailBody = _SupplierEmailBody + "\nPlease use the following pin code when completing delivery: " + pinCode + "\n\nKind Regards, Future Fridges!";
+            _StringBuilder.Append("\nPlease use the following pin code when completing delivery: " + pinCode + "\n\nKind Regards, Future Fridges!");
 
-            __EmailManager.SendEmail(new EmailData()
+            __EmailManager.SendEmail(new EmailData
             {
                 Recipient = _Supplier.Email,
                 Subject = SUPPLIER_ORDER_EMAIL_SUBJECT,
-                Body = _SupplierEmailBody
+                Body = _StringBuilder.ToString()
             });
         }
 

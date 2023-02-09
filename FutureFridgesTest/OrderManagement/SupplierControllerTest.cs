@@ -15,7 +15,7 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            Supplier _Supplier = new Supplier()
+            Supplier _Supplier = new Supplier
             {
                 Email = "test@supplier.com",
                 Name = "Test Supplier",
@@ -49,7 +49,7 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            Product _Product = new Product()
+            Product _Product = new Product
             {
                 Name = "Product",
                 Id = 55,
@@ -64,7 +64,7 @@ namespace FutureFridgesTest.OrderManagement
                 .Setup(mock => mock.Get(It.IsAny<Guid>()))
                 .Returns((Guid supplier_UID) =>
                 {
-                    return new Supplier()
+                    return new Supplier
                     {
                         UID = supplier_UID
                     };
@@ -89,8 +89,8 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            List<Supplier> _Suppliers = new List<Supplier>() {
-                new Supplier()
+            List<Supplier> _Suppliers = new List<Supplier> {
+                new Supplier
                 {
                     Email = "test225@email.com"
                 }
@@ -217,12 +217,12 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            List<Product> _Products = new List<Product>()
+            List<Product> _Products = new List<Product>
             {
                 new Product()
             };
 
-            List<Order> _Orders = new List<Order>()
+            List<Order> _Orders = new List<Order>
             {
                 new Order()
             };

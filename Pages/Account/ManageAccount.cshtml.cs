@@ -2,8 +2,10 @@ using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using System.Text;
 
 namespace FutureFridges.Pages.Account
 {
@@ -15,7 +17,7 @@ namespace FutureFridges.Pages.Account
 
         private readonly UserManager<FridgeUser> __UserManager;
 
-        private List<string> __NewPasswordErrorCodes = new List<string>(){"PasswordTooShort",
+        private readonly List<string> __NewPasswordErrorCodes = new List<string>{"PasswordTooShort",
             "PasswordRequiresNonAlphanumeric",
             "PasswordRequiresLower",
             "PasswordRequiresDigit",
@@ -29,13 +31,14 @@ namespace FutureFridges.Pages.Account
 
         public void DisplayPasswordErrors (IdentityResult result)
         {
-            string _NewPasswordValidation = "";
+
+            StringBuilder _StringBuilder = new StringBuilder();
 
             foreach (IdentityError _Error in result.Errors)
             {
                 if (__NewPasswordErrorCodes.Contains(_Error.Code))
                 {
-                    _NewPasswordValidation = _NewPasswordValidation + "\n" + _Error.Description;
+                    _StringBuilder.Append("\n" + _Error.Description);
                 }
 
                 if (_Error.Code == PASSWORD_MISMATCH_ERROR_CODE)
@@ -44,14 +47,15 @@ namespace FutureFridges.Pages.Account
                 }
             }
 
-            if (_NewPasswordValidation.Length > 0)
+            if (_StringBuilder.Length > 0)
             {
-                ModelState.AddModelError("newpassword", _NewPasswordValidation);
+                ModelState.AddModelError("newpassword", _StringBuilder.ToString());
             }
         }
 
-        public void OnGet ()
+        public IActionResult OnGet ()
         {
+            return Page();
         }
 
         public async Task<IActionResult> OnPostChangePasswordAsync (string currentPassword, string newPassword)

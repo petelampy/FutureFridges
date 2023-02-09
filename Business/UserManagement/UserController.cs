@@ -46,7 +46,7 @@ namespace FutureFridges.Business.UserManagement
             newUser.NormalizedEmail = newUser.Email.ToUpper();
             newUser.SecurityStamp = Guid.NewGuid().ToString();
 
-            EmailData _Email = new EmailData()
+            EmailData _Email = new EmailData
             {
                 Subject = NEW_ACCOUNT_EMAIL_SUBJECT,
                 Body = string.Format(NEW_ACCOUNT_EMAIL_BODY, newUser.UserName, _TemporaryPassword.ToString()),
@@ -84,14 +84,14 @@ namespace FutureFridges.Business.UserManagement
         {
             List<FridgeUser> _Users = __UserRepository.GetAll();
 
-            return _Users.Count(user => user.Email.ToUpper() == email.ToUpper()) > 0;
+            return _Users.Count(user => user.Email.ToUpperInvariant() == email.ToUpperInvariant()) > 0;
         }
 
         public bool IsUsernameInUse (string username)
         {
             List<FridgeUser> _Users = __UserRepository.GetAll();
 
-            return _Users.Count(user => user.UserName.ToUpper() == username.ToUpper()) > 0;
+            return _Users.Count(user => user.UserName.ToUpperInvariant() == username.ToUpperInvariant()) > 0;
         }
 
         public async Task ResetPassword (string uid)
@@ -105,11 +105,11 @@ namespace FutureFridges.Business.UserManagement
             List<IPasswordValidator<FridgeUser>> _PasswordValidators = __UserManager.PasswordValidators.ToList();
             __UserManager.PasswordValidators.Clear();
 
-            IdentityResult _Test = await __UserManager.ResetPasswordAsync(_User, _PasswordResetToken, _TemporaryPassword.ToString());
+            await __UserManager.ResetPasswordAsync(_User, _PasswordResetToken, _TemporaryPassword.ToString());
 
             _PasswordValidators.ForEach(validator => __UserManager.PasswordValidators.Add(validator));
 
-            EmailData _Email = new EmailData()
+            EmailData _Email = new EmailData
             {
                 Subject = RESET_PASSWORD_EMAIL_SUBJECT,
                 Body = string.Format(RESET_PASSWORD_EMAIL_BODY, _User.UserName, _TemporaryPassword.ToString()),
