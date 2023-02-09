@@ -83,7 +83,7 @@ namespace FutureFridges.Pages.HealthReport
             }
             
             __HealthReportController.CreateHealthReport(safetyOfficerEmail, DateTime.Now);
-            return RedirectToPage("HealthReport");
+            return RedirectToPage("HealthReport", new { SuccessfulEmail = true });
         }
 
         public UserPermissions CurrentUserPermissions { get; set; }

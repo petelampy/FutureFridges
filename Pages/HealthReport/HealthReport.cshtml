@@ -65,7 +65,21 @@
     </div>
 </div>
 
+<div class="container-sm m-auto">
+    @*Bootstrap Toast - Confirm Email Sent*@
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 110px; right: 0;">
+        <div class="toast-header">
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Health Report Email sent.
+        </div>
+    </div>
+</div>
 
 
-
+@section Scripts {
+    <script type="text/javascript" src="~/Pages/HealthReport/HealthReport.cshtml.js"></script>
+}
 
