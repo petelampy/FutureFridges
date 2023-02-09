@@ -228,14 +228,14 @@ namespace FutureFridgesTest.OrderManagement
 
             Order _Order = new Order();
             _Order.OrderItems = new List<OrderItem>();
-            OrderItem _OrderItem = new OrderItem()
+            OrderItem _OrderItem = new OrderItem
             {
                 Id = 3,
                 Product_UID = Guid.NewGuid(),
                 Quantity = 4,
                 Supplier_UID = _MockSupplierGuid
             };
-            OrderItem _OrderItem2 = new OrderItem()
+            OrderItem _OrderItem2 = new OrderItem
             {
                 Id = 1,
                 Product_UID = Guid.NewGuid(),
