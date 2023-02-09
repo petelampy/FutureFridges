@@ -3,6 +3,7 @@ using FutureFridges.Business.Enums;
 using FutureFridges.Business.Notifications;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
+using FutureFridges.Business.UserManagement;
 using FutureFridges.Data.Notifications;
 
 namespace FutureFridgesTest.Notifications
@@ -18,6 +19,7 @@ namespace FutureFridgesTest.Notifications
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
             Mock<ISettingsController> _MockSettingsController = new Mock<ISettingsController>();
             Mock<IStockItemController> _MockStockItemController = new Mock<IStockItemController>();
+            Mock<IUserController> _MockUserController = new Mock<IUserController>();
 
             Guid _MockProductGuid = Guid.NewGuid();
             Guid _MockNotifiedUserUID = Guid.NewGuid();
@@ -38,7 +40,8 @@ namespace FutureFridgesTest.Notifications
 
             _MockSettingsController.Setup(mock => mock.Get()).Returns(new Settings()
             {
-                Administrator_UID = _MockNotifiedUserUID
+                Administrator_UID = _MockNotifiedUserUID,
+                NotifyAllHeadChefs = false
             });
 
             _MockRepository.Setup(mock => mock.GetAll()).Returns(new List<Notification>());
@@ -51,7 +54,7 @@ namespace FutureFridgesTest.Notifications
                 .Verifiable();
             
             INotificationController _NotificationController = new NotificationController(_MockRepository.Object, _MockStockItemController.Object,
-                _MockProductController.Object, _MockSettingsController.Object, _MockOrderController.Object);
+                _MockProductController.Object, _MockSettingsController.Object, _MockOrderController.Object, _MockUserController.Object);
             
             _NotificationController.CreateProductNotification(_MockProductGuid);
 
@@ -78,6 +81,7 @@ namespace FutureFridgesTest.Notifications
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
             Mock<ISettingsController> _MockSettingsController = new Mock<ISettingsController>();
             Mock<IStockItemController> _MockStockItemController = new Mock<IStockItemController>();
+            Mock<IUserController> _MockUserController = new Mock<IUserController>();
 
             Guid _MockProductGuid = Guid.NewGuid();
             Guid _MockNotifiedUserUID = Guid.NewGuid();
@@ -114,7 +118,8 @@ namespace FutureFridgesTest.Notifications
 
             _MockSettingsController.Setup(mock => mock.Get()).Returns(new Settings()
             {
-                Administrator_UID = _MockNotifiedUserUID
+                Administrator_UID = _MockNotifiedUserUID,
+                NotifyAllHeadChefs = false
             });
 
             _MockRepository.Setup(mock => mock.GetAll()).Returns(new List<Notification>());
@@ -124,17 +129,17 @@ namespace FutureFridgesTest.Notifications
                 .Verifiable();
 
             INotificationController _NotificationController = new NotificationController(_MockRepository.Object, _MockStockItemController.Object,
-                _MockProductController.Object, _MockSettingsController.Object, _MockOrderController.Object);
+                _MockProductController.Object, _MockSettingsController.Object, _MockOrderController.Object, _MockUserController.Object);
 
             _NotificationController.CreateProductNotification(_MockProductGuid);
-
+            
             _MockRepository.Verify(mock => mock.Create(It.IsAny<Notification>()), Times.Never);
 
             _MockRepository.Verify(mock => mock.GetAll(), Times.Once);
             _MockProductController.Verify(mock => mock.GetProduct(_MockProductGuid), Times.Once);
             _MockStockItemController.Verify(mock => mock.GetAll(), Times.Once);
             _MockOrderController.Verify(mock => mock.GetAll(), Times.Once);
-            _MockSettingsController.Verify(mock => mock.Get(), Times.Never);
+            _MockSettingsController.Verify(mock => mock.Get(), Times.Once);
         }
     }
 }

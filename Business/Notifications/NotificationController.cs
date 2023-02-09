@@ -1,7 +1,10 @@
 ﻿using FutureFridges.Business.Admin;
+using FutureFridges.Business.Enums;
 using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
+using FutureFridges.Business.UserManagement;
 using FutureFridges.Data.Notifications;
+using Microsoft.AspNetCore.Identity;
 
 namespace FutureFridges.Business.Notifications
 {
@@ -15,25 +18,28 @@ namespace FutureFridges.Business.Notifications
         private readonly ISettingsController __SettingsController;
         private readonly IStockItemController __StockItemController;
         private readonly IOrderController __OrderController;
+        private readonly IUserController __UserController;
 
-        public NotificationController ()
-            : this(new NotificationRepository(), new StockItemController(), new ProductController(), new SettingsController(), new OrderController())
+        public NotificationController (UserManager<FridgeUser> userManager)
+            : this(new NotificationRepository(), new StockItemController(), new ProductController(), new SettingsController(), new OrderController(), new UserController(userManager))
         { }
 
         internal NotificationController (INotificationRepository notificationRepository, IStockItemController stockItemController,
-            IProductController productController, ISettingsController settingsController, IOrderController orderController)
+            IProductController productController, ISettingsController settingsController, IOrderController orderController, IUserController userController)
         {
             __NotificationRepository = notificationRepository;
             __StockItemController = stockItemController;
             __ProductController = productController;
             __SettingsController = settingsController;
             __OrderController = orderController;
+            __UserController = userController;
         }
 
         private void CreateExpiryNotifications ()
         {
             List<Product> _Products = __ProductController.GetAll();
             List<StockItem> _StockItems = __StockItemController.GetAll();
+            Settings _Settings = __SettingsController.Get();
 
             foreach (StockItem _StockItem in _StockItems)
             {
@@ -50,16 +56,36 @@ namespace FutureFridges.Business.Notifications
                         .Select(product => product.Name)
                         .FirstOrDefault("");
 
-                    Notification _Notification = new Notification()
+                    if(_Settings.NotifyAllHeadChefs)
                     {
-                        UID = Guid.NewGuid(),
-                        DateCreated = DateTime.Now,
-                        Message = string.Format(EXPIRY_FORMAT, _ProductName),
-                        User_UID = __SettingsController.Get().Administrator_UID,
-                        StockItem_UID = _StockItem.Item_UID,
-                    };
+                        List<FridgeUser> _HeadChefs = __UserController
+                            .GetAll()
+                            .Where(user => user.UserType == UserType.HeadChef || user.UserType == UserType.Administrator)
+                            .ToList();
 
-                    __NotificationRepository.Create(_Notification);
+                        foreach (FridgeUser _HeadChef in _HeadChefs)
+                        {
+                            __NotificationRepository.Create(new Notification()
+                            {
+                                UID = Guid.NewGuid(),
+                                DateCreated = DateTime.Now,
+                                Message = string.Format(EXPIRY_FORMAT, _ProductName),
+                                User_UID = new Guid(_HeadChef.Id),
+                                StockItem_UID = _StockItem.Item_UID,
+                            });
+                        }
+                    }
+                    else
+                    {
+                        __NotificationRepository.Create(new Notification()
+                        {
+                            UID = Guid.NewGuid(),
+                            DateCreated = DateTime.Now,
+                            Message = string.Format(EXPIRY_FORMAT, _ProductName),
+                            User_UID = _Settings.Administrator_UID,
+                            StockItem_UID = _StockItem.Item_UID,
+                        });
+                    }
                 }
             }
         }
@@ -75,6 +101,7 @@ namespace FutureFridges.Business.Notifications
             Product _Product = __ProductController.GetProduct(product_UID);
             List<StockItem> _StockItems = __StockItemController.GetAll();
             List<Order> _Orders = __OrderController.GetAll();
+            Settings _Settings = __SettingsController.Get();
 
             bool _NotificationExists = __NotificationRepository
                     .GetAll()
@@ -93,16 +120,37 @@ namespace FutureFridges.Business.Notifications
 
             if (_QuantityInStock + _QuantityOnOrder <= _Product.MinimumStockLevel && !_NotificationExists)
             {
-                Notification _Notification = new Notification()
-                {
-                    UID = Guid.NewGuid(),
-                    DateCreated = DateTime.Now,
-                    Message = string.Format(LOW_STOCK_FORMAT, _Product.Name),
-                    User_UID = __SettingsController.Get().Administrator_UID,
-                    Product_UID = _Product.UID
-                };
 
-                __NotificationRepository.Create(_Notification);
+                if (_Settings.NotifyAllHeadChefs)
+                {
+                    List<FridgeUser> _HeadChefs = __UserController
+                        .GetAll()
+                        .Where(user => user.UserType == UserType.HeadChef || user.UserType == UserType.Administrator)
+                        .ToList();
+
+                    foreach (FridgeUser _HeadChef in _HeadChefs)
+                    {
+                        __NotificationRepository.Create(new Notification()
+                        {
+                            UID = Guid.NewGuid(),
+                            DateCreated = DateTime.Now,
+                            Message = string.Format(LOW_STOCK_FORMAT, _Product.Name),
+                            User_UID = new Guid(_HeadChef.Id),
+                            Product_UID = _Product.UID
+                        });
+                    }
+                }
+                else
+                {
+                    __NotificationRepository.Create(new Notification()
+                    {
+                        UID = Guid.NewGuid(),
+                        DateCreated = DateTime.Now,
+                        Message = string.Format(LOW_STOCK_FORMAT, _Product.Name),
+                        User_UID = _Settings.Administrator_UID,
+                        Product_UID = _Product.UID
+                    });
+                }
             }
         }
 
@@ -111,6 +159,7 @@ namespace FutureFridges.Business.Notifications
             List<Product> _Products = __ProductController.GetAll();
             List<StockItem> _StockItems = __StockItemController.GetAll();
             List<Order> _Orders = __OrderController.GetAll();
+            Settings _Settings = __SettingsController.Get();
 
             foreach (Product _Product in _Products)
             {
@@ -131,16 +180,36 @@ namespace FutureFridges.Business.Notifications
 
                 if (_QuantityInStock + _QuantityOnOrder <= _Product.MinimumStockLevel && !_NotificationExists)
                 {
-                    Notification _Notification = new Notification()
+                    if (_Settings.NotifyAllHeadChefs)
                     {
-                        UID = Guid.NewGuid(),
-                        DateCreated = DateTime.Now,
-                        Message = string.Format(LOW_STOCK_FORMAT, _Product.Name),
-                        User_UID = __SettingsController.Get().Administrator_UID,
-                        Product_UID = _Product.UID
-                    };
+                        List<FridgeUser> _HeadChefs = __UserController
+                            .GetAll()
+                            .Where(user => user.UserType == UserType.HeadChef || user.UserType == UserType.Administrator)
+                            .ToList();
 
-                    __NotificationRepository.Create(_Notification);
+                        foreach (FridgeUser _HeadChef in _HeadChefs)
+                        {
+                            __NotificationRepository.Create(new Notification()
+                            {
+                                UID = Guid.NewGuid(),
+                                DateCreated = DateTime.Now,
+                                Message = string.Format(LOW_STOCK_FORMAT, _Product.Name),
+                                User_UID = new Guid(_HeadChef.Id),
+                                Product_UID = _Product.UID
+                            });
+                        }
+                    }
+                    else
+                    {
+                        __NotificationRepository.Create(new Notification()
+                        {
+                            UID = Guid.NewGuid(),
+                            DateCreated = DateTime.Now,
+                            Message = string.Format(LOW_STOCK_FORMAT, _Product.Name),
+                            User_UID = _Settings.Administrator_UID,
+                            Product_UID = _Product.UID
+                        });
+                    }
                 }
             }
         }

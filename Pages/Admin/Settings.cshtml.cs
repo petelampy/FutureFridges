@@ -21,12 +21,12 @@ namespace FutureFridges.Pages.Admin
 
         private void CreateAdminSelector ()
         {
-            List<FridgeUser> _Administrators = __UserController
+            List<FridgeUser> _HeadChefsAndAdmins = __UserController
                 .GetAll()
-                .Where(user => user.UserType == UserType.Administrator)
+                .Where(user => user.UserType == UserType.HeadChef || user.UserType == UserType.Administrator)
                 .ToList();
 
-            AdminSelection = _Administrators.Select(admin =>
+            AdminSelection = _HeadChefsAndAdmins.Select(admin =>
                 new SelectListItem
                 {
                     Text = admin.UserName,

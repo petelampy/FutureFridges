@@ -17,11 +17,11 @@ namespace FutureFridges.Pages.Account
         private readonly IOrderController __OrderController;
         private readonly INotificationController __NotificationController;
 
-        public LoginModel (SignInManager<FridgeUser> signInManager)
+        public LoginModel (SignInManager<FridgeUser> signInManager, UserManager<FridgeUser> userManager)
         {
             __SignInManager = signInManager;
             __OrderController = new OrderController();
-            __NotificationController = new NotificationController();
+            __NotificationController = new NotificationController(userManager);
         }
 
         public IActionResult OnGetAsync ()
