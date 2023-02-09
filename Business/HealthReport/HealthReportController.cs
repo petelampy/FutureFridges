@@ -52,7 +52,7 @@ namespace FutureFridges.Business.HealthReport
         {
             Attachment _Pdf = new Attachment(filename);
 
-            __EmailManager.SendEmail(new EmailData()
+            __EmailManager.SendEmail(new EmailData
             {
                 Recipient = safetyOfficerEmail,
                 Subject = SUPPLIER_ORDER_EMAIL_SUBJECT,

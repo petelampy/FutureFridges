@@ -19,7 +19,7 @@ namespace FutureFridges.Business.AuditLog
 
         public void Create (string name, string description, LogType logType)
         {
-            LogEntry _LogEntry = new LogEntry()
+            LogEntry _LogEntry = new LogEntry
             {
                 UserSupplierName = name,
                 Description = description,

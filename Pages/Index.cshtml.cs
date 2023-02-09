@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FutureFridges.Pages
@@ -13,8 +14,9 @@ namespace FutureFridges.Pages
             __Logger = logger;
         }
 
-        public void OnGet ()
+        public IActionResult OnGet ()
         {
+            return Page();
         }
     }
 }

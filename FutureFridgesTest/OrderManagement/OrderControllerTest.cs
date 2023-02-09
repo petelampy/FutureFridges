@@ -3,6 +3,7 @@ using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Data.OrderManagement;
 using FutureFridges.Data.StockManagement;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +25,13 @@ namespace FutureFridgesTest.OrderManagement
 
             Order _Result = new Order();
 
-            Order _Order = new Order()
+            Order _Order = new Order
             {
                 Id = 22,
                 NumberOfItems = 15,
-                OrderItems = new List<OrderItem>()
+                OrderItems = new List<OrderItem>
                 {
-                    new OrderItem()
+                    new OrderItem
                     {
                         Id = 5,
                         ProductName = "Test",
@@ -50,7 +51,7 @@ namespace FutureFridgesTest.OrderManagement
 
             _MockRepository
                 .Setup(mock => mock.GetAll())
-                .Returns(new List<Order>() { _Order });
+                .Returns(new List<Order> { _Order });
 
             IOrderController _OrderController = new OrderController(_MockRepository.Object, _MockProductRepository.Object, _MockSupplierRepository.Object, _MockEmailManager.Object);
             _OrderController.CreateOrder(_Order);
@@ -83,7 +84,7 @@ namespace FutureFridgesTest.OrderManagement
 
             OrderItem _Result = new OrderItem();
 
-            OrderItem _OrderItem = new OrderItem()
+            OrderItem _OrderItem = new OrderItem
             {
                 Id = 7,
                 ProductName = "Cheez",
@@ -121,7 +122,7 @@ namespace FutureFridgesTest.OrderManagement
 
             Order _Order = new Order();
             _Order.OrderItems = new List<OrderItem>();
-            OrderItem _OrderItem = new OrderItem()
+            OrderItem _OrderItem = new OrderItem
             {
                 Id = 7,
                 ProductName = "",
@@ -129,7 +130,7 @@ namespace FutureFridgesTest.OrderManagement
                 Quantity = 4,
                 Supplier_UID = Guid.NewGuid()
             };
-            OrderItem _OrderItem2 = new OrderItem()
+            OrderItem _OrderItem2 = new OrderItem
             {
                 Id = 4,
                 ProductName = "",
@@ -144,7 +145,7 @@ namespace FutureFridgesTest.OrderManagement
                 .Setup(mock => mock.GetOrder(It.IsAny<Guid>()))
                 .Returns(_Order);
 
-            Product _Product = new Product()
+            Product _Product = new Product
             {
                 Name = "Test Product Name"
             };
@@ -244,7 +245,7 @@ namespace FutureFridgesTest.OrderManagement
             _Order.OrderItems.Add(_OrderItem);
             _Order.OrderItems.Add(_OrderItem2);
 
-            Supplier _Supplier = new Supplier()
+            Supplier _Supplier = new Supplier
             {
                 Name = "Test Supplier",
                 Email = "testsupplier@email.com"
@@ -270,7 +271,7 @@ namespace FutureFridgesTest.OrderManagement
             _MockRepository.Setup(mock => mock.CreateOrder(It.IsAny<Order>()))
                 .Callback((Order resultOrder) => { _ResultOrder = resultOrder; });
 
-            _MockRepository.Setup(mock => mock.GetAll()).Returns(new List<Order>() { new Order()
+            _MockRepository.Setup(mock => mock.GetAll()).Returns(new List<Order>() { new Order
                 {
                     PinCode = 11
                 } 
@@ -278,7 +279,7 @@ namespace FutureFridgesTest.OrderManagement
 
             _MockRepository.Setup(mock => mock.CreateOrderItem(It.IsAny<OrderItem>()));
 
-            _MockProductRepository.Setup(mock => mock.GetProduct(It.IsAny<Guid>())).Returns(new Product()
+            _MockProductRepository.Setup(mock => mock.GetProduct(It.IsAny<Guid>())).Returns(new Product
             {
                 Name = "Beans"
             });
@@ -298,19 +299,18 @@ namespace FutureFridgesTest.OrderManagement
 
         private string CreateExpectedEmailBody(Supplier supplier, List<OrderItem> orderItems, int pinCode)
         {
-            string _Result = "";
+            StringBuilder _StringBuilder = new StringBuilder();
 
-
-           _Result += "Hello, " + supplier.Name + "!\n\nYou have received the following order:\n\n";
+           _StringBuilder.Append("Hello, " + supplier.Name + "!\n\nYou have received the following order:\n\n");
 
             foreach(OrderItem _Item in orderItems)
             {
-                _Result += _Item.Quantity + " x " + _Item.ProductName + "\n";
+                _StringBuilder.Append(_Item.Quantity + " x " + _Item.ProductName + "\n");
             }
 
-            _Result += "\nPlease use the following pin code when completing delivery: " + pinCode + "\n\nKind Regards, Future Fridges!";
+            _StringBuilder.Append("\nPlease use the following pin code when completing delivery: " + pinCode + "\n\nKind Regards, Future Fridges!");
 
-            return _Result;
+            return _StringBuilder.ToString();
         }
     }
 }

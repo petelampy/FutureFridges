@@ -36,7 +36,7 @@ namespace FutureFridges.Pages.Account
             }
         }
 
-        public async Task<IActionResult> OnPostLoginAsync (string username, string password, bool rememberMe, string? returnUrl = null)
+        public async Task<IActionResult> OnPostLoginAsync (string username, string password, bool rememberMe, string? returnUrl)
         {
             if (ModelState.IsValid)
             {

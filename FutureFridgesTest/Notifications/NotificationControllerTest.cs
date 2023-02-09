@@ -24,7 +24,7 @@ namespace FutureFridgesTest.Notifications
             Guid _ProductGuid = Guid.NewGuid();
             Guid _NotifiedUserUID = Guid.NewGuid();
             
-            Product _Product = new Product()
+            Product _Product = new Product
             {
                 UID = _ProductGuid,
                 Category = ProductCategory.Dairy,
@@ -38,7 +38,7 @@ namespace FutureFridgesTest.Notifications
             _MockStockItemController.Setup(mock => mock.GetAll()).Returns(new List<StockItem>());
             _MockOrderController.Setup(mock => mock.GetAll()).Returns(new List<Order>());
 
-            _MockSettingsController.Setup(mock => mock.Get()).Returns(new Settings()
+            _MockSettingsController.Setup(mock => mock.Get()).Returns(new Settings
             {
                 Administrator_UID = _NotifiedUserUID,
                 NotifyAllHeadChefs = false
@@ -86,7 +86,7 @@ namespace FutureFridgesTest.Notifications
             Guid _ProductGuid = Guid.NewGuid();
             Guid _NotifiedUserUID = Guid.NewGuid();
 
-            Product _Product = new Product()
+            Product _Product = new Product
             {
                 UID = _ProductGuid,
                 Category = ProductCategory.Dairy,
@@ -96,15 +96,15 @@ namespace FutureFridgesTest.Notifications
                 Supplier_UID = Guid.NewGuid()
             };
 
-            List<StockItem> _StockItems = new List<StockItem>()
+            List<StockItem> _StockItems = new List<StockItem>
             {
-                new StockItem()
+                new StockItem
                 {
                     Product_UID = _ProductGuid,
                     ExpiryDate = DateTime.MaxValue,
                     Item_UID = Guid.NewGuid()
                 },
-                new StockItem()
+                new StockItem
                 {
                     Product_UID = _ProductGuid,
                     ExpiryDate = DateTime.MaxValue,

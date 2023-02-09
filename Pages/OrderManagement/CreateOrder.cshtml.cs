@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
+using System.Text;
 
 namespace FutureFridges.Pages.OrderManagement
 {
@@ -120,16 +121,17 @@ namespace FutureFridges.Pages.OrderManagement
 
             List<OrderItem> _OrderItems = __OrderController.GetOrder(uid).OrderItems;
             List<Product> _Products = __ProductController.GetProducts(_OrderItems.Select(orderItem => orderItem.Product_UID).ToList());
-            string _ItemsString = "";
-           
+
+            StringBuilder _StringBuilder = new StringBuilder();
+          
             foreach (OrderItem _Item in _OrderItems)
             {
                 string? _ProductName = _Products.Where(product => product.UID == _Item.Product_UID).SingleOrDefault().Name;
 
-                _ItemsString = _ItemsString + _Item.Quantity + " x " + _ProductName + ", ";
+                _StringBuilder.Append(_Item.Quantity + " x " + _ProductName + ", ");
             }
 
-            __AuditLogController.Create(User.Identity.Name, string.Format(LOG_CREATE_FORMAT,_ItemsString), LogType.OrderCreate);
+            __AuditLogController.Create(User.Identity.Name, string.Format(LOG_CREATE_FORMAT, _StringBuilder.ToString()), LogType.OrderCreate);
 
             __OrderController.CompleteOrder(uid);
 

@@ -1,12 +1,11 @@
 ﻿function displayResetPasswordToast() {
-    $('.toast').toast();
-    $('.toast').toast('show');
+    $(".toast").toast("show");
 }
 
 
 function passwordReset(userID, currentUserID) {
 
-    var pageurl = document.URL;
+    const pageurl = document.URL;
     
     $.ajax({
         url: pageurl+ '?handler=ResetPassword&id=' + userID + "&currentUserID=" + currentUserID,

@@ -4,6 +4,7 @@ using FutureFridges.Business.OrderManagement;
 using FutureFridges.Business.StockManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text;
 
 namespace FutureFridges.Pages.Deliveries
 {
@@ -43,7 +44,7 @@ namespace FutureFridges.Pages.Deliveries
                 {
                     int _ShelfLife = __ProductController.GetProduct(_OrderItem.Product_UID).DaysShelfLife;
 
-                    StockItem _StockItem = new StockItem()
+                    StockItem _StockItem = new StockItem
                     {
                         Product_UID = _OrderItem.Product_UID,
                         ExpiryDate = DateTime.Now.AddDays(_ShelfLife),
@@ -55,16 +56,17 @@ namespace FutureFridges.Pages.Deliveries
 
             List<Product> _Products = __ProductController.GetProducts(Order.OrderItems.Select(orderItem => orderItem.Product_UID).ToList());
             Supplier _Supplier = __SupplierController.Get(Order.Supplier_UID.Value);
-            string _ItemsString = "";
+
+            StringBuilder _StringBuilder = new StringBuilder();
 
             foreach (OrderItem _Item in Order.OrderItems)
             {
                 string? _ProductName = _Products.Where(product => product.UID == _Item.Product_UID).SingleOrDefault().Name;
 
-                _ItemsString = _ItemsString + _Item.Quantity + " x " + _ProductName + ", ";
+                _StringBuilder.Append(_Item.Quantity + " x " + _ProductName + ", ");
             }   
 
-            __AuditLogController.Create(_Supplier.Name, string.Format(LOG_RECEIVE_FORMAT, _ItemsString), LogType.DeliveryReceive);
+            __AuditLogController.Create(_Supplier.Name, string.Format(LOG_RECEIVE_FORMAT, _StringBuilder.ToString()), LogType.DeliveryReceive);
 
             __StockItemController.CreateStockItem(_StockItems);
 

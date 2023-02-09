@@ -12,7 +12,7 @@ namespace FutureFridges.Business.Email
 
         private SmtpClient CreateEmailClient ()
         {
-            SmtpClient _SMTPClient = new SmtpClient()
+            SmtpClient _SMTPClient = new SmtpClient
             {
                 EnableSsl = true,
                 UseDefaultCredentials = false,
@@ -41,7 +41,7 @@ namespace FutureFridges.Business.Email
             _Email.Dispose();
         }
 
-        public void SendEmail (EmailData email, Attachment? attachment = null)
+        public void SendEmail (EmailData email, Attachment? attachment)
         {
 
             MailMessage _Email = new MailMessage(
