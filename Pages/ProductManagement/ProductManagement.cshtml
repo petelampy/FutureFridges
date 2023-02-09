@@ -8,50 +8,56 @@
     <h1 class="text-center display-4">Product Management</h1>
     <hr>
     <div class="row text-center justify-content-center">
-        <table class="mb-3">
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Supplier
-                    </th>
-                    <th>
-                        Category
-                    </th>
-                    <th>
-                        Minimum Stock Level
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (Product product in @Model.Products)
-                {
+        @if (Model.Products.Count < 1)
+        {
+            <h2 class="text-center display-6">No products setup</h2>
+        }
+        else 
+        {
+            <table class="mb-3">
+                <thead>
                     <tr>
-                        <td>@product.Name</td>
-                        <td>@Model.GetSupplierName(product.Supplier_UID)</td>
-                        <td>@product.Category</td>
-                        <td>@product.MinimumStockLevel</td>
-                        <td>
-                            <a class="btn btn-secondary" role="button" asp-page="CreateEditProduct" asp-route-UID="@product.UID">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            @if (Model.IsProductInUse(product.UID))
-                            {
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="This product is in use, and can't be deleted!">
-                                    <button class="btn btn-danger" role="button" disabled>Delete</button>
-                                </span>
-                            }
-                            else {
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteModal"+product.UID)">Delete</button>
-                            }
-                        </td>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Supplier
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Minimum Stock Level
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-
+                </thead>
+                <tbody>
+                    @foreach (Product product in @Model.Products)
+                    {
+                        <tr>
+                            <td>@product.Name</td>
+                            <td>@Model.GetSupplierName(product.Supplier_UID)</td>
+                            <td>@product.Category</td>
+                            <td>@product.MinimumStockLevel</td>
+                            <td>
+                                <a class="btn btn-secondary" role="button" asp-page="CreateEditProduct" asp-route-UID="@product.UID">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                @if (Model.IsProductInUse(product.UID))
+                                {
+                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="This product is in use, and can't be deleted!">
+                                        <button class="btn btn-danger" role="button" disabled>Delete</button>
+                                    </span>
+                                }
+                                else {
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteModal"+product.UID)">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
         <hr>
         <div class="col-md-10 text-center">
         <a class="btn btn-Main btn-primary" role="button"  asp-page="CreateEditProduct">Create Product</a>

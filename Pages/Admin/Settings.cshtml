@@ -8,11 +8,11 @@
     <div class="display-6 text-center">Site Settings</div>
     <form method="post" novalidate class="m-auto">
         <div>
-            <label asp-for="@Model.Settings.Administrator_UID">Notifiable Head Chef</label>
+            <label asp-for="@Model.Settings.Administrator_UID">Notifiable Head Chef/Administrator</label>
             <div class="col-sm-12">
                 <select class="form-select" asp-for="@Model.Settings.Administrator_UID" asp-items="@Model.AdminSelection">Site Administrator</select>
             </div>
-            <label asp-for="@Model.Settings.NotifyAllHeadChefs">Notify All Head Chefs</label>
+            <label asp-for="@Model.Settings.NotifyAllHeadChefs">Notify All Head Chefs & Admins</label>
             <div class="col-sm-10">
                 <input type="checkbox" class="form-check-input" asp-for="@Model.Settings.NotifyAllHeadChefs">
             </div>
