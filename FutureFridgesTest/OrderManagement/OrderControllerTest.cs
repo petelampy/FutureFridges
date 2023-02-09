@@ -24,7 +24,7 @@ namespace FutureFridgesTest.OrderManagement
 
             Order _Result = new Order();
 
-            Order _TestOrder = new Order()
+            Order _Order = new Order()
             {
                 Id = 22,
                 NumberOfItems = 15,
@@ -50,10 +50,10 @@ namespace FutureFridgesTest.OrderManagement
 
             _MockRepository
                 .Setup(mock => mock.GetAll())
-                .Returns(new List<Order>() { _TestOrder });
+                .Returns(new List<Order>() { _Order });
 
             IOrderController _OrderController = new OrderController(_MockRepository.Object, _MockProductRepository.Object, _MockSupplierRepository.Object, _MockEmailManager.Object);
-            _OrderController.CreateOrder(_TestOrder);
+            _OrderController.CreateOrder(_Order);
 
             _MockRepository.Verify(repo => repo.CreateOrder(It.IsAny<Order>()), Times.Once());
             _MockRepository.Verify(repo => repo.GetAll(), Times.Once());
@@ -63,14 +63,14 @@ namespace FutureFridgesTest.OrderManagement
             Assert.IsTrue(_Result.PinCode > 0);
             Assert.IsTrue(_Result.PinCode < 9999);
 
-            Assert.AreEqual(_TestOrder.Id, _Result.Id);
-            Assert.AreEqual(_TestOrder.Supplier_UID, _Result.Supplier_UID);
-            Assert.AreEqual(_TestOrder.OrderItems.Select(orderItem => orderItem.Quantity).Sum(), _Result.NumberOfItems);
+            Assert.AreEqual(_Order.Id, _Result.Id);
+            Assert.AreEqual(_Order.Supplier_UID, _Result.Supplier_UID);
+            Assert.AreEqual(_Order.OrderItems.Select(orderItem => orderItem.Quantity).Sum(), _Result.NumberOfItems);
             
-            Assert.AreEqual(_TestOrder.OrderItems[0].Id, _Result.OrderItems[0].Id);
-            Assert.AreEqual(_TestOrder.OrderItems[0].ProductName, _Result.OrderItems[0].ProductName);
-            Assert.AreEqual(_TestOrder.OrderItems[0].Product_UID, _Result.OrderItems[0].Product_UID);
-            Assert.AreEqual(_TestOrder.OrderItems[0].Quantity, _Result.OrderItems[0].Quantity);
+            Assert.AreEqual(_Order.OrderItems[0].Id, _Result.OrderItems[0].Id);
+            Assert.AreEqual(_Order.OrderItems[0].ProductName, _Result.OrderItems[0].ProductName);
+            Assert.AreEqual(_Order.OrderItems[0].Product_UID, _Result.OrderItems[0].Product_UID);
+            Assert.AreEqual(_Order.OrderItems[0].Quantity, _Result.OrderItems[0].Quantity);
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace FutureFridgesTest.OrderManagement
 
             OrderItem _Result = new OrderItem();
 
-            OrderItem _TestOrderItem = new OrderItem()
+            OrderItem _OrderItem = new OrderItem()
             {
                 Id = 7,
                 ProductName = "Cheez",
@@ -98,17 +98,17 @@ namespace FutureFridgesTest.OrderManagement
                 .Verifiable();
 
             IOrderController _OrderController = new OrderController(_MockRepository.Object, _MockProductRepository.Object, _MockSupplierRepository.Object, _MockEmailManager.Object);
-            _OrderController.CreateOrderItem(_TestOrderItem);
+            _OrderController.CreateOrderItem(_OrderItem);
 
             _MockRepository.Verify(repo => repo.CreateOrderItem(It.IsAny<OrderItem>()), Times.Once());
 
             Assert.AreNotEqual(Guid.Empty, _Result.UID);
 
-            Assert.AreEqual(_TestOrderItem.Id, _Result.Id);
-            Assert.AreEqual(_TestOrderItem.ProductName, _Result.ProductName);
-            Assert.AreEqual(_TestOrderItem.Product_UID, _Result.Product_UID);
-            Assert.AreEqual(_TestOrderItem.Supplier_UID, _Result.Supplier_UID);
-            Assert.AreEqual(_TestOrderItem.Quantity, _Result.Quantity);
+            Assert.AreEqual(_OrderItem.Id, _Result.Id);
+            Assert.AreEqual(_OrderItem.ProductName, _Result.ProductName);
+            Assert.AreEqual(_OrderItem.Product_UID, _Result.Product_UID);
+            Assert.AreEqual(_OrderItem.Supplier_UID, _Result.Supplier_UID);
+            Assert.AreEqual(_OrderItem.Quantity, _Result.Quantity);
         }
 
         [TestMethod]
@@ -119,9 +119,9 @@ namespace FutureFridgesTest.OrderManagement
             Mock<ISupplierRepository> _MockSupplierRepository = new Mock<ISupplierRepository>();
             Mock<IEmailManager> _MockEmailManager = new Mock<IEmailManager>();
 
-            Order _TestOrder = new Order();
-            _TestOrder.OrderItems = new List<OrderItem>();
-            OrderItem _TestOrderItem = new OrderItem()
+            Order _Order = new Order();
+            _Order.OrderItems = new List<OrderItem>();
+            OrderItem _OrderItem = new OrderItem()
             {
                 Id = 7,
                 ProductName = "",
@@ -129,7 +129,7 @@ namespace FutureFridgesTest.OrderManagement
                 Quantity = 4,
                 Supplier_UID = Guid.NewGuid()
             };
-            OrderItem _TestOrderItem2 = new OrderItem()
+            OrderItem _OrderItem2 = new OrderItem()
             {
                 Id = 4,
                 ProductName = "",
@@ -137,21 +137,21 @@ namespace FutureFridgesTest.OrderManagement
                 Quantity = 2,
                 Supplier_UID = Guid.NewGuid()
             };
-            _TestOrder.OrderItems.Add(_TestOrderItem);
-            _TestOrder.OrderItems.Add(_TestOrderItem2);
+            _Order.OrderItems.Add(_OrderItem);
+            _Order.OrderItems.Add(_OrderItem2);
 
             _MockRepository
                 .Setup(mock => mock.GetOrder(It.IsAny<Guid>()))
-                .Returns(_TestOrder);
+                .Returns(_Order);
 
-            Product _TestProduct = new Product()
+            Product _Product = new Product()
             {
                 Name = "Test Product Name"
             };
 
             _MockProductRepository
                 .Setup(mock => mock.GetProduct(It.IsAny<Guid>()))
-                .Returns(_TestProduct);
+                .Returns(_Product);
 
             IOrderController _OrderController = new OrderController(_MockRepository.Object, _MockProductRepository.Object, _MockSupplierRepository.Object, _MockEmailManager.Object);
             Order _Result = _OrderController.GetOrder(Guid.Empty);
@@ -159,8 +159,8 @@ namespace FutureFridgesTest.OrderManagement
             _MockRepository.Verify(repo => repo.GetOrder(It.IsAny<Guid>()), Times.Once());
             _MockProductRepository.Verify(repo => repo.GetProduct(It.IsAny<Guid>()), Times.Exactly(2));
 
-            Assert.AreEqual(_TestProduct.Name, _Result.OrderItems[0].ProductName);
-            Assert.AreEqual(_TestProduct.Name, _Result.OrderItems[1].ProductName);
+            Assert.AreEqual(_Product.Name, _Result.OrderItems[0].ProductName);
+            Assert.AreEqual(_Product.Name, _Result.OrderItems[1].ProductName);
         }
 
         [TestMethod]
@@ -171,9 +171,9 @@ namespace FutureFridgesTest.OrderManagement
             Mock<ISupplierRepository> _MockSupplierRepository = new Mock<ISupplierRepository>();
             Mock<IEmailManager> _MockEmailManager = new Mock<IEmailManager>();
 
-            Order _TestOrder = new Order();
-            _TestOrder.OrderItems = new List<OrderItem>();
-            OrderItem _TestOrderItem = new OrderItem()
+            Order _Order = new Order();
+            _Order.OrderItems = new List<OrderItem>();
+            OrderItem _OrderItem = new OrderItem()
             {
                 Id = 7,
                 ProductName = "",
@@ -181,7 +181,7 @@ namespace FutureFridgesTest.OrderManagement
                 Quantity = 4,
                 Supplier_UID = Guid.NewGuid()
             };
-            OrderItem _TestOrderItem2 = new OrderItem()
+            OrderItem _OrderItem2 = new OrderItem()
             {
                 Id = 4,
                 ProductName = "",
@@ -189,21 +189,21 @@ namespace FutureFridgesTest.OrderManagement
                 Quantity = 2,
                 Supplier_UID = Guid.NewGuid()
             };
-            _TestOrder.OrderItems.Add(_TestOrderItem);
-            _TestOrder.OrderItems.Add(_TestOrderItem2);
+            _Order.OrderItems.Add(_OrderItem);
+            _Order.OrderItems.Add(_OrderItem2);
 
             _MockRepository
                 .Setup(mock => mock.GetOrderByPinCode(It.IsAny<int>()))
-                .Returns(_TestOrder);
+                .Returns(_Order);
 
-            Product _TestProduct = new Product()
+            Product _Product = new Product()
             {
                 Name = "Test Product Name"
             };
 
             _MockProductRepository
                 .Setup(mock => mock.GetProduct(It.IsAny<Guid>()))
-                .Returns(_TestProduct);
+                .Returns(_Product);
 
             IOrderController _OrderController = new OrderController(_MockRepository.Object, _MockProductRepository.Object, _MockSupplierRepository.Object, _MockEmailManager.Object);
             Order _Result = _OrderController.GetOrderByPinCode(0);
@@ -211,8 +211,8 @@ namespace FutureFridgesTest.OrderManagement
             _MockRepository.Verify(repo => repo.GetOrderByPinCode(It.IsAny<int>()), Times.Once());
             _MockProductRepository.Verify(repo => repo.GetProduct(It.IsAny<Guid>()), Times.Exactly(2));
 
-            Assert.AreEqual(_TestProduct.Name, _Result.OrderItems[0].ProductName);
-            Assert.AreEqual(_TestProduct.Name, _Result.OrderItems[1].ProductName);
+            Assert.AreEqual(_Product.Name, _Result.OrderItems[0].ProductName);
+            Assert.AreEqual(_Product.Name, _Result.OrderItems[1].ProductName);
         }
 
         [TestMethod]
@@ -225,26 +225,26 @@ namespace FutureFridgesTest.OrderManagement
 
             Guid _MockSupplierGuid = Guid.NewGuid();
 
-            Order _TestOrder = new Order();
-            _TestOrder.OrderItems = new List<OrderItem>();
-            OrderItem _TestOrderItem = new OrderItem()
+            Order _Order = new Order();
+            _Order.OrderItems = new List<OrderItem>();
+            OrderItem _OrderItem = new OrderItem()
             {
                 Id = 3,
                 Product_UID = Guid.NewGuid(),
                 Quantity = 4,
                 Supplier_UID = _MockSupplierGuid
             };
-            OrderItem _TestOrderItem2 = new OrderItem()
+            OrderItem _OrderItem2 = new OrderItem()
             {
                 Id = 1,
                 Product_UID = Guid.NewGuid(),
                 Quantity = 6,
                 Supplier_UID = _MockSupplierGuid
             };
-            _TestOrder.OrderItems.Add(_TestOrderItem);
-            _TestOrder.OrderItems.Add(_TestOrderItem2);
+            _Order.OrderItems.Add(_OrderItem);
+            _Order.OrderItems.Add(_OrderItem2);
 
-            Supplier _MockSupplier = new Supplier()
+            Supplier _Supplier = new Supplier()
             {
                 Name = "Test Supplier",
                 Email = "testsupplier@email.com"
@@ -252,11 +252,11 @@ namespace FutureFridgesTest.OrderManagement
 
             _MockRepository
                 .Setup(mock => mock.GetOrder(It.IsAny<Guid>()))
-                .Returns(_TestOrder);
+                .Returns(_Order);
 
             _MockSupplierRepository
                 .Setup(mock => mock.Get(It.IsAny<Guid>()))
-                .Returns(_MockSupplier);
+                .Returns(_Supplier);
 
             EmailData _Result = new EmailData();
 
@@ -291,21 +291,21 @@ namespace FutureFridgesTest.OrderManagement
             _MockRepository.Verify(repo => repo.CreateOrder(It.IsAny<Order>()), Times.Once);
             _MockRepository.Verify(repo => repo.CreateOrderItem(It.IsAny<OrderItem>()), Times.Exactly(2));
 
-            Assert.AreEqual(_MockSupplier.Email, _Result.Recipient);
+            Assert.AreEqual(_Supplier.Email, _Result.Recipient);
             Assert.AreEqual("Future Fridges - You've received an order!", _Result.Subject);
-            Assert.AreEqual(CreateExpectedEmailBody(_MockSupplier, _TestOrder.OrderItems, _ResultOrder.PinCode), _Result.Body);
+            Assert.AreEqual(CreateExpectedEmailBody(_Supplier, _Order.OrderItems, _ResultOrder.PinCode), _Result.Body);
         }
 
-        private string CreateExpectedEmailBody(Supplier mockSupplier, List<OrderItem> mockOrderItems, int pinCode)
+        private string CreateExpectedEmailBody(Supplier supplier, List<OrderItem> orderItems, int pinCode)
         {
             string _Result = "";
 
 
-           _Result += "Hello, " + mockSupplier.Name + "!\n\nYou have received the following order:\n\n";
+           _Result += "Hello, " + supplier.Name + "!\n\nYou have received the following order:\n\n";
 
-            foreach(OrderItem _MockItem in mockOrderItems)
+            foreach(OrderItem _Item in orderItems)
             {
-                _Result += _MockItem.Quantity + " x " + _MockItem.ProductName + "\n";
+                _Result += _Item.Quantity + " x " + _Item.ProductName + "\n";
             }
 
             _Result += "\nPlease use the following pin code when completing delivery: " + pinCode + "\n\nKind Regards, Future Fridges!";

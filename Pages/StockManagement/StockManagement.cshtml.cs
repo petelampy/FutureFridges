@@ -4,6 +4,7 @@ using FutureFridges.Business.Notifications;
 using FutureFridges.Business.StockManagement;
 using FutureFridges.Business.UserManagement;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
@@ -22,13 +23,13 @@ namespace FutureFridges.Pages.StockManagement
         private readonly IStockItemController __StockItemController;
         private readonly IUserPermissionController __UserPermissionController;
 
-        public StockManagementModel ()
+        public StockManagementModel (UserManager<FridgeUser> userManager)
         {
             __StockItemController = new StockItemController();
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
             __AuditLogController = new AuditLogController();
-            __NotificationController = new NotificationController();
+            __NotificationController = new NotificationController(userManager);
         }
 
         public IActionResult OnGet ()

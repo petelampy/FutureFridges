@@ -22,6 +22,7 @@ namespace FutureFridges.Pages.ProductManagement
         private const string LOG_ENTRY_FORMAT_DAYS_UPDATE = "{0}'s shelf life was changed from {1} to {2}";
         private const string LOG_ENTRY_FORMAT_RENAME = "{0} was renamed to {1}";
         private const string PRODUCT_IMAGES_PATH = "wwwroot/Images/Products";
+        private const string IMAGES_PATH = "wwwroot/Images";
 
         private readonly IAuditLogController __AuditLogController;
         private readonly IWebHostEnvironment __Environment;
@@ -115,9 +116,6 @@ namespace FutureFridges.Pages.ProductManagement
 
         public IActionResult OnGet ()
         {
-            //MAYBE ADD AN ON GET FLAG TO DETERMINE IF IT'S A CREATE/EDIT RATHER THAN RELYING ON THE UID.
-            //THIS WOULD ALSO ALLOW FOR A "VIEW" MODE WHERE ALL SAVE BUTTONS AND FIELDS ARE DISABLED JUST FOR VIEWING A PRODUCT
-
             string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             UserPermissions _CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
 
@@ -177,6 +175,10 @@ namespace FutureFridges.Pages.ProductManagement
                 {
                     CreateProductImageFile(FileUpload);
                 }
+                else
+                {
+                    LoadSampleImage(Product.Name);
+                }
 
                 __ProductController.CreateProduct(Product);
             }
@@ -192,6 +194,16 @@ namespace FutureFridges.Pages.ProductManagement
             string _NewFilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, _NewProductFileName);
 
             System.IO.File.Move(_FilePath, _NewFilePath);
+            Product.ImageName = _NewProductFileName;
+        }
+
+        private void LoadSampleImage (string productName)
+        {
+            string _FilePath = Path.Combine(__Environment.ContentRootPath, IMAGES_PATH, "SampleProduct.png");
+            string _NewProductFileName = productName + ".png";
+            string _NewFilePath = Path.Combine(__Environment.ContentRootPath, PRODUCT_IMAGES_PATH, _NewProductFileName);
+
+            System.IO.File.Copy(_FilePath, _NewFilePath, true);
             Product.ImageName = _NewProductFileName;
         }
 

@@ -29,6 +29,7 @@ namespace FutureFridges.Data.Admin
             Settings _Settings = Get();
 
             _Settings.Administrator_UID = updatedSettings.Administrator_UID;
+            _Settings.NotifyAllHeadChefs = updatedSettings.NotifyAllHeadChefs;
 
             __DbContext.Settings.Update(_Settings);
             __DbContext.SaveChanges();

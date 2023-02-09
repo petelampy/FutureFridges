@@ -31,9 +31,6 @@
                 <tbody>
                         @foreach (StockItem stockItem in Model.StockItems)
                         {
-                            //get expiry date from db
-
-                            //if past expiry display with time past expiry
                             TimeSpan ExpiryDiff = DateTime.Now.Subtract(stockItem.ExpiryDate);
                             @if (stockItem.ExpiryDate < DateTime.Now)
                             {
@@ -50,13 +47,17 @@
             </table>
             <hr>
             <div class="mt-5">
-                <h3>Send health report</h3>
+                <h3>Send Health Report</h3>
                 <form class="row" method="post" asp-page-handler="sendReport">
-                    <div class="form-group col-lg-3">
-                        <input class="form-control" name="safetyOfficerEmail" placeholder="safetyofficer@email.com"/>
+                    <div>
+                        <label asp-for="@Model.SafetyOfficerEmail">Health And Safety Officer Email</label>
+                        <div class="col-sm-12">
+                            <input class="form-control" asp-for="@Model.SafetyOfficerEmail" placeholder="safetyofficer@email.com" />
+                        </div>
+                        <span class="text-danger" asp-validation-for="@Model.SafetyOfficerEmail"></span>
                     </div>
-                    <div class="form-group col-lg-2">
-                    <button class="btn btn-primary w-100" type="submit" name="submit">Send</button>
+                    <div class="col-md-10">
+                        <button class="btn btn-lg btn-primary" type="submit" name="submit">Send</button>
                     </div>
                 </form>
             </div>
@@ -64,7 +65,21 @@
     </div>
 </div>
 
+<div class="container-sm m-auto">
+    @*Bootstrap Toast - Confirm Email Sent*@
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 110px; right: 0;">
+        <div class="toast-header">
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Health Report Email sent.
+        </div>
+    </div>
+</div>
 
 
-
+@section Scripts {
+    <script type="text/javascript" src="~/Pages/HealthReport/HealthReport.cshtml.js"></script>
+}
 

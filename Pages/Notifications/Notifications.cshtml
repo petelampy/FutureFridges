@@ -9,37 +9,44 @@
     <h1 class="text-center display-4">Notifications</h1>
     <hr>
     <div class="row justify-content-center">
-        @foreach (Notification notificaton in Model.Notifications)
+        @if (Model.Notifications.Count < 1)
         {
-            int SecondsSince = Convert.ToInt32((DateTime.Now - notificaton.DateCreated).TotalSeconds);
-            string NotificationTime = "";
+            <h2 class="text-center display-6">No Notifications</h2>
+        }
+        else 
+        {
+            @foreach (Notification notificaton in Model.Notifications)
+            {
+                int SecondsSince = Convert.ToInt32((DateTime.Now - notificaton.DateCreated).TotalSeconds);
+                string NotificationTime = "";
 
-            if (SecondsSince < 60)
-            {
-                NotificationTime = SecondsSince + " seconds ago";
-            }
-            else if (SecondsSince < 3600)
-            {
-                NotificationTime = (SecondsSince / 60) + " minutes ago";
-            }
-            else if (SecondsSince < 86400)
-            {
-                NotificationTime = (SecondsSince / 3600) + " hours ago";
-            }
-            else
-            {
-                NotificationTime = (SecondsSince / 86400) + " days ago";
-            }
+                if (SecondsSince < 60)
+                {
+                    NotificationTime = SecondsSince + " seconds ago";
+                }
+                else if (SecondsSince < 3600)
+                {
+                    NotificationTime = (SecondsSince / 60) + " minutes ago";
+                }
+                else if (SecondsSince < 86400)
+                {
+                    NotificationTime = (SecondsSince / 3600) + " hours ago";
+                }
+                else
+                {
+                    NotificationTime = (SecondsSince / 86400) + " days ago";
+                }
 
-            <div class="card text-center mt-4">
-                <div class="card-header">
-                    <a role="button" class="btn-close float-end" aria-label="Close" asp-page-handler="deleteNotification" asp-route-uid="@notificaton.UID"></a>
+                <div class="card text-center mt-4">
+                    <div class="card-header">
+                        <a role="button" class="btn-close float-end" aria-label="Close" asp-page-handler="deleteNotification" asp-route-uid="@notificaton.UID"></a>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@notificaton.Message</p>
+                    </div>
+                    <div class="card-footer text-muted">@NotificationTime</div>
                 </div>
-                <div class="card-body">
-                    <p class="card-text">@notificaton.Message</p>
-                </div>
-                <div class="card-footer text-muted">@NotificationTime</div>
-            </div>
+            }
         }
     </div>
 </div>

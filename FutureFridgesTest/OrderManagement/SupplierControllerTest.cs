@@ -15,7 +15,7 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            Supplier _MockSupplier = new Supplier()
+            Supplier _Supplier = new Supplier()
             {
                 Email = "test@supplier.com",
                 Name = "Test Supplier",
@@ -31,13 +31,13 @@ namespace FutureFridgesTest.OrderManagement
 
             ISupplierController _SupplierController = new SupplierController(_MockRepository.Object, _MockProductController.Object, _MockOrderController.Object);
 
-            _SupplierController.Create(_MockSupplier);
+            _SupplierController.Create(_Supplier);
 
             Assert.AreNotEqual(Guid.Empty, _Result.UID);
 
-            Assert.AreEqual(_MockSupplier.Name, _Result.Name);
-            Assert.AreEqual(_MockSupplier.Email, _Result.Email);
-            Assert.AreEqual(_MockSupplier.Id, _Result.Id);
+            Assert.AreEqual(_Supplier.Name, _Result.Name);
+            Assert.AreEqual(_Supplier.Email, _Result.Email);
+            Assert.AreEqual(_Supplier.Id, _Result.Id);
 
             _MockRepository.Verify(mock => mock.Create(It.IsAny<Supplier>()), Times.Once);
         }
@@ -49,7 +49,7 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            Product _MockProduct = new Product()
+            Product _Product = new Product()
             {
                 Name = "Product",
                 Id = 55,
@@ -58,7 +58,7 @@ namespace FutureFridgesTest.OrderManagement
 
             _MockProductController
                 .Setup(mock => mock.GetProduct(It.IsAny<Guid>()))
-                .Returns(_MockProduct);
+                .Returns(_Product);
 
             _MockRepository
                 .Setup(mock => mock.Get(It.IsAny<Guid>()))
@@ -76,7 +76,7 @@ namespace FutureFridgesTest.OrderManagement
 
             Assert.AreNotEqual(Guid.Empty, _Result.UID);
 
-            Assert.AreEqual(_MockProduct.Supplier_UID, _Result.UID);
+            Assert.AreEqual(_Product.Supplier_UID, _Result.UID);
 
             _MockRepository.Verify(mock => mock.Get(It.IsAny<Guid>()), Times.Once);
             _MockProductController.Verify(mock => mock.GetProduct(It.IsAny<Guid>()), Times.Once);
@@ -89,14 +89,14 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            List<Supplier> _MockSuppliers = new List<Supplier>() {
+            List<Supplier> _Suppliers = new List<Supplier>() {
                 new Supplier()
                 {
                     Email = "test225@email.com"
                 }
             };
 
-            _MockRepository.Setup(mock => mock.GetAll()).Returns(_MockSuppliers);
+            _MockRepository.Setup(mock => mock.GetAll()).Returns(_Suppliers);
 
             ISupplierController _SupplierController = new SupplierController(_MockRepository.Object, _MockProductController.Object, _MockOrderController.Object);
 
@@ -114,14 +114,14 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            List<Supplier> _MockSuppliers = new List<Supplier>() {
+            List<Supplier> _Suppliers = new List<Supplier>() {
                 new Supplier()
                 {
                     Email = "test@email.com"
                 }
             };
 
-            _MockRepository.Setup(mock => mock.GetAll()).Returns(_MockSuppliers);
+            _MockRepository.Setup(mock => mock.GetAll()).Returns(_Suppliers);
 
             ISupplierController _SupplierController = new SupplierController(_MockRepository.Object, _MockProductController.Object, _MockOrderController.Object);
 
@@ -139,14 +139,14 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            List<Supplier> _MockSuppliers = new List<Supplier>() {
+            List<Supplier> _Suppliers = new List<Supplier>() {
                 new Supplier()
                 {
                     Name= "Test Supplier 53",
                 }
             };
 
-            _MockRepository.Setup(mock => mock.GetAll()).Returns(_MockSuppliers);
+            _MockRepository.Setup(mock => mock.GetAll()).Returns(_Suppliers);
 
             ISupplierController _SupplierController = new SupplierController(_MockRepository.Object, _MockProductController.Object, _MockOrderController.Object);
 
@@ -164,14 +164,14 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            List<Supplier> _MockSuppliers = new List<Supplier>() {
+            List<Supplier> _Suppliers = new List<Supplier>() {
                 new Supplier()
                 {
                     Name= "Test Supplier",
                 }
             };
 
-            _MockRepository.Setup(mock => mock.GetAll()).Returns(_MockSuppliers);
+            _MockRepository.Setup(mock => mock.GetAll()).Returns(_Suppliers);
 
             ISupplierController _SupplierController = new SupplierController(_MockRepository.Object, _MockProductController.Object, _MockOrderController.Object);
 
@@ -189,16 +189,16 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            List<Product> _MockProducts = new List<Product>();
-            List<Order> _MockOrders = new List<Order>();
+            List<Product> _Products = new List<Product>();
+            List<Order> _Orders = new List<Order>();
 
             _MockProductController
                 .Setup(mock => mock.GetProductsBySupplier(It.IsAny<Guid>()))
-                .Returns(_MockProducts);
+                .Returns(_Products);
 
             _MockOrderController
                 .Setup(mock => mock.GetOrdersBySupplier(It.IsAny<Guid>()))
-                .Returns(_MockOrders);
+                .Returns(_Orders);
 
             ISupplierController _SupplierController = new SupplierController(_MockRepository.Object, _MockProductController.Object, _MockOrderController.Object);
 
@@ -217,23 +217,23 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            List<Product> _MockProducts = new List<Product>()
+            List<Product> _Products = new List<Product>()
             {
                 new Product()
             };
 
-            List<Order> _MockOrders = new List<Order>()
+            List<Order> _Orders = new List<Order>()
             {
                 new Order()
             };
 
             _MockProductController
                 .Setup(mock => mock.GetProductsBySupplier(It.IsAny<Guid>()))
-                .Returns(_MockProducts);
+                .Returns(_Products);
 
             _MockOrderController
                 .Setup(mock => mock.GetOrdersBySupplier(It.IsAny<Guid>()))
-                .Returns(_MockOrders);
+                .Returns(_Orders);
 
             ISupplierController _SupplierController = new SupplierController(_MockRepository.Object, _MockProductController.Object, _MockOrderController.Object);
 

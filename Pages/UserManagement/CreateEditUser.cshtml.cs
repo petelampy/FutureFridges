@@ -37,8 +37,6 @@ namespace FutureFridges.Pages.UserManagement
             __EmailManager = new EmailManager();
         }
 
-        //MAYBE ADD AN ON GET FLAG TO DETERMINE IF IT'S A CREATE/EDIT RATHER THAN RELYING ON THE UID.
-        //THIS WOULD ALSO ALLOW FOR A "VIEW" MODE WHERE ALL SAVE BUTTONS AND FIELDS ARE DISABLED JUST FOR VIEWING A PRODUCT
         public IActionResult OnGet ()
         {
             string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -46,7 +44,6 @@ namespace FutureFridges.Pages.UserManagement
 
             if (_CurrentUserPermissions.ManageUser)
             {
-                //CONVERT THE ID FIELD IN THE USERS DATABASE TO A GUID TO STOP CONVERT BEING NEEDED? BLAME ASP.NET
                 if (Id != null && new Guid(Id) != Guid.Empty)
                 {
                     ManagedUser = __UserController.GetUser(Id);

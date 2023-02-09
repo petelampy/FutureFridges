@@ -19,25 +19,18 @@ namespace FutureFridges.Data.StockManagement
 
         public void CreateStockItem (StockItem stockItem)
         {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
-
             __DbContext.StockItems.Add(stockItem);
             __DbContext.SaveChanges();
         }
 
         public void CreateStockItem (List<StockItem> stockItems)
         {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
-
             __DbContext.StockItems.AddRange(stockItems);
             __DbContext.SaveChanges();
         }
 
-        public void DeleteStockItem (Guid stockitem_UID) //RENAME ALL DELETE/GET METHODS TO JUST "GET" OR "DELETE". NO NEED TO REPEAT NAME OF CLASS
+        public void DeleteStockItem (Guid stockitem_UID)
         {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO DELETE?
-            //CHANGE THIS TO MARK AS "TAKEN" IN THE DATABASE RATHER THAN DELETING TO USE FOR REPORTING??
-
             StockItem _CurrentStockItem = GetStockItem(stockitem_UID);
 
             __DbContext.Remove(_CurrentStockItem);

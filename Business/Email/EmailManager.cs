@@ -8,7 +8,7 @@ namespace FutureFridges.Business.Email
     {
         private const string HOST_DOMAIN = "webhost.dynadot.com";
         private const string SENDER_EMAIL = "futurefridges@lampard.dev";
-        private const string SENDER_SMTP_PASS = "24154845"; //THIS SHOULDN'T BE HERE FOR SECURITY REASONS, BUT IS FINE FOR PURPOSES OF THIS PROJECT
+        private const string SENDER_SMTP_PASS = "24154845";
 
         private SmtpClient CreateEmailClient ()
         {

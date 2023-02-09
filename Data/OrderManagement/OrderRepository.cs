@@ -19,16 +19,12 @@ namespace FutureFridges.Data.OrderManagement
 
         public void CreateOrder (Order newOrder)
         {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
-
             __DbContext.Orders.Add(newOrder);
             __DbContext.SaveChanges();
         }
 
         public void CreateOrderItem (OrderItem orderItem)
         {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
-
             __DbContext.OrderItems.Add(orderItem);
             __DbContext.SaveChanges();
 
@@ -99,7 +95,7 @@ namespace FutureFridges.Data.OrderManagement
                 .SingleOrDefault(new OrderItem());
         }
 
-        public List<OrderItem> GetOrderItems (Guid order_UID) //REFACTOR THIS NAME TO GetOrderItemsByOrder
+        public List<OrderItem> GetOrderItems (Guid order_UID)
         {
             return __DbContext
                 .OrderItems

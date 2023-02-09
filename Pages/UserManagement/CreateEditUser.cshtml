@@ -29,7 +29,7 @@
 <div class="container-sm col-sm-8 bg-light rounded-3 border p-5 shadow-lg">
     <form method="post" novalidate>
         <div>
-            <label asp-for="@Model.ManagedUser.UserName"></label>
+            <label asp-for="@Model.ManagedUser.UserName">Username</label>
             <div class="col-sm-10">
                 <input class="form-control" asp-for="@Model.ManagedUser.UserName">
             </div>
@@ -43,7 +43,7 @@
             <span class="text-danger" asp-validation-for="@Model.ManagedUser.Email"></span>
         </div>
         <div>
-            <label asp-for="@Model.ManagedUser.UserType"></label>
+            <label asp-for="@Model.ManagedUser.UserType">User Type</label>
             <div class="col-sm-10">
                 <select class="form-select" asp-for="@Model.ManagedUser.UserType" asp-items="@Model.UserTypeSelection">User Type</select>
             </div>
@@ -53,54 +53,61 @@
     
         @if (@Model.Id != null && new Guid(@Model.Id) != Guid.Empty)
         {
+            <h5>Permissions:</h5>
             <div>
-                <label asp-for="@Model.ManagedUserPermissions.ViewStock"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ViewStock">
-                </div>
-                
-                @if(Model.ManagedUserPermissions.ViewStock == true) {
-                    <label asp-for="@Model.ManagedUserPermissions.AddStock"></label>
-                    <div class="col-sm-10">
-                        <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.AddStock">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.ManagedUserPermissions.ViewStock">View Stock</label>
+                        <div class="col-sm-10">
+                            <input id="viewStockCheckbox" type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ViewStock">
+                        </div>
+                        <div>
+                            <label asp-for="@Model.ManagedUserPermissions.AddStock">Add Stock</label>
+                            <div class="col-sm-10">
+                                <input id="addStockCheckbox" type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.AddStock">
+                            </div>
+                            <label asp-for="@Model.ManagedUserPermissions.RemoveStock">Remove Stock</label>
+                            <div class="col-sm-10">
+                                <input id="removeStockCheckbox" type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.RemoveStock">
+                            </div>
+                        </div>
                     </div>
-                    <label asp-for="@Model.ManagedUserPermissions.RemoveStock"></label>
-                    <div class="col-sm-10">
-                        <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.RemoveStock">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.ManagedUserPermissions.ManageProduct">Manage Products</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageProduct">
+                        </div>
+                        <label asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport">Manage Health and Safety Report</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport">
+                        </div>
+                        <label asp-for="@Model.ManagedUserPermissions.ManageUser">Manage Users</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageUser">
+                        </div>
                     </div>
-                }
-                else {
-                    <input type="hidden" asp-for="@Model.ManagedUserPermissions.AddStock">
-                    <input type="hidden" asp-for="@Model.ManagedUserPermissions.RemoveStock">
-                }
-                
-                <label asp-for="@Model.ManagedUserPermissions.ManageProduct"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageProduct">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.ManagedUserPermissions.CreateOrder">Create Orders</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.CreateOrder">
+                        </div>
+                        <label asp-for="@Model.ManagedUserPermissions.ManageSuppliers">Manage Suppliers</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageSuppliers">
+                        </div>
+                        <label asp-for="@Model.ManagedUserPermissions.ManageOrders">Manage Orders</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageOrders">
+                        </div>
+                    </div>
                 </div>
-                <label asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageHealthAndSafetyReport">
-                </div>
-                <label asp-for="@Model.ManagedUserPermissions.ManageUser"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageUser">
-                </div>
-                <label asp-for="@Model.ManagedUserPermissions.CreateOrder"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.CreateOrder">
-                </div>
-                <label asp-for="@Model.ManagedUserPermissions.ManageSuppliers"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageSuppliers">
-                </div>
-                <label asp-for="@Model.ManagedUserPermissions.ManageOrders"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ManageOrders">
-                </div>
-                <label asp-for="@Model.ManagedUserPermissions.ViewAuditLog"></label>
-                <div class="col-sm-10">
-                    <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ViewAuditLog">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.ManagedUserPermissions.ViewAuditLog">View Audit Log</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" class="form-check-input" asp-for="@Model.ManagedUserPermissions.ViewAuditLog">
+                        </div>
+                    </div>
                 </div>
             </div>
         }
@@ -122,6 +129,9 @@
                  </label>
                 <input id="create-user" type="submit" value="Create User">
         }
-        @*REPLACE THE SUBMIT/CREATE WITH A SAVE ICON GLYPH TO MAKE IT LOOK BETTER*@
     </form>
 </div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Pages/UserManagement/CreateEditUser.cshtml.js"></script>
+}   

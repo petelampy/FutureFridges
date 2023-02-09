@@ -15,7 +15,7 @@ namespace FutureFridges.Pages.Notifications
         
         public NotificationsModel(UserManager<FridgeUser> userManager)
         {
-            __NotificationController = new NotificationController();
+            __NotificationController = new NotificationController(userManager);
             __UserManager = userManager;
         }
         

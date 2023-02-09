@@ -15,29 +15,29 @@ namespace FutureFridgesTest.HealthReport
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
             Mock<IEmailManager> _MockEmailManager = new Mock<IEmailManager>();
 
-            Guid _MockProductUID = Guid.NewGuid();
+            Guid _ProductUID = Guid.NewGuid();
 
-            List<StockItem> _MockStockItems = new List<StockItem>()
+            List<StockItem> _StockItems = new List<StockItem>()
             {
                 new StockItem()
                 {
                     ExpiryDate = DateTime.Now,
-                    Product_UID = _MockProductUID,
+                    Product_UID = _ProductUID,
                     Item_UID = Guid.NewGuid(),
                     Id = 2
                 }
             };
 
-            _MockStockItemController.Setup(mock => mock.GetAll()).Returns(_MockStockItems);
+            _MockStockItemController.Setup(mock => mock.GetAll()).Returns(_StockItems);
 
             Product _MockProduct = new Product()
             {
                 Name = "Test Product",
-                UID = _MockProductUID,
+                UID = _ProductUID,
                 Id = 1
             };
 
-            _MockProductController.Setup(mock => mock.GetProduct(_MockProductUID)).Returns(_MockProduct);
+            _MockProductController.Setup(mock => mock.GetProduct(_ProductUID)).Returns(_MockProduct);
 
             EmailData _Result = new EmailData();
             Attachment _ResultAttachment = null;
@@ -50,11 +50,11 @@ namespace FutureFridgesTest.HealthReport
 
             IHealthReportController _HealthReportController = new HealthReportController(_MockStockItemController.Object, _MockProductController.Object, _MockEmailManager.Object);
 
-            string _MockHealthOfficerEmail = "healthofficer@test.com";
+            string _HealthOfficerEmail = "healthofficer@test.com";
 
-            _HealthReportController.CreateHealthReport(_MockHealthOfficerEmail, DateTime.MaxValue);
+            _HealthReportController.CreateHealthReport(_HealthOfficerEmail, DateTime.MaxValue);
 
-            Assert.AreEqual(_MockHealthOfficerEmail, _Result.Recipient);
+            Assert.AreEqual(_HealthOfficerEmail, _Result.Recipient);
             Assert.AreEqual("Future Fridges - Health Report Extract", _Result.Subject);
             Assert.AreEqual("Your health report export is attached.", _Result.Body);
 
@@ -68,9 +68,9 @@ namespace FutureFridgesTest.HealthReport
                 .ReadToEnd()
                 .Trim(_LineCharacters);
 
-            Assert.AreEqual(CreateExpectedFileContent(_MockStockItems[0], _MockProduct.Name), _ResultBodyData);
+            Assert.AreEqual(CreateExpectedFileContent(_StockItems[0], _MockProduct.Name), _ResultBodyData);
             
-            _MockProductController.Verify(mock => mock.GetProduct(_MockProductUID), Times.Once());
+            _MockProductController.Verify(mock => mock.GetProduct(_ProductUID), Times.Once());
             _MockStockItemController.Verify(mock => mock.GetAll(), Times.Once());
             _MockEmailManager.Verify(mock => mock.SendEmail(It.IsAny<EmailData>(), It.IsAny<Attachment>()), Times.Once());
         }

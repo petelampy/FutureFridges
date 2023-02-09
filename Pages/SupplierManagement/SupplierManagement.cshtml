@@ -9,49 +9,54 @@
     <h1 class="text-center display-4">Supplier Management</h1>
     <hr>
     <div class="row justify-content-center">
-        <table class="mb-3">
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Email
-                    </th>
-                    <th>
-                        Number of Products
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (Supplier supplier in Model.Suppliers)
-                {
+        @if (Model.Suppliers.Count < 1)
+        {
+            <h2 class="text-center display-6">No suppliers setup</h2>
+        }
+        else {
+            <table class="mb-3">
+                <thead>
                     <tr>
-                        <td>@supplier.Name</td>
-                        <td>@supplier.Email</td>
-                        <td>@Model.GetSupplierProductCount(supplier.UID)</td>
-                        <td>
-                            <a class="btn btn-secondary" role="button" asp-page="CreateEditSupplier" asp-route-UID="@supplier.UID">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                        </td>
-                        <td>
-                            @if (Model.IsSupplierInUse(supplier.UID))
-                            {
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="This supplier is in use, and can't be deleted!">
-                                    <button class="btn btn-danger" role="button" disabled>Delete</button>
-                                </span>
-                            }
-                            else
-                            {
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteModal"+supplier.UID)">Delete</button>
-                            }
-                        </td>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Number of Products
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-
+                </thead>
+                <tbody>
+                    @foreach (Supplier supplier in Model.Suppliers)
+                    {
+                        <tr>
+                            <td>@supplier.Name</td>
+                            <td>@supplier.Email</td>
+                            <td>@Model.GetSupplierProductCount(supplier.UID)</td>
+                            <td>
+                                <a class="btn btn-secondary" role="button" asp-page="CreateEditSupplier" asp-route-UID="@supplier.UID">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </td>
+                            <td>
+                                @if (Model.IsSupplierInUse(supplier.UID))
+                                {
+                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="This supplier is in use, and can't be deleted!">
+                                        <button class="btn btn-danger" role="button" disabled>Delete</button>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteModal"+supplier.UID)">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
         <hr>
         <div class="col-md-10 text-center">
             <a class="btn btn-lg btn-primary" role="button" asp-page="CreateEditSupplier">Create Supplier</a>

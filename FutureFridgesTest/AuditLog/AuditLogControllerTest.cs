@@ -21,15 +21,15 @@ namespace FutureFridgesTest.AuditLog
 
             IAuditLogController _AuditLogController = new AuditLogController(_MockRepository.Object);
 
-            string _MockAuditLogName = "Log Entry Name";
-            string _MockAuditLogDescription = "This is a log entry";
+            string _AuditLogName = "Log Entry Name";
+            string _AuditLogDescription = "This is a log entry";
             
-            _AuditLogController.Create(_MockAuditLogName, _MockAuditLogDescription, LogType.UserUpdate);
+            _AuditLogController.Create(_AuditLogName, _AuditLogDescription, LogType.UserUpdate);
 
             Assert.AreNotEqual(Guid.Empty, _Result.UID);
             
-            Assert.AreEqual(_MockAuditLogName, _Result.UserSupplierName);
-            Assert.AreEqual(_MockAuditLogDescription, _Result.Description);
+            Assert.AreEqual(_AuditLogName, _Result.UserSupplierName);
+            Assert.AreEqual(_AuditLogDescription, _Result.Description);
             Assert.AreEqual(LogType.UserUpdate, _Result.LogType);
 
             _MockRepository.Verify(repo => repo.Create(It.IsAny<LogEntry>()), Times.Once());
