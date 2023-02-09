@@ -1,11 +1,14 @@
-﻿const AddRemovePermissions = document.getElementById("addRemoveStockPermissions");
-const ViewStockCheckbox = document.getElementById("viewStockCheckbox");
+﻿const ViewStockCheckbox = document.getElementById("viewStockCheckbox");
+const AddStockCheckbox = document.getElementById("addStockCheckbox");
+const RemoveStockCheckbox = document.getElementById("removeStockCheckbox");
 
 function showHideCheckboxes() {
     if (ViewStockCheckbox.checked) {
-        AddRemovePermissions.style.display = "block";
+        AddStockCheckbox.disabled = false;
+        RemoveStockCheckbox.disabled = false;
     } else {
-        AddRemovePermissions.style.display = "none";
+        AddStockCheckbox.disabled = true;
+        RemoveStockCheckbox.disabled = true;
     }
 }
 
