@@ -32,6 +32,8 @@ if (!_App.Environment.IsDevelopment())
     _App.UseHsts();
 }
 
+_App.UseExceptionHandler("/Error");
+
 _App.UseHttpsRedirection();
 _App.UseStaticFiles();
 
