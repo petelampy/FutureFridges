@@ -55,7 +55,15 @@ namespace FutureFridges.Pages.HealthReport
 
         public IActionResult OnPostSendReport(string safetyOfficerEmail)
         {
-            __HealthReportController.CreateHealthReport(safetyOfficerEmail, DateTime.Now);
+            if (!safetyOfficerEmail.IsNullOrEmpty())
+            {
+                try
+                {
+                    var _Email = new MailAddress(safetyOfficerEmail);
+                    __HealthReportController.CreateHealthReport(safetyOfficerEmail, DateTime.Now);
+                } catch {}
+            }
+
             return RedirectToPage("HealthReport");
         }
 
