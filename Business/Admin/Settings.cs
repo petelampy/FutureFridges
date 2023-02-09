@@ -6,6 +6,5 @@
         public bool NotifyAllHeadChefs { get; set; }
         public int Id { get; set; }
         public Guid UID { get; set; }
-        //ADD A "COMPANY NAME" thing that is used within other pages
     }
 }

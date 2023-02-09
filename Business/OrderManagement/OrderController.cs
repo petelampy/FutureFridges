@@ -10,8 +10,8 @@ namespace FutureFridges.Business.OrderManagement
 
         private readonly IEmailManager __EmailManager;
         private readonly IOrderRepository __OrderRepository;
-        private readonly IProductRepository __ProductRepository; //REPLACE WITH CONTROLLER, FIND A WAY TO DEAL WITH THEM CALLING EACH OTHER
-        private readonly ISupplierRepository __SupplierRepository; //REPLACE WITH CONTROLLER, FIND A WAY TO DEAL WITH THEM CALLING EACH OTHER
+        private readonly IProductRepository __ProductRepository;
+        private readonly ISupplierRepository __SupplierRepository;
 
         public OrderController ()
             : this(new OrderRepository(), new ProductRepository(), new SupplierRepository(), new EmailManager())

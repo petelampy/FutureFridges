@@ -31,9 +31,6 @@
                 <tbody>
                         @foreach (StockItem stockItem in Model.StockItems)
                         {
-                            //get expiry date from db
-
-                            //if past expiry display with time past expiry
                             TimeSpan ExpiryDiff = DateTime.Now.Subtract(stockItem.ExpiryDate);
                             @if (stockItem.ExpiryDate < DateTime.Now)
                             {

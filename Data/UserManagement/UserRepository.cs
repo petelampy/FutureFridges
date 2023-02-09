@@ -20,8 +20,6 @@ namespace FutureFridges.Data.UserManagement
 
         public void CreateUser (FridgeUser newUser)
         {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
-
             __DbContext.Users.Add(newUser);
             __DbContext.SaveChanges();
         }
@@ -49,8 +47,6 @@ namespace FutureFridges.Data.UserManagement
 
         public void UpdateUser (FridgeUser updatedUser)
         {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO UPDATE?
-
             FridgeUser _CurrentUser = GetUser(updatedUser.Id);
             _CurrentUser.UserName = updatedUser.UserName;
             _CurrentUser.NormalizedUserName = updatedUser.UserName.ToUpper();

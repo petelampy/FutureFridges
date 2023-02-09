@@ -7,7 +7,7 @@ namespace FutureFridges.Pages.Account
 {
     public class LogoutModel : PageModel
     {
-        private const string INDEX_PAGE_PATH = "../Index"; //ADD TO GLOBAL RESX FILE
+        private const string INDEX_PAGE_PATH = "../Index";
 
         private readonly SignInManager<FridgeUser> __SignInManager;
 
@@ -18,7 +18,6 @@ namespace FutureFridges.Pages.Account
 
         public IActionResult OnGetAsync ()
         {
-            //THIS COULD BE CHANGED TO NOT NEED A PAGE, ADDED AS A PAGE FOR EASY TESTING
             __SignInManager.SignOutAsync();
             return RedirectToPage(INDEX_PAGE_PATH);
         }

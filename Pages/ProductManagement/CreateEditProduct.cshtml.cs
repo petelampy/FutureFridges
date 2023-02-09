@@ -115,9 +115,6 @@ namespace FutureFridges.Pages.ProductManagement
 
         public IActionResult OnGet ()
         {
-            //MAYBE ADD AN ON GET FLAG TO DETERMINE IF IT'S A CREATE/EDIT RATHER THAN RELYING ON THE UID.
-            //THIS WOULD ALSO ALLOW FOR A "VIEW" MODE WHERE ALL SAVE BUTTONS AND FIELDS ARE DISABLED JUST FOR VIEWING A PRODUCT
-
             string _CurrentUserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             UserPermissions _CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
 

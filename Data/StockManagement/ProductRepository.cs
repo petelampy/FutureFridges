@@ -19,8 +19,6 @@ namespace FutureFridges.Data.StockManagement
 
         public void CreateProduct (Product newProduct)
         {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO CREATE?
-
             __DbContext.Products.Add(newProduct);
             __DbContext.SaveChanges();
         }
@@ -64,8 +62,6 @@ namespace FutureFridges.Data.StockManagement
 
         public void UpdateProduct (Product updatedProduct)
         {
-            //SET THE RETURN AS A BOOL, THROW AN ERROR IF IT FAILS TO UPDATE?
-
             Product _CurrentProduct = GetProduct(updatedProduct.UID);
 
             _CurrentProduct.Name = updatedProduct.Name;
