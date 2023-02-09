@@ -114,8 +114,8 @@ namespace FutureFridgesTest.OrderManagement
             Mock<IOrderController> _MockOrderController = new Mock<IOrderController>();
             Mock<IProductController> _MockProductController = new Mock<IProductController>();
 
-            List<Supplier> _Suppliers = new List<Supplier>() {
-                new Supplier()
+            List<Supplier> _Suppliers = new List<Supplier> {
+                new Supplier
                 {
                     Email = "test@email.com"
                 }

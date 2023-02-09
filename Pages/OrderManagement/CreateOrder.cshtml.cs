@@ -131,7 +131,7 @@ namespace FutureFridges.Pages.OrderManagement
                 _StringBuilder.Append(_Item.Quantity + " x " + _ProductName + ", ");
             }
 
-            __AuditLogController.Create(User.Identity.Name, string.Format(LOG_CREATE_FORMAT, _StringBuilder.ToString()), LogType.OrderCreate);
+            __AuditLogController.Create(User.Identity.Name, string.Format(LOG_CREATE_FORMAT, _StringBuilder), LogType.OrderCreate);
 
             __OrderController.CompleteOrder(uid);
 

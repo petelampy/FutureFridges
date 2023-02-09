@@ -66,7 +66,7 @@ namespace FutureFridges.Pages.Deliveries
                 _StringBuilder.Append(_Item.Quantity + " x " + _ProductName + ", ");
             }   
 
-            __AuditLogController.Create(_Supplier.Name, string.Format(LOG_RECEIVE_FORMAT, _StringBuilder.ToString()), LogType.DeliveryReceive);
+            __AuditLogController.Create(_Supplier.Name, string.Format(LOG_RECEIVE_FORMAT, _StringBuilder), LogType.DeliveryReceive);
 
             __StockItemController.CreateStockItem(_StockItems);
 

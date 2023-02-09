@@ -116,7 +116,7 @@ namespace FutureFridgesTest.Notifications
             _MockStockItemController.Setup(mock => mock.GetAll()).Returns(_StockItems);
             _MockOrderController.Setup(mock => mock.GetAll()).Returns(new List<Order>());
 
-            _MockSettingsController.Setup(mock => mock.Get()).Returns(new Settings()
+            _MockSettingsController.Setup(mock => mock.Get()).Returns(new Settings
             {
                 Administrator_UID = _NotifiedUserUID,
                 NotifyAllHeadChefs = false
