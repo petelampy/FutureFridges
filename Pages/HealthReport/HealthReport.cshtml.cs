@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using FutureFridges.Business.OrderManagement;
+using Microsoft.IdentityModel.Tokens;
+using FutureFridges.Business.Email;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace FutureFridges.Pages.HealthReport
 {
@@ -17,6 +21,7 @@ namespace FutureFridges.Pages.HealthReport
         private readonly IStockItemController __StockItemController;
         private readonly IUserPermissionController __UserPermissionController;
         private readonly IHealthReportController __HealthReportController;
+        private readonly IEmailManager __EmailManager;
 
         public HealthReportModel ()
         {
@@ -24,6 +29,7 @@ namespace FutureFridges.Pages.HealthReport
             __ProductController = new ProductController();
             __UserPermissionController = new UserPermissionController();
             __HealthReportController = new HealthReportController();
+            __EmailManager = new EmailManager();
         }
 
         public IActionResult OnGet ()
@@ -53,8 +59,29 @@ namespace FutureFridges.Pages.HealthReport
             CurrentUserPermissions = __UserPermissionController.GetPermissions(new Guid(_CurrentUserID));
         }
 
+        private void ValidateModel()
+        {
+            if (SafetyOfficerEmail.IsNullOrEmpty())
+            {
+                ModelState.AddModelError("SafetyOfficerEmail", "Email is required!");
+            }
+            if (!SafetyOfficerEmail.IsNullOrEmpty() && !__EmailManager.IsValidEmail(SafetyOfficerEmail))
+            {
+                ModelState.AddModelError("SafetyOfficerEmail", "Email address is invalid!");
+            }
+        }
+
         public IActionResult OnPostSendReport(string safetyOfficerEmail)
         {
+            ModelState.Clear();
+            ValidateModel();
+            if (ModelState.ErrorCount > 0)
+            {
+                SetStockAndProducts();
+                
+                return Page();
+            }
+            
             __HealthReportController.CreateHealthReport(safetyOfficerEmail, DateTime.Now);
             return RedirectToPage("HealthReport");
         }
@@ -62,5 +89,8 @@ namespace FutureFridges.Pages.HealthReport
         public UserPermissions CurrentUserPermissions { get; set; }
         public List<Product> Products { get; set; }
         public List<StockItem> StockItems { get; set; }
+        
+        [BindProperty(SupportsGet = true)]
+        public string? SafetyOfficerEmail { get; set; }
     }
 }
