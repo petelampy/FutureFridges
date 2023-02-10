@@ -27,7 +27,7 @@
 </style>
 
 <div class="container-sm col-sm-8 bg-light rounded-3 border p-5 shadow-lg">
-    <a href="http://localhost:5000/UserManagement/UserManagement" class="btn btn-secondary">&laquo; back</a>
+    <a asp-page="UserManagement" class="btn btn-secondary">&laquo; back</a>
     <form method="post" novalidate>
         <div>
             <label asp-for="@Model.ManagedUser.UserName">Username</label>
