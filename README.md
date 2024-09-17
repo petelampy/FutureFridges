@@ -1,5 +1,5 @@
 # Future Fridges
-This is the source code repository for the Future Fridges application being developed for SOFT30121: Advanced Analysis & Design.
+This is the source code repository for the Future Fridges application that was developed for SOFT30121: Advanced Analysis & Design as part of the BSc Software Engineering Degree.
 
 ## Code Architecture
 The source code is broken down into 3 layer: Web, Business and Data. Each of these have their own purpose outlined below.
