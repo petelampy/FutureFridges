@@ -13,41 +13,8 @@ This layer is the layer performing the actual calculations, verifications, retri
 ### Data
 This layer is the layer responsible for interfacing with the database, such as making the actual database connection and retrieving the data, as well as converting it to appropriate business classes. These will also mainly consist of .cs files and will be stored under the "Data" folder (with appropriate subfolders as mentioned above)
 
-## Code flow
-The code will flow between these layers when performing actions as outlined with the example of retrieving an item of stock below.
-
-**Web Layer** - User enters a stock item ID and clicks the "search" button. This button click is handled in the cshtml.cs for the page, within an appropriate method. This method will then create a new instance of the Business class "StockItemController". It will then call the method "GetStockItem" from this Business class.
-
-![image](https://user-images.githubusercontent.com/34271471/194389539-233a90bd-40cc-4e9f-be6e-2e3123fad3f7.png)
-
-
-**Business Layer** - The business class method for GetStockItem will be run, and this will make a call to "StockItemRepository" GetStockItem method in the Data layer.
-
-![image](https://user-images.githubusercontent.com/34271471/194389934-761abaee-6257-42c0-8ef6-81208abef6a1.png)
-
-![image](https://user-images.githubusercontent.com/34271471/194389670-8b788413-dc69-45cb-a2d1-471fb7b93a7d.png)
-
-
-**Data Layer** - The GetStockItem method in the data class will be run, and will contact the database and fetch the appropriate record, then convert it into the appropriate Model to be used in the codebase.
-
-![image](https://user-images.githubusercontent.com/34271471/194389824-0bbad505-b462-4170-82ca-55f0ab977b8a.png)
-
-![image](https://user-images.githubusercontent.com/34271471/194389776-5ed4c9d8-b0c9-44f8-8b6f-60dc49d83f41.png)
-
-The model from the Data layer is then returned to the Business method, which in turn returns it to the Web layer to display to the user.
-
-## Models/Enums
-We should use Models for every database item that is going to be represented within the codebase, this allows us to convert the raw data from the database into an easy to use format within the code that can be passed between pages. For values that have a few specific options that will not change, we should use Enums and then store the number value of the enum in the database rather than the word to save memory and reduce complexity.
-
-### Example Model
-![image](https://user-images.githubusercontent.com/34271471/194391956-06314b01-7b5e-4e06-8639-678e4787cbc5.png)
-
-### Example Enum
-![image](https://user-images.githubusercontent.com/34271471/194392033-71b6efd3-d02e-44bd-bb2e-d8ea242abea8.png)
-
-
 ## Variable Naming
-To ensure we are consistent throughout the work on this codebase we will follow these variable naming conventions:
+To ensure we were consistent throughout the work on this codebase we followed these variable naming conventions:
 
 ### Local Variables
 Local variables (variables within a particular method, etc) will be TitleCase and begin with a single underscore
@@ -70,4 +37,39 @@ Constants will be capitalised, with an underscore between words
 
 ![image](https://user-images.githubusercontent.com/34271471/194391195-09f18a1d-5510-4bf0-ad0f-c2e64cf3cc02.png)
 
+## Screenshots
+### Initial User Login Page
+![image](https://github.com/user-attachments/assets/89755100-130b-4f7c-8d29-04e4f809840b)
 
+### Welcome Screen
+![image](https://github.com/user-attachments/assets/b4c93568-5f4a-4262-bbb1-f26c110d3b24)
+
+### Main Menu with all available options
+![image](https://github.com/user-attachments/assets/116e306a-3f7f-45bc-925f-35d0fb7cc813)
+
+### Taking stock from the fridge
+![image](https://github.com/user-attachments/assets/c076ba4e-db4c-4c68-89b4-9aee7bbf082e)
+
+### Adding stock to the fridge
+![image](https://github.com/user-attachments/assets/3b70691e-94b8-4752-b378-a7415bded0c7)
+
+### Managing Products
+![image](https://github.com/user-attachments/assets/26e4fa72-cc09-4e36-886d-ea565718c3dc)
+
+### Managing Users
+![image](https://github.com/user-attachments/assets/ad1e5d4f-6c6f-4ec5-89fa-9d838fe2d50c)
+
+### User Creation Email
+![image](https://github.com/user-attachments/assets/e730cb8e-c8a7-4dca-bb08-a500b48a6669)
+
+### User Permissions Management
+![image](https://github.com/user-attachments/assets/492f95d0-51e9-4cf5-8363-4472badffd37)
+
+### Creating an order
+![image](https://github.com/user-attachments/assets/6dd8ecbe-09f0-48d6-a02b-07c0163c35a1)
+
+### Stock Audit Log Page
+![image](https://github.com/user-attachments/assets/d055ee23-5546-497a-afaf-01085b1dd845)
+
+### Stock Notifications System
+![image](https://github.com/user-attachments/assets/327a9eb2-c98a-4d54-9521-199420af19a7)
